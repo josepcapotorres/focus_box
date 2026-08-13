@@ -87,7 +87,7 @@ final class HistoryTasksBetweenSelectedDateRangeProvider
 }
 
 String _$historyTasksBetweenSelectedDateRangeHash() =>
-    r'60956404ee36c954f8cb36a4a2ce715b674ab68f';
+    r'4f253ec1775722b869978ebf6d8aaad043d4b1f8';
 
 @ProviderFor(historyEntriesBetweenSelectedDateRange)
 const historyEntriesBetweenSelectedDateRangeProvider =
@@ -131,4 +131,4 @@ final class HistoryEntriesBetweenSelectedDateRangeProvider
 }
 
 String _$historyEntriesBetweenSelectedDateRangeHash() =>
-    r'1d9178741481595dece2c5f9b87a22076867c1a8';
+    r'68bab651b04138520bba0b6e0ac2e4b903ac8e71';

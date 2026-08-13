@@ -67,8 +67,8 @@ Future<List<Task>> historyTasksBetweenSelectedDateRange(Ref ref) async {
 
   final crashProvider = ref.read(crashReporterProvider)
     ..log("historyTasksBetweenSelectedDateRangeProvider")
-    ..setCustomKey("from", from)
-    ..setCustomKey("to", to)
+    ..setCustomKey("from", from.toIso8601String())
+    ..setCustomKey("to", to.toIso8601String())
     ..log("entries length before .where: ${tasks.length}");
 
   final entries = tasks.where((task) {
@@ -93,8 +93,8 @@ Future<List<TaskHistoryEntry>> historyEntriesBetweenSelectedDateRange(
 
   final crashProvider = ref.read(crashReporterProvider)
     ..log("historyEntriesBetweenSelectedDateRangeProvider")
-    ..setCustomKey("from", from)
-    ..setCustomKey("to", to)
+    ..setCustomKey("from", from.toIso8601String())
+    ..setCustomKey("to", to.toIso8601String())
     ..log("entries length before .where: ${taskHistoryEntries.length}");
 
   final entries = taskHistoryEntries.where((task) {

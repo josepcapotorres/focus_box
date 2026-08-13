@@ -20,26 +20,34 @@ part 'history_date_ranges_filter_provider.g.dart';
         ..log(
           "history_date_ranges_filter_provider.dart > historyRateRangesFilterProvider",
         )
-        ..setCustomKey("from", today)
-        ..setCustomKey("to", today);
+        ..setCustomKey("from", today.toIso8601String())
+        ..setCustomKey("to", today.toIso8601String());
       break;
     case .currentWeek:
-      result = (_getFirstDayOfCurrentWeek(today), _getLastDayOfWeek(today));
+      final firstDayOfCurrentWeek = _getFirstDayOfCurrentWeek(today);
+      final lastDayOfWeek = _getLastDayOfWeek(today);
+
+      result = (firstDayOfCurrentWeek, lastDayOfWeek);
+
       crashProvider
         ..log(
           "history_date_ranges_filter_provider.dart > historyRateRangesFilterProvider",
         )
-        ..setCustomKey("from", _getFirstDayOfCurrentWeek(today))
-        ..setCustomKey("to", _getLastDayOfWeek(today));
+        ..setCustomKey("from", firstDayOfCurrentWeek.toIso8601String())
+        ..setCustomKey("to", lastDayOfWeek.toIso8601String());
       break;
     case .currentMonth:
-      result = (_getFirstDayOfCurrentMonth(today), _getLastDayOfMonth(today));
+      final firstDayOfCurrentMonth = _getFirstDayOfCurrentMonth(today);
+      final lastDayOfCurrentMonth = _getLastDayOfMonth(today);
+
+      result = (firstDayOfCurrentMonth, lastDayOfCurrentMonth);
+
       crashProvider
         ..log(
           "history_date_ranges_filter_provider.dart > historyRateRangesFilterProvider",
         )
-        ..setCustomKey("from", _getFirstDayOfCurrentMonth(today))
-        ..setCustomKey("to", _getLastDayOfMonth(today));
+        ..setCustomKey("from", firstDayOfCurrentMonth.toIso8601String())
+        ..setCustomKey("to", lastDayOfCurrentMonth.toIso8601String());
       break;
   }
 
