@@ -50,6 +50,8 @@ dependencies:
     git:
       url: https://github.com/nateshmbhat/flutter_do_not_disturb.git
       ref: feat/swift-package-manager-support
+  firebase_core: ^4.13.0
+  firebase_crashlytics: ^5.2.7
 
 dev_dependencies:
   flutter_test:
