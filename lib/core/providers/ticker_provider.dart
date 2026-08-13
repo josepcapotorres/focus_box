@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../timer_manager.dart';
+import '../managers/timer_manager.dart';
 
 part 'ticker_provider.g.dart';
 
@@ -13,10 +13,6 @@ class Ticker extends _$Ticker {
     _manager = TimerManager(
       onTick: (duration) {
         state = duration;
-        print(
-          'TTTTT TICKER STATE UPDATE: $duration '
-          '${DateTime.now().toIso8601String()}',
-        );
       },
     );
 

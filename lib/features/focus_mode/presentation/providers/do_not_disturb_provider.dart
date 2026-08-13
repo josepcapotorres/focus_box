@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../core/managers/crash_reporter.dart';
 import '../../domain/repositories/do_not_disturb_repository.dart';
 
 part 'do_not_disturb_provider.g.dart';
@@ -8,28 +9,43 @@ part 'do_not_disturb_provider.g.dart';
 class DoNotDisturb extends _$DoNotDisturb {
   @override
   Future<bool> build() async {
-    print("TT donotdisturb provider build. ${DateTime.now()}");
-    return await ref.watch(doNotDisturbRepositoryProvider).isDndEnabled;
+    try {
+      return await ref.watch(doNotDisturbRepositoryProvider).isDndEnabled;
+    } catch (e, s) {
+      await ref.read(crashReporterProvider).recordError(e, s);
+      return false;
+    }
   }
 
   void enableDNDMode() async {
-    print("TT donotdisturb provider enableDNDMode(). ${DateTime.now()}");
-    final repository = ref.read(doNotDisturbRepositoryProvider);
-    final enabled = await repository.enableDNDMode();
+    bool enabled;
+
+    try {
+      final repository = ref.read(doNotDisturbRepositoryProvider);
+      enabled = await repository.enableDNDMode();
+    } catch (e, s) {
+      enabled = false;
+      await ref.read(crashReporterProvider).recordError(e, s);
+    }
 
     state = AsyncData(enabled);
   }
 
   void disableDNDMode() async {
-    print("TT donotdisturb provider disableDNDMode(). ${DateTime.now()}");
-    final repository = ref.read(doNotDisturbRepositoryProvider);
-    final isDisabled = await repository.disableDNDMode();
+    bool isDisabled;
+
+    try {
+      final repository = ref.read(doNotDisturbRepositoryProvider);
+      isDisabled = await repository.disableDNDMode();
+    } catch (e, s) {
+      isDisabled = true;
+      await ref.read(crashReporterProvider).recordError(e, s);
+    }
 
     state = AsyncData(!isDisabled);
   }
 
   Future<void> refresh() async {
-    print("TT donotdisturb provider refresh(). ${DateTime.now()}");
     try {
       final repository = ref.read(doNotDisturbRepositoryProvider);
       final enabled = await repository.isDndEnabled;
@@ -40,6 +56,7 @@ class DoNotDisturb extends _$DoNotDisturb {
 
       state = AsyncData(enabled);
     } catch (e, st) {
+      ref.read(crashReporterProvider).recordError(e, st);
       state = AsyncError(e, st);
     }
   }

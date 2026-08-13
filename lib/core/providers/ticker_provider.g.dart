@@ -40,7 +40,7 @@ final class TickerProvider extends $NotifierProvider<Ticker, Duration> {
   }
 }
 
-String _$tickerHash() => r'f1985a8ac246a330346eb6d638d526e8a7a40390';
+String _$tickerHash() => r'874c5431e7d4c727290b13d27a00e1c888a204fe';
 
 abstract class _$Ticker extends $Notifier<Duration> {
   Duration build();

@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/data/models/task_model.dart';
 import '../../../../core/domain/entities/task.dart';
+import '../../../../core/managers/crash_reporter.dart';
 import '../../../../core/providers/ticker_provider.dart';
 import '../../../home/domain/repositories/home_repository.dart';
 import '../../../home/presentation/providers/home_tasks_provider.dart';
@@ -31,7 +32,6 @@ class FocusSession extends _$FocusSession {
         return;
       }
 
-      // La tarea sigue ejecutándose.
       final updatedTask = task.copyWith(timeAlreadyDone: elapsed);
 
       ref.read(homeTasksProvider.notifier).updateTask(updatedTask);
@@ -41,7 +41,14 @@ class FocusSession extends _$FocusSession {
   }
 
   void startTask(Task task) {
+    final crashProvider = ref.read(crashReporterProvider);
+
+    crashProvider.log("focus_session_provider.dart > startTask ${task.id}");
+
     if (state?.status == .inProgress) {
+      crashProvider.log(
+        "focus_session_provider.dart > startTask ${task.id} > an inProgress task has been detected before starting this task",
+      );
       pause();
     }
 
@@ -81,6 +88,10 @@ class FocusSession extends _$FocusSession {
       timeAlreadyDone: elapsed,
     );
 
+    ref
+        .read(crashReporterProvider)
+        .log("focus_session_provider.dart > pausing task ${task.id}");
+
     await _saveTask(updatedTask);
 
     ref.read(
@@ -97,9 +108,16 @@ class FocusSession extends _$FocusSession {
   }
 
   Future<void> _saveTask(Task task) async {
-    final repository = await ref.read(homeRepositoryProvider.future);
+    try {
+      final repository = await ref.read(homeRepositoryProvider.future);
 
-    await repository.saveOrEditTask(TaskModel.fromEntity(task));
+      await repository.saveOrEditTask(TaskModel.fromEntity(task));
+    } catch (e, s) {
+      ref.read(crashReporterProvider)
+        ..recordError(e, s)
+        ..setCustomKey("task_name", task.name)
+        ..setCustomKey("task_status", task.status);
+    }
   }
 
   void resumeTimer() {
@@ -117,9 +135,11 @@ class FocusSession extends _$FocusSession {
 
     ref.read(tickerProvider.notifier).resumeTimer();
 
-    /*ref
-        .read(homeTasksProvider.notifier)
-        .saveElapsedTime(taskId: state!.taskId, elapsed: task.timeAlreadyDone);*/
+    ref
+        .read(crashReporterProvider)
+        .log(
+          "focus_session_provider.dart > resumeTimer() > resuming task ${task.id}",
+        );
 
     ref.read(
       taskDetailsHistoryAddEntryProvider(
@@ -139,6 +159,10 @@ class FocusSession extends _$FocusSession {
       timeTotal: task.timeTotal + const Duration(minutes: 15),
     );
 
+    ref.read(crashReporterProvider)
+      ..log("focus_session_provider.dart > add15minToTotal()")
+      ..setCustomKey("task_name", task?.name ?? "-");
+
     if (updatedTask == null) return;
 
     ref.read(homeTasksProvider.notifier).updateTask(updatedTask);
@@ -150,6 +174,10 @@ class FocusSession extends _$FocusSession {
 
     final task = ref.read(currentTaskProvider(session.taskId));
     if (task == null) return;
+
+    ref.read(crashReporterProvider)
+      ..log("focus_session_provider.dart > setToDone()")
+      ..setCustomKey("task_name", task.name);
 
     ref.read(tickerProvider.notifier).pauseTimer();
 
@@ -177,10 +205,17 @@ class FocusSession extends _$FocusSession {
 
   Future<void> _pauseFoundInProgressTask(Duration elapsed) async {
     final tasks = ref.read(tasksForTodayProvider);
+    final crashProvider = ref.read(crashReporterProvider);
 
     final task = tasks.where((e) => e.status == .inProgress).firstOrNull;
 
     if (task == null) return;
+
+    crashProvider
+      ..log(
+        "focus_session_provider.dart > _pauseFoundInProgressTask > inProgress detected and updating and storing it as .paused",
+      )
+      ..setCustomKey("task_name_in_progress", task.name);
 
     final updatedTask = task.copyWith(
       status: .paused,

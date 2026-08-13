@@ -114,7 +114,6 @@ class DoNotDisturbCardState extends ConsumerState<DoNotDisturbCard>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      print("TT do not disturb provider resumed > refresh()");
       ref.read(doNotDisturbProvider.notifier).refresh();
     }
   }

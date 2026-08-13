@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/managers/crash_reporter.dart';
 import '../../../../core/widgets/new_task_edit_bottom_sheet.dart';
 import '../../../task_details/presentation/pages/task_details_page.dart';
 import '../../domain/enums/task_filter_enum.dart';
@@ -84,6 +85,9 @@ class HomePage extends ConsumerWidget {
             const SizedBox(height: 16),
             homeTasksAsync.when(
               data: (tasks) {
+                ref
+                    .read(crashReporterProvider)
+                    .log("home_page.dart > tasks length: ${tasks.length}");
                 return Expanded(
                   child: tasks.isEmpty
                       ? const Center(child: Text("No results"))

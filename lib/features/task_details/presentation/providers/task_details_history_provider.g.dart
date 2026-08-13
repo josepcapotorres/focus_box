@@ -49,7 +49,7 @@ final class TaskHistoryEntriesProvider
 }
 
 String _$taskHistoryEntriesHash() =>
-    r'811f368cf8fa1127c33969946cd7b8dd2c57ce1f';
+    r'8c4c02f65b9b15711725996787a409d96645f720';
 
 @ProviderFor(taskHistoryEntriesByTaskId)
 const taskHistoryEntriesByTaskIdProvider = TaskHistoryEntriesByTaskIdFamily._();
@@ -110,7 +110,7 @@ final class TaskHistoryEntriesByTaskIdProvider
 }
 
 String _$taskHistoryEntriesByTaskIdHash() =>
-    r'a4c3af968db76a150f59ed482f3f05eafc787d09';
+    r'f12d768ce0c346032bb9bc460a82dbec429e0c22';
 
 final class TaskHistoryEntriesByTaskIdFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<List<TaskHistoryEntry>>, String> {
@@ -181,7 +181,7 @@ final class TaskDetailsHistoryAddEntryProvider
 }
 
 String _$taskDetailsHistoryAddEntryHash() =>
-    r'40705062aaee0786c163eef5accb2391a2d07ada';
+    r'089dd580609d9bf171900eb3a1e31a18b7f872e1';
 
 final class TaskDetailsHistoryAddEntryFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<void>, TaskHistoryEntry> {

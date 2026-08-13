@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:focus_box/features/task_details/domain/entities/task_history_entry.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/managers/crash_reporter.dart';
+import '../../../task_details/domain/entities/task_history_entry.dart';
 import '../../../task_details/presentation/providers/task_details_history_provider.dart';
 import '../providers/focus_session_provider.dart';
 import 'focus_primary_button.dart';
@@ -31,13 +32,23 @@ class FocusFooter extends ConsumerWidget {
           FocusSecondaryButton(
             icon: Icons.add,
             label: "+15 min",
-            onPressed: ref.read(focusSessionProvider.notifier).add15minToTotal,
+            onPressed: () {
+              ref.read(focusSessionProvider.notifier).add15minToTotal();
+
+              ref
+                  .read(crashReporterProvider)
+                  .log("focus_footer.dart > +15min btn");
+            },
           ),
 
           FocusPrimaryButton(
             icon: running ? Icons.pause_rounded : Icons.play_arrow_rounded,
             onPressed: () async {
               final notifier = ref.read(focusSessionProvider.notifier);
+
+              ref.read(crashReporterProvider)
+                ..log("focus_footer.dart > play / pause btn")
+                ..setCustomKey("running", running);
 
               if (running) {
                 notifier.pause();
@@ -75,6 +86,17 @@ class FocusFooter extends ConsumerWidget {
     bool running,
   ) async {
     await ref.read(focusSessionProvider.notifier).pause();
+
+    if (!context.mounted) {
+      ref
+          .read(crashReporterProvider)
+          .log("focus_footer.dart > _finishTask. context is not mounted");
+      return;
+    }
+
+    ref.read(crashReporterProvider)
+      ..log("focus_footer.dart > _finishTask()")
+      ..setCustomKey("running", running);
 
     await showAdaptiveDialog(
       context: context,

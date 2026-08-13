@@ -6,6 +6,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../features/home/domain/repositories/home_repository.dart';
 import '../domain/entities/task.dart';
+import '../managers/crash_reporter.dart';
 
 class NewTaskEditBottomSheet extends StatefulWidget {
   final Task? task;
@@ -211,10 +212,11 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
                             homeRepositoryProvider.future,
                           );
 
-                          await homeRepository.saveOrEditTask(newTaskValues);
-
-                          // TODO: store new task in local db
-                          // TODO: reactively refresh the task list in home
+                          try {
+                            await homeRepository.saveOrEditTask(newTaskValues);
+                          } catch (e, s) {
+                            ref.read(crashReporterProvider).recordError(e, s);
+                          }
                         },
                         child: const Text("Guardar"),
                       ),

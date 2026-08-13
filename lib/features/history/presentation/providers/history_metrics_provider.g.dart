@@ -46,7 +46,7 @@ final class HistoryMetricsProvider
   }
 }
 
-String _$historyMetricsHash() => r'4d4dba1a5927fbbdb4c058c79e3c1c4564dd32de';
+String _$historyMetricsHash() => r'1f893be8a59cccce1c74257dcfbf475c33298e6f';
 
 @ProviderFor(historyTasksBetweenSelectedDateRange)
 const historyTasksBetweenSelectedDateRangeProvider =
@@ -87,7 +87,7 @@ final class HistoryTasksBetweenSelectedDateRangeProvider
 }
 
 String _$historyTasksBetweenSelectedDateRangeHash() =>
-    r'd55be60cd57d4f44d6478391380178983a679465';
+    r'60956404ee36c954f8cb36a4a2ce715b674ab68f';
 
 @ProviderFor(historyEntriesBetweenSelectedDateRange)
 const historyEntriesBetweenSelectedDateRangeProvider =
@@ -131,4 +131,4 @@ final class HistoryEntriesBetweenSelectedDateRangeProvider
 }
 
 String _$historyEntriesBetweenSelectedDateRangeHash() =>
-    r'b2c9a7c2e67f3f984ca851a68c1b37e703c54d27';
+    r'1d9178741481595dece2c5f9b87a22076867c1a8';

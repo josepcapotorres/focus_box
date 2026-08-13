@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../core/managers/crash_reporter.dart';
 import 'history_current_filter_provider.dart';
 
 part 'history_date_ranges_filter_provider.g.dart';
@@ -9,17 +10,40 @@ part 'history_date_ranges_filter_provider.g.dart';
   final currentFilter = ref.watch(historyCurrentFilterProvider);
   final today = DateTime.now();
 
-  return switch (currentFilter) {
-    .today => (today, today),
-    .currentWeek => (
-      _getFirstDayOfCurrentWeek(today),
-      _getLastDayOfWeek(today),
-    ),
-    .currentMonth => (
-      _getFirstDayOfCurrentMonth(today),
-      _getLastDayOfMonth(today),
-    ),
-  };
+  final crashProvider = ref.read(crashReporterProvider);
+  final (DateTime, DateTime) result;
+
+  switch (currentFilter) {
+    case .today:
+      result = (today, today);
+      crashProvider
+        ..log(
+          "history_date_ranges_filter_provider.dart > historyRateRangesFilterProvider",
+        )
+        ..setCustomKey("from", today)
+        ..setCustomKey("to", today);
+      break;
+    case .currentWeek:
+      result = (_getFirstDayOfCurrentWeek(today), _getLastDayOfWeek(today));
+      crashProvider
+        ..log(
+          "history_date_ranges_filter_provider.dart > historyRateRangesFilterProvider",
+        )
+        ..setCustomKey("from", _getFirstDayOfCurrentWeek(today))
+        ..setCustomKey("to", _getLastDayOfWeek(today));
+      break;
+    case .currentMonth:
+      result = (_getFirstDayOfCurrentMonth(today), _getLastDayOfMonth(today));
+      crashProvider
+        ..log(
+          "history_date_ranges_filter_provider.dart > historyRateRangesFilterProvider",
+        )
+        ..setCustomKey("from", _getFirstDayOfCurrentMonth(today))
+        ..setCustomKey("to", _getLastDayOfMonth(today));
+      break;
+  }
+
+  return result;
 }
 
 DateTime _getFirstDayOfCurrentWeek(DateTime today) {

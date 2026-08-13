@@ -97,7 +97,6 @@ class _CenterClock extends ConsumerWidget {
     final task = ref.read(currentTaskProvider(session?.taskId));
 
     final elapsed = ref.watch(tickerProvider);
-    print("TT radial_clock.dart > elapsed: $elapsed");
 
     final timeTotal = (task?.timeTotal ?? Duration.zero);
 
