@@ -1,0 +1,1 @@
+class DndNotificationPolicyAccessException implements Exception {}

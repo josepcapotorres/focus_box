@@ -1,0 +1,1 @@
+enum TaskFilterEnum { today, nextDay }

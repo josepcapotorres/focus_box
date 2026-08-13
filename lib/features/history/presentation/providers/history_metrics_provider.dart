@@ -1,0 +1,92 @@
+import 'package:focus_box/features/home/presentation/providers/home_tasks_provider.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../../core/domain/entities/task.dart';
+import '../../../task_details/domain/entities/task_history_entry.dart';
+import '../../../task_details/presentation/providers/task_details_history_provider.dart';
+import '../../domain/entities/history_metric.dart';
+import 'history_date_ranges_filter_provider.dart';
+
+part 'history_metrics_provider.g.dart';
+
+@riverpod
+Future<HistoryMetric> historyMetrics(Ref ref) async {
+  final tasksBetweenSelectedDateRange =
+      ref.watch(historyTasksBetweenSelectedDateRangeProvider).value ?? [];
+
+  final entriesBetweenSelectedDateRange =
+      ref.watch(historyEntriesBetweenSelectedDateRangeProvider).value ?? [];
+
+  final realTimeDevoted = _calculateRealTimeDevoted(
+    entriesBetweenSelectedDateRange,
+  );
+
+  final expectedTime = tasksBetweenSelectedDateRange.fold(
+    Duration.zero,
+    (total, task) => total + task.timeTotal,
+  );
+
+  final focusRatioPercentage = expectedTime.inMilliseconds == 0
+      ? 0
+      : (realTimeDevoted.inMilliseconds / expectedTime.inMilliseconds * 100)
+            .floor();
+
+  return HistoryMetric(realTimeDevoted, expectedTime, focusRatioPercentage);
+}
+
+Duration _calculateRealTimeDevoted(List<TaskHistoryEntry> entries) {
+  if (entries.length < 2) return Duration.zero;
+
+  final sortedEntries = [...entries]
+    ..sort((a, b) => a.timestamp.compareTo(b.timestamp));
+
+  Duration total = Duration.zero;
+
+  for (var i = 1; i < sortedEntries.length; i++) {
+    final previous = sortedEntries[i - 1];
+    final current = sortedEntries[i];
+
+    if (previous.toStatus == .inProgress) {
+      total += current.timestamp.difference(previous.timestamp);
+    }
+  }
+
+  return total;
+}
+
+@riverpod
+Future<List<Task>> historyTasksBetweenSelectedDateRange(Ref ref) async {
+  final tasks = ref.watch(homeTasksProvider).value ?? [];
+  final (from, to) = ref.watch(historyRateRangesFilterProvider);
+
+  final entries = tasks.where((task) {
+    final dateFrom = DateTime(from.year, from.month, from.day);
+    final dateTo = DateTime(to.year, to.month, to.day);
+    final taskDay = DateTime(task.day.year, task.day.month, task.day.day);
+
+    return taskDay.compareTo(dateFrom) >= 0 && taskDay.compareTo(dateTo) <= 0;
+  }).toList();
+
+  return entries;
+}
+
+@riverpod
+Future<List<TaskHistoryEntry>> historyEntriesBetweenSelectedDateRange(
+  Ref ref,
+) async {
+  final taskHistoryEntries = await ref.read(taskHistoryEntriesProvider.future);
+  final (from, to) = ref.watch(historyRateRangesFilterProvider);
+
+  final entries = taskHistoryEntries.where((task) {
+    final dateFrom = DateTime(from.year, from.month, from.day);
+    final dateTo = DateTime(to.year, to.month, to.day);
+    final taskDay = DateTime(
+      task.timestamp.year,
+      task.timestamp.month,
+      task.timestamp.day,
+    );
+    return taskDay.compareTo(dateFrom) >= 0 && taskDay.compareTo(dateTo) <= 0;
+  }).toList();
+
+  return entries;
+}
