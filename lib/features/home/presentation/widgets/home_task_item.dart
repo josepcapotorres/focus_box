@@ -31,39 +31,34 @@ class HomeTaskItem extends ConsumerWidget {
 
     return GestureDetector(
       onTap: onTap,
-      child: SizedBox(
-        height: 100,
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          spacing: 12,
-                          children: [
-                            _Header(currentTask),
-                            HorizontalBarChart(
-                              taskId: taskId,
-                              totalValue: 100,
-                              foregroundColor:
-                                  currentTask.status.foregroundColor,
-                              backgroundColor: colorScheme.primaryContainer,
-                            ),
-                          ],
+      child: Card(
+        child: Padding(
+          padding: const .all(12),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      spacing: 16,
+                      children: [
+                        _Header(currentTask),
+                        HorizontalBarChart(
+                          taskId: taskId,
+                          totalValue: 100,
+                          foregroundColor: currentTask.status.foregroundColor,
+                          backgroundColor: colorScheme.primaryContainer,
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      if (showActionButton) _ActionButton(currentTask),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                _FooterTexts(taskId),
-              ],
-            ),
+                  const SizedBox(width: 16),
+                  if (showActionButton) _ActionButton(currentTask),
+                ],
+              ),
+              const SizedBox(height: 8),
+              _FooterTexts(taskId),
+            ],
           ),
         ),
       ),
@@ -97,6 +92,7 @@ class _Header extends StatelessWidget {
     final statusColor = task.status == .exceeded ? AppColors.warning : null;
 
     return Row(
+      spacing: 8,
       children: [
         Expanded(
           child: Text(
