@@ -41,7 +41,7 @@ class FocusSession extends _$FocusSession {
     return null;
   }
 
-  void startTask(Task task) {
+  void startTask(Task task) async {
     final crashProvider = ref.read(crashReporterProvider);
 
     crashProvider.log("focus_session_provider.dart > startTask ${task.id}");
@@ -50,7 +50,7 @@ class FocusSession extends _$FocusSession {
       crashProvider.log(
         "focus_session_provider.dart > startTask ${task.id} > an inProgress task has been detected before starting this task",
       );
-      pause();
+      await pause();
     }
 
     state = FocusSessionEntity(taskId: task.id, status: .inProgress);
@@ -62,9 +62,9 @@ class FocusSession extends _$FocusSession {
       startedAt: DateTime.now(),
     );
 
-    saveTask(updatedTask);
+    await saveTask(updatedTask);
 
-    ref
+    await ref
         .read(taskDetailsHistoryProvider.notifier)
         .addEntry(
           TaskHistoryEntry(
@@ -110,6 +110,10 @@ class FocusSession extends _$FocusSession {
             toStatus: .paused,
           ),
         );
+
+    print(
+      "==== focus_session_provider.dart > pause() > update session id ${session.taskId} to status .paused",
+    );
 
     state = session.copyWith(status: .paused);
   }
@@ -233,6 +237,10 @@ class FocusSession extends _$FocusSession {
     final updatedTask = task.copyWith(
       status: .paused,
       timeAlreadyDone: elapsed,
+    );
+
+    print(
+      "==== pause() > task ${task.name} being set to paused. storing data and adding entry",
     );
 
     await saveTask(updatedTask);

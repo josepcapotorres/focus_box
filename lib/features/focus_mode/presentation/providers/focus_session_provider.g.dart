@@ -41,7 +41,7 @@ final class FocusSessionProvider
   }
 }
 
-String _$focusSessionHash() => r'aa3020a28d7f124fd97b6fb2fd5829760b045aff';
+String _$focusSessionHash() => r'63bcbaca5401ca3d0a1011bf75b082cff7552df2';
 
 abstract class _$FocusSession extends $Notifier<FocusSessionEntity?> {
   FocusSessionEntity? build();
