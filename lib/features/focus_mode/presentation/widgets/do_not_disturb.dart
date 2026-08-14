@@ -80,7 +80,7 @@ class DoNotDisturbCardState extends ConsumerState<DoNotDisturbCard>
                     doNotDisturbEnabled
                         ? "No molestar activado"
                         : "No molestar",
-                    style: textTheme.titleSmall,
+                    style: textTheme.titleMedium,
                   ),
                   const SizedBox(height: 2),
                   Text(
