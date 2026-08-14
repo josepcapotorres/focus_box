@@ -30,12 +30,14 @@ class TasksDetailsTimeLineSteps extends ConsumerWidget {
           );
         }
 
+        final sortedEntriesByDate = _sortEntriesByDate(entries);
+
         return Column(
-          children: entries
+          children: sortedEntriesByDate
               .map(
                 (e) => _TimeLineTile(
-                  entries: entries,
-                  currentPosition: entries.indexOf(e),
+                  entries: sortedEntriesByDate,
+                  currentPosition: sortedEntriesByDate.indexOf(e),
                 ),
               )
               .toList(),
@@ -47,6 +49,10 @@ class TasksDetailsTimeLineSteps extends ConsumerWidget {
       ),
       loading: () => const CircularProgressIndicator.adaptive(),
     );
+  }
+
+  List<TaskHistoryEntry> _sortEntriesByDate(List<TaskHistoryEntry> entries) {
+    return entries..sort((a, b) => a.timestamp.compareTo(b.timestamp));
   }
 }
 

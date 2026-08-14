@@ -130,73 +130,56 @@ final class TaskHistoryEntriesByTaskIdFamily extends $Family
   String toString() => r'taskHistoryEntriesByTaskIdProvider';
 }
 
-@ProviderFor(taskDetailsHistoryAddEntry)
-const taskDetailsHistoryAddEntryProvider = TaskDetailsHistoryAddEntryFamily._();
+@ProviderFor(TaskDetailsHistory)
+const taskDetailsHistoryProvider = TaskDetailsHistoryProvider._();
 
-final class TaskDetailsHistoryAddEntryProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
-    with $FutureModifier<void>, $FutureProvider<void> {
-  const TaskDetailsHistoryAddEntryProvider._({
-    required TaskDetailsHistoryAddEntryFamily super.from,
-    required TaskHistoryEntry super.argument,
-  }) : super(
-         retry: null,
-         name: r'taskDetailsHistoryAddEntryProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
-
-  @override
-  String debugGetCreateSourceHash() => _$taskDetailsHistoryAddEntryHash();
+final class TaskDetailsHistoryProvider
+    extends $NotifierProvider<TaskDetailsHistory, void> {
+  const TaskDetailsHistoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'taskDetailsHistoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
-  String toString() {
-    return r'taskDetailsHistoryAddEntryProvider'
-        ''
-        '($argument)';
-  }
+  String debugGetCreateSourceHash() => _$taskDetailsHistoryHash();
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  TaskDetailsHistory create() => TaskDetailsHistory();
 
-  @override
-  FutureOr<void> create(Ref ref) {
-    final argument = this.argument as TaskHistoryEntry;
-    return taskDetailsHistoryAddEntry(ref, argument);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is TaskDetailsHistoryAddEntryProvider &&
-        other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(void value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<void>(value),
+    );
   }
 }
 
-String _$taskDetailsHistoryAddEntryHash() =>
-    r'089dd580609d9bf171900eb3a1e31a18b7f872e1';
+String _$taskDetailsHistoryHash() =>
+    r'd9668f5d04454982a44801096fb2aa6070662d60';
 
-final class TaskDetailsHistoryAddEntryFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<void>, TaskHistoryEntry> {
-  const TaskDetailsHistoryAddEntryFamily._()
-    : super(
-        retry: null,
-        name: r'taskDetailsHistoryAddEntryProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  TaskDetailsHistoryAddEntryProvider call(TaskHistoryEntry entry) =>
-      TaskDetailsHistoryAddEntryProvider._(argument: entry, from: this);
-
+abstract class _$TaskDetailsHistory extends $Notifier<void> {
+  void build();
+  @$mustCallSuper
   @override
-  String toString() => r'taskDetailsHistoryAddEntryProvider';
+  void runBuild() {
+    build();
+    final ref = this.ref as $Ref<void, void>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<void, void>,
+              void,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, null);
+  }
 }

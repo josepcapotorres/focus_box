@@ -56,7 +56,10 @@ class HistoryMetrics extends ConsumerWidget {
       },
       error: (_, _) =>
           const Center(child: Text("Error al obtener las métricas")),
-      loading: () => const CircularProgressIndicator.adaptive(),
+      loading: () => const Align(
+        alignment: .center,
+        child: CircularProgressIndicator.adaptive(),
+      ),
     );
   }
 }

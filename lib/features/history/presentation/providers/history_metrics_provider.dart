@@ -12,17 +12,17 @@ part 'history_metrics_provider.g.dart';
 
 @riverpod
 Future<HistoryMetric> historyMetrics(Ref ref) async {
-  final tasksBetweenSelectedDateRange =
-      ref.watch(historyTasksBetweenSelectedDateRangeProvider).value ?? [];
-
-  final entriesBetweenSelectedDateRange =
-      ref.watch(historyEntriesBetweenSelectedDateRangeProvider).value ?? [];
-
-  final realTimeDevoted = _calculateRealTimeDevoted(
-    entriesBetweenSelectedDateRange,
+  final tasks = await ref.watch(
+    historyTasksBetweenSelectedDateRangeProvider.future,
   );
 
-  final expectedTime = tasksBetweenSelectedDateRange.fold(
+  final entries = await ref.watch(
+    historyEntriesBetweenSelectedDateRangeProvider.future,
+  );
+
+  final realTimeDevoted = _calculateRealTimeDevoted(entries);
+
+  final expectedTime = tasks.fold(
     Duration.zero,
     (total, task) => total + task.timeTotal,
   );

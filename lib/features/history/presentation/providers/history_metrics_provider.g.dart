@@ -46,7 +46,7 @@ final class HistoryMetricsProvider
   }
 }
 
-String _$historyMetricsHash() => r'1f893be8a59cccce1c74257dcfbf475c33298e6f';
+String _$historyMetricsHash() => r'914eec67312a73392f720b66291d448f0f47f3ad';
 
 @ProviderFor(historyTasksBetweenSelectedDateRange)
 const historyTasksBetweenSelectedDateRangeProvider =
