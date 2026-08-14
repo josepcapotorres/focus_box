@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/data/models/task_model.dart';
 import '../../../../core/domain/entities/task.dart';
@@ -60,15 +61,16 @@ class FocusSession extends _$FocusSession {
 
     _saveTask(updatedTask);
 
-    ref.read(
-      taskDetailsHistoryAddEntryProvider(
-        TaskHistoryEntry(
-          taskId: task.id,
-          timestamp: DateTime.now(),
-          toStatus: .inProgress,
-        ),
-      ),
-    );
+    ref
+        .read(taskDetailsHistoryProvider.notifier)
+        .addEntry(
+          TaskHistoryEntry(
+            id: const Uuid().v4(),
+            taskId: task.id,
+            timestamp: DateTime.now(),
+            toStatus: .inProgress,
+          ),
+        );
   }
 
   Future<void> pause() async {
@@ -94,15 +96,16 @@ class FocusSession extends _$FocusSession {
 
     await _saveTask(updatedTask);
 
-    ref.read(
-      taskDetailsHistoryAddEntryProvider(
-        TaskHistoryEntry(
-          taskId: session.taskId,
-          timestamp: DateTime.now(),
-          toStatus: .paused,
-        ),
-      ),
-    );
+    await ref
+        .read(taskDetailsHistoryProvider.notifier)
+        .addEntry(
+          TaskHistoryEntry(
+            id: const Uuid().v4(),
+            taskId: session.taskId,
+            timestamp: DateTime.now(),
+            toStatus: .paused,
+          ),
+        );
 
     state = session.copyWith(status: .paused);
   }
@@ -116,7 +119,7 @@ class FocusSession extends _$FocusSession {
       ref.read(crashReporterProvider)
         ..recordError(e, s)
         ..setCustomKey("task_name", task.name)
-        ..setCustomKey("task_status", task.status);
+        ..setCustomKey("task_status", task.status.name);
     }
   }
 
@@ -141,15 +144,16 @@ class FocusSession extends _$FocusSession {
           "focus_session_provider.dart > resumeTimer() > resuming task ${task.id}",
         );
 
-    ref.read(
-      taskDetailsHistoryAddEntryProvider(
-        TaskHistoryEntry(
-          taskId: state!.taskId,
-          timestamp: DateTime.now(),
-          toStatus: .inProgress,
-        ),
-      ),
-    );
+    ref
+        .read(taskDetailsHistoryProvider.notifier)
+        .addEntry(
+          TaskHistoryEntry(
+            id: const Uuid().v4(),
+            taskId: state!.taskId,
+            timestamp: DateTime.now(),
+            toStatus: .inProgress,
+          ),
+        );
   }
 
   void add15minToTotal() {
@@ -190,15 +194,16 @@ class FocusSession extends _$FocusSession {
 
     _saveTask(updatedTask);
 
-    ref.read(
-      taskDetailsHistoryAddEntryProvider(
-        TaskHistoryEntry(
-          taskId: session.taskId,
-          timestamp: DateTime.now(),
-          toStatus: .completed,
-        ),
-      ),
-    );
+    ref
+        .read(taskDetailsHistoryProvider.notifier)
+        .addEntry(
+          TaskHistoryEntry(
+            id: const Uuid().v4(),
+            taskId: session.taskId,
+            timestamp: DateTime.now(),
+            toStatus: .completed,
+          ),
+        );
 
     state = null;
   }
@@ -224,14 +229,15 @@ class FocusSession extends _$FocusSession {
 
     await _saveTask(updatedTask);
 
-    ref.read(
-      taskDetailsHistoryAddEntryProvider(
-        TaskHistoryEntry(
-          taskId: updatedTask.id,
-          timestamp: DateTime.now(),
-          toStatus: .paused,
-        ),
-      ),
-    );
+    ref
+        .read(taskDetailsHistoryProvider.notifier)
+        .addEntry(
+          TaskHistoryEntry(
+            id: const Uuid().v4(),
+            taskId: updatedTask.id,
+            timestamp: DateTime.now(),
+            toStatus: .paused,
+          ),
+        );
   }
 }

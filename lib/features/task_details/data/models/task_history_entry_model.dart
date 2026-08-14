@@ -3,6 +3,7 @@ import '../../domain/entities/task_history_entry.dart';
 
 class TaskHistoryEntryModel extends TaskHistoryEntry {
   TaskHistoryEntryModel({
+    required super.id,
     required super.taskId,
     required super.timestamp,
     required super.toStatus,
@@ -10,6 +11,7 @@ class TaskHistoryEntryModel extends TaskHistoryEntry {
 
   factory TaskHistoryEntryModel.fromJson(Map<String, dynamic> json) {
     return TaskHistoryEntryModel(
+      id: json["entry_id"],
       taskId: json["task_id"],
       timestamp: DateTime.fromMicrosecondsSinceEpoch(json["timestamp"]),
       toStatus: _statusFromJson(json["to_status"] as int),
@@ -18,6 +20,7 @@ class TaskHistoryEntryModel extends TaskHistoryEntry {
 
   Map<String, dynamic> toJson() {
     return {
+      "entry_id": id,
       "task_id": taskId,
       "timestamp": timestamp.microsecondsSinceEpoch,
       "to_status": _statusToJson(toStatus),
@@ -26,6 +29,7 @@ class TaskHistoryEntryModel extends TaskHistoryEntry {
 
   factory TaskHistoryEntryModel.fromEntity(TaskHistoryEntry entry) {
     return TaskHistoryEntryModel(
+      id: entry.id,
       taskId: entry.taskId,
       timestamp: entry.timestamp,
       toStatus: entry.toStatus,

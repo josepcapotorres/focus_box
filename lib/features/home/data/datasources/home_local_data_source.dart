@@ -30,6 +30,10 @@ class HomeLocalDataSource {
   Future<void> saveOrEditTask(TaskModel taskModel) async {
     await _box.put(taskModel.id, taskModel.toJson());
   }
+
+  Future<void> deleteTask(String taskId) async {
+    await _box.delete(taskId);
+  }
 }
 
 @Riverpod(keepAlive: true)

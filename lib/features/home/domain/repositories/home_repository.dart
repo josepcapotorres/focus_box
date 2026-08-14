@@ -19,6 +19,10 @@ class HomeRepository {
     final taskModel = TaskModel.fromEntity(task);
     await _localDataSource.saveOrEditTask(taskModel);
   }
+
+  Future<void> deleteTask(String taskId) async {
+    await _localDataSource.deleteTask(taskId);
+  }
 }
 
 @riverpod

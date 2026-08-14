@@ -40,18 +40,43 @@ Future<List<TaskHistoryEntry>> taskHistoryEntriesByTaskId(
   }
 }
 
-@riverpod
-Future<void> taskDetailsHistoryAddEntry(Ref ref, TaskHistoryEntry entry) async {
-  final taskDetailsRepository = await ref.read(
-    taskDetailsRepositoryProvider.future,
-  );
+@Riverpod(keepAlive: true)
+class TaskDetailsHistory extends _$TaskDetailsHistory {
+  @override
+  void build() {}
 
-  ref.read(crashReporterProvider)
-    ..log(
-      "task_details_history_provider.dart > taskDetailsHistoryAddEntry > storing entry",
-    )
-    ..setCustomKey("entry_task_id", entry.taskId)
-    ..setCustomKey("entry_status", entry.toStatus);
+  Future<void> addEntry(TaskHistoryEntry entry) async {
+    try {
+      final taskDetailsRepository = await ref.read(
+        taskDetailsRepositoryProvider.future,
+      );
 
-  await taskDetailsRepository.addEntry(entry);
+      ref.read(crashReporterProvider)
+        ..log(
+          "task_details_history_provider.dart > taskDetailsHistoryAddEntry > storing entry",
+        )
+        ..setCustomKey("entry_task_id", entry.taskId)
+        ..setCustomKey("entry_status", entry.toStatus.name);
+
+      await taskDetailsRepository.addEntry(entry);
+    } catch (e, s) {
+      ref.read(crashReporterProvider).recordError(e, s);
+    }
+  }
+
+  Future<void> deleteTaskEntries(String taskId) async {
+    try {
+      final repository = await ref.read(taskDetailsRepositoryProvider.future);
+
+      final entries = repository.getHistoryEntriesByTaskId(taskId);
+      final entryIdsToDelete = entries.map((e) => e.id).toList();
+
+      await repository.deleteTaskIdEntries(entryIdsToDelete);
+    } catch (e, s) {
+      ref.read(crashReporterProvider)
+        ..log("deleteTaskEntries()")
+        ..setCustomKey("task_id", taskId)
+        ..recordError(e, s);
+    }
+  }
 }

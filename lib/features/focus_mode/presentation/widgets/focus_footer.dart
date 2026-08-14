@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/managers/crash_reporter.dart';
 import '../../../task_details/domain/entities/task_history_entry.dart';
@@ -48,7 +49,7 @@ class FocusFooter extends ConsumerWidget {
 
               ref.read(crashReporterProvider)
                 ..log("focus_footer.dart > play / pause btn")
-                ..setCustomKey("running", running);
+                ..setCustomKey("running", running ? "true" : "false");
 
               if (running) {
                 notifier.pause();
@@ -63,15 +64,17 @@ class FocusFooter extends ConsumerWidget {
             color: colorScheme.secondary,
             label: "Finalizar",
             onPressed: () async {
-              ref.read(
-                taskDetailsHistoryAddEntryProvider(
-                  TaskHistoryEntry(
-                    taskId: session.taskId,
-                    timestamp: DateTime.now(),
-                    toStatus: .completed,
-                  ),
-                ),
-              );
+              await ref
+                  .read(taskDetailsHistoryProvider.notifier)
+                  .addEntry(
+                    TaskHistoryEntry(
+                      id: const Uuid().v4(),
+                      taskId: session.taskId,
+                      timestamp: DateTime.now(),
+                      toStatus: .completed,
+                    ),
+                  );
+
               await _finishTask(context, ref, running);
             },
           ),
@@ -96,7 +99,7 @@ class FocusFooter extends ConsumerWidget {
 
     ref.read(crashReporterProvider)
       ..log("focus_footer.dart > _finishTask()")
-      ..setCustomKey("running", running);
+      ..setCustomKey("running", running ? "true" : "false");
 
     await showAdaptiveDialog(
       context: context,

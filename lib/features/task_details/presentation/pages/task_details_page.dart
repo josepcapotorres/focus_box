@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:focus_box/features/home/presentation/providers/home_tasks_provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/domain/entities/task.dart';
 import '../../../../core/extensions/duration_formatting_extension.dart';
+import '../../../../core/managers/crash_reporter.dart';
 import '../../../../core/themes/app_colors.dart';
 import '../../../../core/widgets/new_task_edit_bottom_sheet.dart';
+import '../../../home/domain/repositories/home_repository.dart';
+import '../providers/task_details_history_provider.dart';
 import '../widgets/task_details_metric_card.dart';
 import '../widgets/tasks_details_time_line_steps.dart';
 
@@ -40,6 +44,10 @@ class TaskDetailsPage extends ConsumerWidget {
           IconButton(
             onPressed: () => _showNewTaskBottomSheet(context, task),
             icon: const Icon(Icons.edit),
+          ),
+          IconButton(
+            onPressed: () => _showAreYouSureDialog(context, ref, taskId),
+            icon: const Icon(Icons.clear),
           ),
         ],
       ),
@@ -136,6 +144,45 @@ class TaskDetailsPage extends ConsumerWidget {
       useRootNavigator: true,
       isScrollControlled: true,
       builder: (_) => NewTaskEditBottomSheet(task: task),
+    );
+  }
+
+  void _showAreYouSureDialog(
+    BuildContext context,
+    WidgetRef ref,
+    String taskId,
+  ) {
+    showAdaptiveDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Eliminación de tarea"),
+        content: const Text("¿Estás seguro de querer eliminar esta tarea?"),
+        actions: [
+          TextButton(onPressed: context.pop, child: const Text("No")),
+          TextButton(
+            onPressed: () async {
+              context.pop();
+
+              final homeRepository = await ref.read(
+                homeRepositoryProvider.future,
+              );
+
+              try {
+                homeRepository.deleteTask(taskId);
+                ref
+                    .read(taskDetailsHistoryProvider.notifier)
+                    .deleteTaskEntries(taskId);
+              } catch (e, s) {
+                ref.read(crashReporterProvider).recordError(e, s);
+              }
+
+              if (!context.mounted) return;
+              context.pop();
+            },
+            child: const Text("Sí"),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -22,6 +22,10 @@ class TaskDetailsRepositoryImpl {
   List<TaskHistoryEntry> getHistoryEntriesByTaskId(String taskId) {
     return _localDataSource.getHistoryEntriesByTaskId(taskId);
   }
+
+  Future<void> deleteTaskIdEntries(List<String> entryIdsToDelete) async {
+    await _localDataSource.removeEntries(entryIdsToDelete);
+  }
 }
 
 @riverpod

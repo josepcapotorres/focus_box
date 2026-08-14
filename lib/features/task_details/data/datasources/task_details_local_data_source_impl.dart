@@ -12,7 +12,7 @@ class TaskDetailsLocalDataSourceImpl {
   TaskDetailsLocalDataSourceImpl(this._box);
 
   Future<void> addEntry(TaskHistoryEntryModel entryModel) async {
-    await _box.add(entryModel.toJson());
+    await _box.put(entryModel.id, entryModel.toJson());
   }
 
   List<TaskHistoryEntryModel> getHistoryEntries() {
@@ -23,6 +23,10 @@ class TaskDetailsLocalDataSourceImpl {
 
   List<TaskHistoryEntryModel> getHistoryEntriesByTaskId(String taskId) {
     return getHistoryEntries().where((e) => e.taskId == taskId).toList();
+  }
+
+  Future<void> removeEntries(List<String> entryIdsToDelete) async {
+    await _box.deleteAll(entryIdsToDelete);
   }
 }
 
