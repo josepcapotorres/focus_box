@@ -90,7 +90,7 @@ class HomePage extends ConsumerWidget {
                     .log("home_page.dart > tasks length: ${tasks.length}");
                 return Expanded(
                   child: tasks.isEmpty
-                      ? const Center(child: Text("No results"))
+                      ? const Center(child: Text("No hay resultados"))
                       : ListView.separated(
                           padding: const .only(bottom: 80),
                           itemBuilder: (_, i) => HomeTaskItem(
