@@ -92,6 +92,7 @@ class HomePage extends ConsumerWidget {
                   child: tasks.isEmpty
                       ? const Center(child: Text("No results"))
                       : ListView.separated(
+                          padding: const .only(bottom: 16),
                           itemBuilder: (_, i) => HomeTaskItem(
                             taskId: tasks[i].id,
                             onTap: () => context.push(

@@ -33,7 +33,7 @@ final class HomeTasksProvider
   HomeTasks create() => HomeTasks();
 }
 
-String _$homeTasksHash() => r'95b7d03ff15a2604d09b87228fd8cf853c1a593f';
+String _$homeTasksHash() => r'fa9e06f6d87c37cdccbfe03fcd94ac62e8e65f74';
 
 abstract class _$HomeTasks extends $StreamNotifier<List<Task>> {
   Stream<List<Task>> build();
@@ -249,3 +249,37 @@ final class HomeFilteredTasksProvider
 }
 
 String _$homeFilteredTasksHash() => r'06b335ea3e7beb847aae6629ced846284a773848';
+
+@ProviderFor(recoverInterruptedSession)
+const recoverInterruptedSessionProvider = RecoverInterruptedSessionProvider._();
+
+final class RecoverInterruptedSessionProvider
+    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+    with $FutureModifier<void>, $FutureProvider<void> {
+  const RecoverInterruptedSessionProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'recoverInterruptedSessionProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$recoverInterruptedSessionHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<void> create(Ref ref) {
+    return recoverInterruptedSession(ref);
+  }
+}
+
+String _$recoverInterruptedSessionHash() =>
+    r'5315adad9e4aa6dc8a117b5d083c67a4f95c0c9c';

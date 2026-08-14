@@ -9,7 +9,7 @@ class Task extends Equatable {
   final Duration timeAlreadyDone;
   final Duration timeTotal;
   final DateTime day;
-  final bool doNotDisturbEnabled;
+  final DateTime? startedAt;
 
   const Task(
     this.id,
@@ -17,9 +17,9 @@ class Task extends Equatable {
     this.status,
     this.timeAlreadyDone,
     this.timeTotal,
-    this.day, [
-    this.doNotDisturbEnabled = false,
-  ]);
+    this.day,
+    this.startedAt,
+  );
 
   Task copyWith({
     String? name,
@@ -27,7 +27,7 @@ class Task extends Equatable {
     Duration? timeAlreadyDone,
     Duration? timeTotal,
     DateTime? day,
-    bool? doNotDisturbEnabled,
+    DateTime? startedAt,
   }) {
     return Task(
       id,
@@ -36,7 +36,7 @@ class Task extends Equatable {
       timeAlreadyDone = timeAlreadyDone ?? this.timeAlreadyDone,
       timeTotal = timeTotal ?? this.timeTotal,
       day = day ?? this.day,
-      doNotDisturbEnabled = doNotDisturbEnabled ?? this.doNotDisturbEnabled,
+      startedAt = startedAt ?? this.startedAt,
     );
   }
 
@@ -48,6 +48,5 @@ class Task extends Equatable {
     timeAlreadyDone,
     timeTotal,
     day,
-    doNotDisturbEnabled,
   ];
 }

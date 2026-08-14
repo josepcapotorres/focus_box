@@ -1,6 +1,11 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/domain/entities/task.dart';
+import '../../../../core/domain/enums/task_status.dart';
+import '../../../../core/managers/crash_reporter.dart';
+import '../../../task_details/domain/entities/task_history_entry.dart';
+import '../../../task_details/presentation/providers/task_details_history_provider.dart';
 import '../../domain/repositories/home_repository.dart';
 import 'task_details_current_filter_provider.dart';
 
@@ -10,6 +15,10 @@ part 'home_tasks_provider.g.dart';
 class HomeTasks extends _$HomeTasks {
   @override
   Stream<List<Task>> build() async* {
+    // In case the user has closed the app leaving a task as pending,
+    // this provider checks if this case exists and update that task as .paused
+    await ref.watch(recoverInterruptedSessionProvider.future);
+
     final homeRepository = await ref.watch(homeRepositoryProvider.future);
     yield* homeRepository.watchTasks();
   }
@@ -70,4 +79,40 @@ Future<List<Task>> homeFilteredTasks(Ref ref) async {
     .today => tasksForToday,
     .nextDay => tasksForTomorrow,
   };
+}
+
+@riverpod
+Future<void> recoverInterruptedSession(Ref ref) async {
+  try {
+    final tasksRepository = await ref.read(homeRepositoryProvider.future);
+
+    final interruptedTask = await tasksRepository.getInterruptedTask();
+
+    if (interruptedTask == null) return;
+
+    final elapsed = DateTime.now().difference(interruptedTask.startedAt!);
+
+    final timeAlreadyDone = interruptedTask.timeAlreadyDone + elapsed;
+
+    final updatedTask = interruptedTask.copyWith(
+      status: TaskStatus.paused,
+      startedAt: null,
+      timeAlreadyDone: timeAlreadyDone,
+    );
+
+    await tasksRepository.saveOrEditTask(updatedTask);
+
+    await ref
+        .read(taskDetailsHistoryProvider.notifier)
+        .addEntry(
+          TaskHistoryEntry(
+            id: const Uuid().v4(),
+            taskId: interruptedTask.id,
+            timestamp: DateTime.now(),
+            toStatus: .paused,
+          ),
+        );
+  } catch (e, s) {
+    ref.read(crashReporterProvider).recordError(e, s);
+  }
 }

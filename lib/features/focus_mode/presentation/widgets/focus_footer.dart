@@ -54,7 +54,7 @@ class FocusFooter extends ConsumerWidget {
               if (running) {
                 notifier.pause();
               } else {
-                notifier.resumeTimer();
+                notifier.resume();
               }
             },
           ),
@@ -108,7 +108,7 @@ class FocusFooter extends ConsumerWidget {
           if (running) {
             ref.read(focusSessionProvider.notifier).pause();
           } else {
-            ref.read(focusSessionProvider.notifier).resumeTimer();
+            ref.read(focusSessionProvider.notifier).resume();
           }
         },
       ),

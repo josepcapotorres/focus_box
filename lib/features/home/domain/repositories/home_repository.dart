@@ -23,6 +23,10 @@ class HomeRepository {
   Future<void> deleteTask(String taskId) async {
     await _localDataSource.deleteTask(taskId);
   }
+
+  Future<Task?> getInterruptedTask() async {
+    return _localDataSource.getInterruptedTask();
+  }
 }
 
 @riverpod

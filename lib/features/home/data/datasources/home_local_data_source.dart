@@ -34,6 +34,12 @@ class HomeLocalDataSource {
   Future<void> deleteTask(String taskId) async {
     await _box.delete(taskId);
   }
+
+  Future<Task?> getInterruptedTask() async {
+    return _getTasks()
+        .where((e) => e.status == .inProgress && e.startedAt != null)
+        .firstOrNull;
+  }
 }
 
 @Riverpod(keepAlive: true)

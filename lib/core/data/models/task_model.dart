@@ -9,6 +9,7 @@ class TaskModel extends Task {
     super.timeAlreadyDone,
     super.timeTotal,
     super.day,
+    super.startedAt,
   );
 
   factory TaskModel.fromJson(Map<String, dynamic> json) {
@@ -19,6 +20,9 @@ class TaskModel extends Task {
       Duration(milliseconds: json["time_already_done"] as int),
       Duration(milliseconds: json["time_total"] as int),
       DateTime.fromMicrosecondsSinceEpoch(json["day"]),
+      json["started_at"] != null
+          ? DateTime.fromMicrosecondsSinceEpoch(json["started_at"])
+          : null,
     );
   }
 
@@ -30,6 +34,7 @@ class TaskModel extends Task {
       "time_already_done": timeAlreadyDone.inMilliseconds,
       "time_total": timeTotal.inMilliseconds,
       "day": day.microsecondsSinceEpoch,
+      "started_at": startedAt?.microsecondsSinceEpoch,
     };
   }
 
@@ -62,6 +67,7 @@ class TaskModel extends Task {
       task.timeAlreadyDone,
       task.timeTotal,
       task.day,
+      task.startedAt,
     );
   }
 }

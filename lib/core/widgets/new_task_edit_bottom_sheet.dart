@@ -206,6 +206,7 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
                                   0,
                             ),
                             _dayToDoTask ?? DateTime.now(),
+                            null,
                           );
 
                           final homeRepository = await ref.read(
