@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../../core/managers/crash_reporter.dart';
-import '../../../task_details/domain/entities/task_history_entry.dart';
-import '../../../task_details/presentation/providers/task_details_history_provider.dart';
 import '../providers/focus_session_provider.dart';
 import 'focus_primary_button.dart';
 import 'focus_secondary_button.dart';
@@ -63,33 +60,14 @@ class FocusFooter extends ConsumerWidget {
             icon: Icons.check_rounded,
             color: colorScheme.secondary,
             label: "Finalizar",
-            onPressed: () async {
-              await ref
-                  .read(taskDetailsHistoryProvider.notifier)
-                  .addEntry(
-                    TaskHistoryEntry(
-                      id: const Uuid().v4(),
-                      taskId: session.taskId,
-                      timestamp: DateTime.now(),
-                      toStatus: .completed,
-                    ),
-                  );
-
-              await _finishTask(context, ref, running);
-            },
+            onPressed: () => _finishTask(context, ref),
           ),
         ],
       ),
     );
   }
 
-  Future<void> _finishTask(
-    BuildContext context,
-    WidgetRef ref,
-    bool running,
-  ) async {
-    await ref.read(focusSessionProvider.notifier).pause();
-
+  Future<void> _finishTask(BuildContext context, WidgetRef ref) async {
     if (!context.mounted) {
       ref
           .read(crashReporterProvider)
@@ -97,29 +75,15 @@ class FocusFooter extends ConsumerWidget {
       return;
     }
 
-    ref.read(crashReporterProvider)
-      ..log("focus_footer.dart > _finishTask()")
-      ..setCustomKey("running", running ? "true" : "false");
-
     await showAdaptiveDialog(
       context: context,
-      builder: (_) => _FinishTaskAlertDialog(
-        onCancel: () {
-          if (running) {
-            ref.read(focusSessionProvider.notifier).pause();
-          } else {
-            ref.read(focusSessionProvider.notifier).resume();
-          }
-        },
-      ),
+      builder: (_) => const _FinishTaskAlertDialog(),
     );
   }
 }
 
 class _FinishTaskAlertDialog extends ConsumerWidget {
-  final VoidCallback onCancel;
-
-  const _FinishTaskAlertDialog({required this.onCancel});
+  const _FinishTaskAlertDialog();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -127,13 +91,7 @@ class _FinishTaskAlertDialog extends ConsumerWidget {
       title: const Text("Tarea finalizada"),
       content: const Text("¿Has acabado la tarea antes de tiempo?"),
       actions: [
-        TextButton(
-          onPressed: () {
-            context.pop();
-            onCancel();
-          },
-          child: const Text("Cancelar"),
-        ),
+        TextButton(onPressed: context.pop, child: const Text("Cancelar")),
         TextButton(
           onPressed: () {
             ref.read(focusSessionProvider.notifier).setToDone();

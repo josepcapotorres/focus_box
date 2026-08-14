@@ -26,10 +26,8 @@ class FocusSession extends _$FocusSession {
 
       if (task == null) return;
 
-      // La tarea ha llegado al tiempo máximo.
       if (elapsed >= task.timeTotal) {
         setToDone();
-
         return;
       }
 
@@ -111,10 +109,6 @@ class FocusSession extends _$FocusSession {
           ),
         );
 
-    print(
-      "==== focus_session_provider.dart > pause() > update session id ${session.taskId} to status .paused",
-    );
-
     state = session.copyWith(status: .paused);
   }
 
@@ -183,7 +177,7 @@ class FocusSession extends _$FocusSession {
     ref.read(homeTasksProvider.notifier).updateTask(updatedTask);
   }
 
-  void setToDone() {
+  void setToDone() async {
     final session = state;
     if (session == null) return;
 
@@ -194,17 +188,17 @@ class FocusSession extends _$FocusSession {
       ..log("focus_session_provider.dart > setToDone()")
       ..setCustomKey("task_name", task.name);
 
-    ref.read(tickerProvider.notifier).pauseTimer();
+    final elapsed = ref.read(tickerProvider.notifier).pauseTimer();
 
     final updatedTask = task.copyWith(
-      timeAlreadyDone: task.timeTotal,
       status: .completed,
       startedAt: null,
+      timeAlreadyDone: elapsed,
     );
 
     ref.read(homeTasksProvider.notifier).updateTask(updatedTask);
 
-    saveTask(updatedTask);
+    await saveTask(updatedTask);
 
     ref
         .read(taskDetailsHistoryProvider.notifier)
@@ -237,10 +231,6 @@ class FocusSession extends _$FocusSession {
     final updatedTask = task.copyWith(
       status: .paused,
       timeAlreadyDone: elapsed,
-    );
-
-    print(
-      "==== pause() > task ${task.name} being set to paused. storing data and adding entry",
     );
 
     await saveTask(updatedTask);
