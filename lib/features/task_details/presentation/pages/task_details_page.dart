@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:focus_box/features/home/presentation/providers/home_tasks_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
@@ -10,6 +9,7 @@ import '../../../../core/managers/crash_reporter.dart';
 import '../../../../core/themes/app_colors.dart';
 import '../../../../core/widgets/new_task_edit_bottom_sheet.dart';
 import '../../../home/domain/repositories/home_repository.dart';
+import '../../../home/presentation/providers/home_tasks_provider.dart';
 import '../providers/task_details_history_provider.dart';
 import '../widgets/task_details_metric_card.dart';
 import '../widgets/tasks_details_time_line_steps.dart';

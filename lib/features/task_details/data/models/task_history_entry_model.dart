@@ -2,7 +2,7 @@ import '../../../../core/domain/enums/task_status.dart';
 import '../../domain/entities/task_history_entry.dart';
 
 class TaskHistoryEntryModel extends TaskHistoryEntry {
-  TaskHistoryEntryModel({
+  const TaskHistoryEntryModel({
     required super.id,
     required super.taskId,
     required super.timestamp,
