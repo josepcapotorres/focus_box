@@ -52,6 +52,10 @@ class HomeTaskItem extends ConsumerWidget {
                       ],
                     ),
                   ),
+                  if (currentTask.status == .inProgress) ...[
+                    const SizedBox(width: 16),
+                    _FocusModeButton(currentTask.id),
+                  ],
                   const SizedBox(width: 16),
                   if (showActionButton) _ActionButton(currentTask),
                 ],
@@ -131,6 +135,23 @@ class _Chip extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _FocusModeButton extends StatelessWidget {
+  final String taskId;
+
+  const _FocusModeButton(this.taskId);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => context.push(FocusModePage.routeName, extra: taskId),
+      child: const CircleAvatar(
+        backgroundColor: AppColors.primary,
+        child: Icon(Icons.timer_outlined, color: AppColors.surfaceLight),
       ),
     );
   }
