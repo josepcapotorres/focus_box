@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:focus_box/core/extensions/translations_extension.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/domain/entities/task.dart';
 import '../../../../core/extensions/duration_formatting_extension.dart';
+import '../../../../core/extensions/task_status_localization_extension.dart';
 import '../../../../core/managers/crash_reporter.dart';
 import '../../../../core/themes/app_colors.dart';
 import '../../../../core/widgets/new_task_edit_bottom_sheet.dart';
@@ -69,7 +71,7 @@ class TaskDetailsPage extends ConsumerWidget {
                         Chip(
                           backgroundColor: task.status.backgroundColor,
                           label: Text(
-                            task.status.label,
+                            task.status.label(context.l10n),
                             style: textTheme.labelMedium?.copyWith(
                               color: task.status.foregroundColor,
                             ),

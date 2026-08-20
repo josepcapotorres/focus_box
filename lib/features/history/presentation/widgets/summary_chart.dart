@@ -1,10 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:focus_box/features/task_details/domain/entities/task_history_entry.dart';
 
 import '../../../../core/domain/enums/task_status.dart';
 import '../../../../core/extensions/double_extension.dart';
+import '../../../../core/extensions/task_status_localization_extension.dart';
+import '../../../../core/extensions/translations_extension.dart';
+import '../../../task_details/domain/entities/task_history_entry.dart';
 import '../providers/history_metrics_provider.dart';
 
 class SummaryChart extends ConsumerWidget {
@@ -57,7 +59,7 @@ class SummaryChart extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        Text(e.key.label),
+                        Text(e.key.label(context.l10n)),
                         Text("${e.value.formatDouble()} %"),
                       ],
                     ),
