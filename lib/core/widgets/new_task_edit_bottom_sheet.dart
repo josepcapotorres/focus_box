@@ -188,26 +188,7 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
 
                           context.pop();
 
-                          final newTaskValues = Task(
-                            widget.task?.id ?? const Uuid().v4(),
-                            _taskNameController.text,
-                            .pending,
-                            Duration.zero,
-                            Duration(
-                              hours:
-                                  int.tryParse(
-                                    _timeTotalHoursController.text,
-                                  ) ??
-                                  0,
-                              minutes:
-                                  int.tryParse(
-                                    _timeTotalMinutesController.text,
-                                  ) ??
-                                  0,
-                            ),
-                            _dayToDoTask ?? DateTime.now(),
-                            null,
-                          );
+                          final newTaskValues = _updateTaskValues();
 
                           final homeRepository = await ref.read(
                             homeRepositoryProvider.future,
@@ -229,6 +210,21 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
           ],
         ),
       ),
+    );
+  }
+
+  Task _updateTaskValues() {
+    return Task(
+      widget.task?.id ?? const Uuid().v4(),
+      _taskNameController.text,
+      .pending,
+      widget.task?.timeAlreadyDone ?? Duration.zero,
+      Duration(
+        hours: int.tryParse(_timeTotalHoursController.text) ?? 0,
+        minutes: int.tryParse(_timeTotalMinutesController.text) ?? 0,
+      ),
+      _dayToDoTask ?? DateTime.now(),
+      null,
     );
   }
 
