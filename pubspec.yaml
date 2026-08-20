@@ -37,7 +37,7 @@ dependencies:
   google_fonts: ^8.2.0
   go_router: ^17.3.0
   fl_chart: ^1.2.0
-  intl: ^0.20.3
+  intl: 0.20.2
   timeline_tile: ^2.0.0
   flutter_riverpod: 3.0.0
   riverpod_annotation: 3.0.0
@@ -52,6 +52,8 @@ dependencies:
       ref: feat/swift-package-manager-support
   firebase_core: ^4.13.0
   firebase_crashlytics: ^5.2.7
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +78,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true # Generates .json translations from .arb files
 
   # To add assets to your application, add an assets section, like this:
   # assets:
