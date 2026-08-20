@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:focus_box/core/extensions/translations_extension.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
@@ -68,12 +69,17 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
               child: Align(
                 alignment: .center,
                 child: Text(
-                  widget.task != null ? "Editar tarea" : "Nueva tarea",
+                  widget.task != null
+                      ? context.l10n.saveEditTaskEditTaskTitle
+                      : context.l10n.saveEditTaskNewTaskTitle,
                   style: textTheme.headlineMedium,
                 ),
               ),
             ),
-            Text("Nombre de la tarea", style: textTheme.titleSmall),
+            Text(
+              context.l10n.saveEditTaskTaskName,
+              style: textTheme.titleSmall,
+            ),
             const SizedBox(height: 8),
             TextFormField(
               controller: _taskNameController,
@@ -87,7 +93,10 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
               autofocus: true,
             ),
             const SizedBox(height: 24),
-            Text("Estimación de tiempo", style: textTheme.titleSmall),
+            Text(
+              context.l10n.saveEditTaskTimeEstimated,
+              style: textTheme.titleSmall,
+            ),
             const SizedBox(height: 8),
             Row(
               spacing: 16,
@@ -136,7 +145,10 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
             ),
 
             const SizedBox(height: 24),
-            Text("Asignación de día", style: textTheme.titleSmall),
+            Text(
+              context.l10n.saveEditTaskAssignDay,
+              style: textTheme.titleSmall,
+            ),
             const SizedBox(height: 8),
             TextFormField(
               controller: _dayToDoTaskController,
@@ -173,7 +185,7 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
                   Expanded(
                     child: OutlinedButton(
                       onPressed: context.pop,
-                      child: const Text("Cancelar"),
+                      child: Text(context.l10n.commonCancel),
                     ),
                   ),
                   Expanded(
@@ -200,7 +212,7 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
                             ref.read(crashReporterProvider).recordError(e, s);
                           }
                         },
-                        child: const Text("Guardar"),
+                        child: Text(context.l10n.commonSave),
                       ),
                     ),
                   ),

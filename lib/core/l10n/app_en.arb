@@ -1,0 +1,23 @@
+{
+    "commonNoResults": "No results",
+    "commonCancel": "Cancel",
+    "commonSave": "Save",
+    "homeTitle": "FocusBox",
+    "homeToday": "Today",
+    "homeTomorrow": "Tomorrow",
+    "homeTodayLabel": "Today, {date}",
+    "@homeTodayLabel": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "homeListError": "Error on fetching today tasks",
+    "homeHistorical": "Historical data",
+    "saveEditTaskNewTaskTitle": "New task",
+    "saveEditTaskEditTaskTitle": "Edit task",
+    "saveEditTaskTaskName": "Task name",
+    "saveEditTaskTimeEstimated": "Estimated time",
+    "saveEditTaskAssignDay": "Day assignment"
+}

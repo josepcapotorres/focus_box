@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_box/core/extensions/translations_extension.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -20,11 +21,14 @@ class HomeScreen extends StatelessWidget {
             initialLocation: index == navigationShell.currentIndex,
           );
         },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Hoy"),
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: "Historial",
+            icon: const Icon(Icons.home),
+            label: context.l10n.homeToday,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.bar_chart),
+            label: context.l10n.homeHistorical,
           ),
         ],
       ),

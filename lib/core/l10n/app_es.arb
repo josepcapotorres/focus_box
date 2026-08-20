@@ -1,0 +1,23 @@
+{
+    "commonNoResults": "No hay resultados",
+    "commonCancel": "Cancelar",
+    "commonSave": "Guardar",
+    "homeTitle": "FocusBox",
+    "homeToday": "Hoy",
+    "homeTomorrow": "Mañana",
+    "homeTodayLabel": "Hoy, {date}",
+    "@homeTodayLabel": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "homeListError": "Error al obtener las tareas para hoy",
+    "homeHistorical": "Historial",
+    "saveEditTaskNewTaskTitle": "Nueva tarea",
+    "saveEditTaskEditTaskTitle": "Editar tarea",
+    "saveEditTaskTaskName": "Nombre de la tarea",
+    "saveEditTaskTimeEstimated": "Estimación de tiempo",
+    "saveEditTaskAssignDay": "Asignación de día"
+}

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:focus_box/core/extensions/translations_extension.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
@@ -24,8 +25,6 @@ class HomePage extends ConsumerWidget {
     final colorScheme = ColorScheme.of(context);
 
     final today = DateTime.now();
-    final fullDateFormat = DateFormat("d 'de' MMMM");
-    final dayDateFormat = DateFormat("EEEE");
 
     final homeTasksAsync = ref.watch(homeFilteredTasksProvider);
     final currentFilter = ref.watch(taskDetailsCurrentFilterProvider);
@@ -33,7 +32,7 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "FocusBox",
+          context.l10n.homeTitle,
           style: textTheme.titleLarge?.copyWith(color: colorScheme.primary),
         ),
         actions: [
@@ -53,14 +52,14 @@ class HomePage extends ConsumerWidget {
               alignment: .center,
               child: SegmentedButton(
                 expandedInsets: const EdgeInsets.symmetric(horizontal: 48.0),
-                segments: const [
+                segments: [
                   ButtonSegment<TaskFilterEnum>(
                     value: .today,
-                    label: Text("Hoy"),
+                    label: Text(context.l10n.homeToday),
                   ),
                   ButtonSegment<TaskFilterEnum>(
                     value: .nextDay,
-                    label: Text("Mañana"),
+                    label: Text(context.l10n.homeTomorrow),
                   ),
                 ],
                 selected: {currentFilter},
@@ -70,14 +69,14 @@ class HomePage extends ConsumerWidget {
               ),
             ),
             Text(
-              "Hoy, ${fullDateFormat.format(today)}",
+              _showTodayDateLabel(context, today),
               style: textTheme.displayMedium?.copyWith(
                 color: colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              dayDateFormat.format(today),
+              _showTodayNameLabel(context, today),
               style: textTheme.titleSmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
@@ -90,7 +89,7 @@ class HomePage extends ConsumerWidget {
                     .log("home_page.dart > tasks length: ${tasks.length}");
                 return Expanded(
                   child: tasks.isEmpty
-                      ? const Center(child: Text("No hay resultados"))
+                      ? Center(child: Text(context.l10n.commonNoResults))
                       : ListView.separated(
                           padding: const .only(bottom: 80),
                           itemBuilder: (_, i) => HomeTaskItem(
@@ -106,9 +105,7 @@ class HomePage extends ConsumerWidget {
                         ),
                 );
               },
-              error: (_, _) => const Center(
-                child: Text("Error al obtener las tareas para hoy"),
-              ),
+              error: (_, _) => Center(child: Text(context.l10n.homeListError)),
               loading: () => const Expanded(
                 child: Center(child: CircularProgressIndicator.adaptive()),
               ),
@@ -132,5 +129,43 @@ class HomePage extends ConsumerWidget {
       isScrollControlled: true,
       builder: (_) => const NewTaskEditBottomSheet(),
     );
+  }
+
+  String _showTodayDateLabel(BuildContext context, DateTime today) {
+    String label;
+
+    switch (context.l10n.localeName) {
+      case "en":
+        final fullDateFormat = DateFormat("MMMM d", "en");
+        label = context.l10n.homeTodayLabel(fullDateFormat.format(today));
+        break;
+      case "es":
+        final fullDateFormat = DateFormat("d 'de' MMMM", "es");
+        label = context.l10n.homeTodayLabel(fullDateFormat.format(today));
+        break;
+      default:
+        label = "";
+    }
+
+    return label;
+  }
+
+  String _showTodayNameLabel(BuildContext context, DateTime today) {
+    String label;
+
+    switch (context.l10n.localeName) {
+      case "en":
+        final dayDateFormat = DateFormat("EEEE", "en");
+        label = dayDateFormat.format(today);
+        break;
+      case "es":
+        final dayDateFormat = DateFormat("EEEE", "es");
+        label = dayDateFormat.format(today);
+        break;
+      default:
+        label = "";
+    }
+
+    return label;
   }
 }
