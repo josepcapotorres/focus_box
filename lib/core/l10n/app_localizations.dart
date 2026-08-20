@@ -116,6 +116,36 @@ abstract class AppLocalizations {
   /// **'Guardar'**
   String get commonSave;
 
+  /// No description provided for @commonTaskInProgress.
+  ///
+  /// In es, this message translates to:
+  /// **'En progreso'**
+  String get commonTaskInProgress;
+
+  /// No description provided for @commonTaskCompleted.
+  ///
+  /// In es, this message translates to:
+  /// **'Completada'**
+  String get commonTaskCompleted;
+
+  /// No description provided for @commonTaskPaused.
+  ///
+  /// In es, this message translates to:
+  /// **'Pausada'**
+  String get commonTaskPaused;
+
+  /// No description provided for @commonTaskExceeded.
+  ///
+  /// In es, this message translates to:
+  /// **'Excedida'**
+  String get commonTaskExceeded;
+
+  /// No description provided for @commonTaskPending.
+  ///
+  /// In es, this message translates to:
+  /// **'Pendiente'**
+  String get commonTaskPending;
+
   /// No description provided for @homeTitle.
   ///
   /// In es, this message translates to:
@@ -151,6 +181,18 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Historial'**
   String get homeHistorical;
+
+  /// No description provided for @homeMinsLeft.
+  ///
+  /// In es, this message translates to:
+  /// **'Quedan {mins} min'**
+  String homeMinsLeft(String mins);
+
+  /// No description provided for @homeMinsExceeded.
+  ///
+  /// In es, this message translates to:
+  /// **' · +{mins} min excedida'**
+  String homeMinsExceeded(String mins);
 
   /// No description provided for @saveEditTaskNewTaskTitle.
   ///

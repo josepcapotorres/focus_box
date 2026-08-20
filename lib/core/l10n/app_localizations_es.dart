@@ -18,6 +18,21 @@ class AppLocalizationsEs extends AppLocalizations {
   String get commonSave => 'Guardar';
 
   @override
+  String get commonTaskInProgress => 'En progreso';
+
+  @override
+  String get commonTaskCompleted => 'Completada';
+
+  @override
+  String get commonTaskPaused => 'Pausada';
+
+  @override
+  String get commonTaskExceeded => 'Excedida';
+
+  @override
+  String get commonTaskPending => 'Pendiente';
+
+  @override
   String get homeTitle => 'FocusBox';
 
   @override
@@ -36,6 +51,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get homeHistorical => 'Historial';
+
+  @override
+  String homeMinsLeft(String mins) {
+    return 'Quedan $mins min';
+  }
+
+  @override
+  String homeMinsExceeded(String mins) {
+    return ' · +$mins min excedida';
+  }
 
   @override
   String get saveEditTaskNewTaskTitle => 'Nueva tarea';

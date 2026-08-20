@@ -2,6 +2,11 @@
     "commonNoResults": "No results",
     "commonCancel": "Cancel",
     "commonSave": "Save",
+    "commonTaskInProgress": "In progress",
+    "commonTaskCompleted": "Completed",
+    "commonTaskPaused": "Paused",
+    "commonTaskExceeded": "Exceeded",
+    "commonTaskPending": "Pending",
     "homeTitle": "FocusBox",
     "homeToday": "Today",
     "homeTomorrow": "Tomorrow",
@@ -15,6 +20,22 @@
     },
     "homeListError": "Error on fetching today tasks",
     "homeHistorical": "Historical data",
+    "homeMinsLeft": "{mins} minutes left",
+    "@homeMinsLeft": {
+        "placeholders": {
+            "mins": {
+                "type": "String"
+            }
+        }
+    },
+    "homeMinsExceeded": " · +{mins} min exceeded",
+    "@homeMinsExceeded": {
+        "placeholders": {
+            "mins": {
+                "type": "String"
+            }
+        }
+    },
     "saveEditTaskNewTaskTitle": "New task",
     "saveEditTaskEditTaskTitle": "Edit task",
     "saveEditTaskTaskName": "Task name",

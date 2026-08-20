@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/domain/entities/task.dart';
 import '../../../../core/domain/enums/task_status.dart';
 import '../../../../core/extensions/duration_formatting_extension.dart';
+import '../../../../core/extensions/task_status_localization_extension.dart';
+import '../../../../core/extensions/translations_extension.dart';
 import '../../../../core/themes/app_colors.dart';
 import '../../../../core/widgets/horizontal_bar_chart.dart';
 import '../../../focus_mode/presentation/pages/focus_mode_page.dart';
@@ -129,7 +131,7 @@ class _Chip extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
           child: Text(
-            status.label,
+            status.label(context.l10n),
             style: textTheme.labelMedium?.copyWith(
               color: status.foregroundColor,
             ),
@@ -286,10 +288,13 @@ class _FooterTexts extends ConsumerWidget {
       children: [
         if (status != .pending) ...[
           if (status != .completed && status != .exceeded)
-            Text("Quedan $remainingMinutes min", style: textTheme.bodySmall)
+            Text(
+              context.l10n.homeMinsLeft(remainingMinutes.toString()),
+              style: textTheme.bodySmall,
+            )
           else if (status == .exceeded)
             Text(
-              " · +$exceededShownMinutes min excedido",
+              context.l10n.homeMinsExceeded(exceededShownMinutes.toString()),
               style: textTheme.bodySmall,
             ),
           Expanded(

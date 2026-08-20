@@ -2,6 +2,11 @@
     "commonNoResults": "No hay resultados",
     "commonCancel": "Cancelar",
     "commonSave": "Guardar",
+    "commonTaskInProgress": "En progreso",
+    "commonTaskCompleted": "Completada",
+    "commonTaskPaused": "Pausada",
+    "commonTaskExceeded": "Excedida",
+    "commonTaskPending": "Pendiente",
     "homeTitle": "FocusBox",
     "homeToday": "Hoy",
     "homeTomorrow": "Mañana",
@@ -15,6 +20,22 @@
     },
     "homeListError": "Error al obtener las tareas para hoy",
     "homeHistorical": "Historial",
+    "homeMinsLeft": "Quedan {mins} min",
+    "@homeMinsLeft": {
+        "placeholders": {
+            "mins": {
+                "type": "String"
+            }
+        }
+    },
+    "homeMinsExceeded": " · +{mins} min excedida",
+    "@homeMinsExceeded": {
+        "placeholders": {
+            "mins": {
+                "type": "String"
+            }
+        }
+    },
     "saveEditTaskNewTaskTitle": "Nueva tarea",
     "saveEditTaskEditTaskTitle": "Editar tarea",
     "saveEditTaskTaskName": "Nombre de la tarea",
