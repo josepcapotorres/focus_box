@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:focus_box/core/extensions/translations_extension.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
+import '../../../../core/extensions/translations_extension.dart';
+import '../../../../core/format/local_name_format.dart';
 import '../../../../core/managers/crash_reporter.dart';
 import '../../../../core/widgets/new_task_edit_bottom_sheet.dart';
 import '../../../task_details/presentation/pages/task_details_page.dart';
@@ -69,14 +69,14 @@ class HomePage extends ConsumerWidget {
               ),
             ),
             Text(
-              _showTodayDateLabel(context, today),
+              showFormattedDateLabel(context, today),
               style: textTheme.displayMedium?.copyWith(
                 color: colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              _showTodayNameLabel(context, today),
+              showFormattedDateLabel(context, today),
               style: textTheme.titleSmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
@@ -129,43 +129,5 @@ class HomePage extends ConsumerWidget {
       isScrollControlled: true,
       builder: (_) => const NewTaskEditBottomSheet(),
     );
-  }
-
-  String _showTodayDateLabel(BuildContext context, DateTime today) {
-    String label;
-
-    switch (context.l10n.localeName) {
-      case "en":
-        final fullDateFormat = DateFormat("MMMM d", "en");
-        label = context.l10n.homeTodayLabel(fullDateFormat.format(today));
-        break;
-      case "es":
-        final fullDateFormat = DateFormat("d 'de' MMMM", "es");
-        label = context.l10n.homeTodayLabel(fullDateFormat.format(today));
-        break;
-      default:
-        label = "";
-    }
-
-    return label;
-  }
-
-  String _showTodayNameLabel(BuildContext context, DateTime today) {
-    String label;
-
-    switch (context.l10n.localeName) {
-      case "en":
-        final dayDateFormat = DateFormat("EEEE", "en");
-        label = dayDateFormat.format(today);
-        break;
-      case "es":
-        final dayDateFormat = DateFormat("EEEE", "es");
-        label = dayDateFormat.format(today);
-        break;
-      default:
-        label = "";
-    }
-
-    return label;
   }
 }

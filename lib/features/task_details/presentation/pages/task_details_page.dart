@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:focus_box/core/extensions/translations_extension.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../core/domain/entities/task.dart';
 import '../../../../core/extensions/duration_formatting_extension.dart';
 import '../../../../core/extensions/task_status_localization_extension.dart';
+import '../../../../core/format/local_name_format.dart';
 import '../../../../core/managers/crash_reporter.dart';
 import '../../../../core/themes/app_colors.dart';
 import '../../../../core/widgets/new_task_edit_bottom_sheet.dart';
@@ -30,8 +30,6 @@ class TaskDetailsPage extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = ColorScheme.of(context);
 
-    final fullDateFormat = DateFormat("d 'de' MMMM");
-
     final timeTotal = (task?.timeTotal ?? Duration.zero);
     final strEstimatedTime = timeTotal.toDisplayHoursMinutes();
 
@@ -41,7 +39,7 @@ class TaskDetailsPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Detalle de tarea"),
+        title: Text(context.l10n.taskDetailsTitle),
         actions: [
           IconButton(
             onPressed: () => _showNewTaskBottomSheet(context, task),
@@ -86,7 +84,7 @@ class TaskDetailsPage extends ConsumerWidget {
                         mainAxisAlignment: .spaceBetween,
                         spacing: 24,
                         children: [
-                          Text(fullDateFormat.format(task.day)),
+                          Text(showFormattedDateLabel(context, task.day)),
                           const Text("09:00 - 11:35"),
                         ],
                       ),
