@@ -7,25 +7,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:575572601987:android:622e7003e98514011dbfb6",
-        "android_client_info": {
-          "package_name": "com.example.focus_box"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCX0FGNUdhdnNdcoJIUcTCssYgoddxCsf0"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:575572601987:android:ca0e057169a23fde1dbfb6",
         "android_client_info": {
           "package_name": "es.josepcapo.focusbox"

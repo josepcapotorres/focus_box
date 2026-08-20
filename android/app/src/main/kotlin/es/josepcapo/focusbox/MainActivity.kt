@@ -1,4 +1,4 @@
-package com.example.focus_box
+package es.josepcapo.focusbox
 
 import io.flutter.embedding.android.FlutterActivity
 
