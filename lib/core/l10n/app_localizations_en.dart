@@ -33,6 +33,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonTaskPending => 'Pending';
 
   @override
+  String get commonNo => 'No';
+
+  @override
+  String get commonYes => 'Yes';
+
+  @override
   String get homeTitle => 'FocusBox';
 
   @override
@@ -76,4 +82,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saveEditTaskAssignDay => 'Day assignment';
+
+  @override
+  String get taskDetailsTitle => 'Task details';
+
+  @override
+  String get taskDetailsTaskNotFound => 'Task not found';
+
+  @override
+  String get taskDetailsEstimatedTime => 'Estimated time';
+
+  @override
+  String get taskDetailsRealTime => 'Real time';
+
+  @override
+  String get taskDetailsDifference => 'Difference';
+
+  @override
+  String get taskDetailsTimeline => 'Timeline';
+
+  @override
+  String get taskDetailsAreYouSureTitle => 'Task deletion';
+
+  @override
+  String get taskDetailsAreYouSureMsg => 'Are you sure to delete this task?';
+
+  @override
+  String get taskDetailsTaskNotStartedYet => 'Task not started yet';
+
+  @override
+  String get taskDetailsTimelineError => 'Error on fetching the timelines';
+
+  @override
+  String get taskDetailsStartTask => 'Start of task';
+
+  @override
+  String taskDetailsPauseDiff(String time) {
+    return 'Pause ($time)';
+  }
+
+  @override
+  String get taskDetailsCompletedExceededTime =>
+      'Completed in more time than calculated';
 }

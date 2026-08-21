@@ -7,6 +7,8 @@
     "commonTaskPaused": "Paused",
     "commonTaskExceeded": "Exceeded",
     "commonTaskPending": "Pending",
+    "commonNo": "No",
+    "commonYes": "Yes",
     "homeTitle": "FocusBox",
     "homeToday": "Today",
     "homeTomorrow": "Tomorrow",
@@ -40,5 +42,25 @@
     "saveEditTaskEditTaskTitle": "Edit task",
     "saveEditTaskTaskName": "Task name",
     "saveEditTaskTimeEstimated": "Estimated time",
-    "saveEditTaskAssignDay": "Day assignment"
+    "saveEditTaskAssignDay": "Day assignment",
+    "taskDetailsTitle": "Task details",
+    "taskDetailsTaskNotFound": "Task not found",
+    "taskDetailsEstimatedTime": "Estimated time",
+    "taskDetailsRealTime": "Real time",
+    "taskDetailsDifference": "Difference",
+    "taskDetailsTimeline": "Timeline",
+    "taskDetailsAreYouSureTitle": "Task deletion",
+    "taskDetailsAreYouSureMsg": "Are you sure to delete this task?",
+    "taskDetailsTaskNotStartedYet": "Task not started yet",
+    "taskDetailsTimelineError": "Error on fetching the timelines",
+    "taskDetailsStartTask": "Start of task",
+    "taskDetailsPauseDiff": "Pause ({time})",
+    "@taskDetailsPauseDiff": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskDetailsCompletedExceededTime": "Completed in more time than calculated"
 }

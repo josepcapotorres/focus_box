@@ -69,14 +69,14 @@ class HomePage extends ConsumerWidget {
               ),
             ),
             Text(
-              showFormattedDateLabel(context, today),
+              showFormattedDateWithDayName(context, today),
               style: textTheme.displayMedium?.copyWith(
                 color: colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              showFormattedDateLabel(context, today),
+              showFormattedDateWithDayName(context, today),
               style: textTheme.titleSmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),

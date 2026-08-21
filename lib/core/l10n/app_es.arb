@@ -7,6 +7,8 @@
     "commonTaskPaused": "Pausada",
     "commonTaskExceeded": "Excedida",
     "commonTaskPending": "Pendiente",
+    "commonNo": "No",
+    "commonYes": "Sí",
     "homeTitle": "FocusBox",
     "homeToday": "Hoy",
     "homeTomorrow": "Mañana",
@@ -40,5 +42,25 @@
     "saveEditTaskEditTaskTitle": "Editar tarea",
     "saveEditTaskTaskName": "Nombre de la tarea",
     "saveEditTaskTimeEstimated": "Estimación de tiempo",
-    "saveEditTaskAssignDay": "Asignación de día"
+    "saveEditTaskAssignDay": "Asignación de día",
+    "taskDetailsTitle": "Detalles de la tarea",
+    "taskDetailsTaskNotFound": "No se ha encontrado la tarea",
+    "taskDetailsEstimatedTime": "Tiempo estimado",
+    "taskDetailsRealTime": "Tiempo real",
+    "taskDetailsDifference": "Diferencia",
+    "taskDetailsTimeline": "Línea de tiempo",
+    "taskDetailsAreYouSureTitle": "Eliminación de tarea",
+    "taskDetailsAreYouSureMsg": "¿Estás seguro de querer eliminar esta tarea?",
+    "taskDetailsTaskNotStartedYet": "Aún no se ha iniciado la tarea",
+    "taskDetailsTimelineError": "Error al obtener las líneas de tiempo",
+    "taskDetailsStartTask": "Inicio de la tarea",
+    "taskDetailsPauseDiff": "Pausa ({time})",
+    "@taskDetailsPauseDiff": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskDetailsCompletedExceededTime": "Completada con más tiempo del calculado"
 }

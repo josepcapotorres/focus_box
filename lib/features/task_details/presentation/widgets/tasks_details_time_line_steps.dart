@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:focus_box/core/domain/enums/task_status.dart';
-import 'package:focus_box/features/task_details/domain/entities/task_history_entry.dart';
-import 'package:focus_box/features/task_details/presentation/providers/task_details_history_provider.dart';
+import 'package:focus_box/core/extensions/translations_extension.dart';
 import 'package:intl/intl.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
+import '../../../../core/domain/enums/task_status.dart';
 import '../../../../core/extensions/duration_formatting_extension.dart';
+import '../../domain/entities/task_history_entry.dart';
+import '../providers/task_details_history_provider.dart';
 
 class TasksDetailsTimeLineSteps extends ConsumerWidget {
   final String taskId;
@@ -24,9 +25,11 @@ class TasksDetailsTimeLineSteps extends ConsumerWidget {
     return taskHistoryEntriesAsync.when(
       data: (entries) {
         if (entries.isEmpty) {
-          return const SizedBox(
+          return SizedBox(
             height: boxHeight,
-            child: Center(child: Text("Aún no se ha iniciado la tarea")),
+            child: Center(
+              child: Text(context.l10n.taskDetailsTaskNotStartedYet),
+            ),
           );
         }
 
@@ -43,9 +46,9 @@ class TasksDetailsTimeLineSteps extends ConsumerWidget {
               .toList(),
         );
       },
-      error: (_, _) => const SizedBox(
+      error: (_, _) => SizedBox(
         height: boxHeight,
-        child: Center(child: Text("Error al obtener las líneas de tiempo")),
+        child: Center(child: Text(context.l10n.taskDetailsTimelineError)),
       ),
       loading: () => const CircularProgressIndicator.adaptive(),
     );
@@ -97,7 +100,7 @@ class _TimeLineTile extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                _showShortDescriptionFromStatus(entries, currentEntry),
+                _showShortDescriptionFromStatus(context, entries, currentEntry),
               ),
             ),
           ],
@@ -107,13 +110,14 @@ class _TimeLineTile extends StatelessWidget {
   }
 
   String _showShortDescriptionFromStatus(
+    BuildContext context,
     List<TaskHistoryEntry> entries,
     TaskHistoryEntry currentElement,
   ) {
     final currentElementPositionFromList = entries.indexOf(currentElement);
 
     if (currentElementPositionFromList == 0) {
-      return "Inicio de la tarea";
+      return context.l10n.taskDetailsStartTask;
     }
 
     final timestampLastEvent =
@@ -123,11 +127,13 @@ class _TimeLineTile extends StatelessWidget {
     final difference = timestampCurrentEvent.difference(timestampLastEvent);
 
     return switch (currentElement.toStatus) {
-      TaskStatus.inProgress => "En progreso",
-      TaskStatus.completed => "Completada",
-      TaskStatus.paused => "Pausa (${difference.timeLineStepText()})",
-      TaskStatus.exceeded => "Completada con más tiempo del calculado",
-      TaskStatus.pending => "Pendiente",
+      TaskStatus.inProgress => context.l10n.commonTaskInProgress,
+      TaskStatus.completed => context.l10n.commonTaskCompleted,
+      TaskStatus.paused => context.l10n.taskDetailsPauseDiff(
+        difference.timeLineStepText(),
+      ),
+      TaskStatus.exceeded => context.l10n.taskDetailsCompletedExceededTime,
+      TaskStatus.pending => context.l10n.commonTaskPending,
     };
   }
 }

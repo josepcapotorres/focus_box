@@ -146,6 +146,18 @@ abstract class AppLocalizations {
   /// **'Pendiente'**
   String get commonTaskPending;
 
+  /// No description provided for @commonNo.
+  ///
+  /// In es, this message translates to:
+  /// **'No'**
+  String get commonNo;
+
+  /// No description provided for @commonYes.
+  ///
+  /// In es, this message translates to:
+  /// **'Sí'**
+  String get commonYes;
+
   /// No description provided for @homeTitle.
   ///
   /// In es, this message translates to:
@@ -223,6 +235,84 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Asignación de día'**
   String get saveEditTaskAssignDay;
+
+  /// No description provided for @taskDetailsTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Detalles de la tarea'**
+  String get taskDetailsTitle;
+
+  /// No description provided for @taskDetailsTaskNotFound.
+  ///
+  /// In es, this message translates to:
+  /// **'No se ha encontrado la tarea'**
+  String get taskDetailsTaskNotFound;
+
+  /// No description provided for @taskDetailsEstimatedTime.
+  ///
+  /// In es, this message translates to:
+  /// **'Tiempo estimado'**
+  String get taskDetailsEstimatedTime;
+
+  /// No description provided for @taskDetailsRealTime.
+  ///
+  /// In es, this message translates to:
+  /// **'Tiempo real'**
+  String get taskDetailsRealTime;
+
+  /// No description provided for @taskDetailsDifference.
+  ///
+  /// In es, this message translates to:
+  /// **'Diferencia'**
+  String get taskDetailsDifference;
+
+  /// No description provided for @taskDetailsTimeline.
+  ///
+  /// In es, this message translates to:
+  /// **'Línea de tiempo'**
+  String get taskDetailsTimeline;
+
+  /// No description provided for @taskDetailsAreYouSureTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminación de tarea'**
+  String get taskDetailsAreYouSureTitle;
+
+  /// No description provided for @taskDetailsAreYouSureMsg.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Estás seguro de querer eliminar esta tarea?'**
+  String get taskDetailsAreYouSureMsg;
+
+  /// No description provided for @taskDetailsTaskNotStartedYet.
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no se ha iniciado la tarea'**
+  String get taskDetailsTaskNotStartedYet;
+
+  /// No description provided for @taskDetailsTimelineError.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al obtener las líneas de tiempo'**
+  String get taskDetailsTimelineError;
+
+  /// No description provided for @taskDetailsStartTask.
+  ///
+  /// In es, this message translates to:
+  /// **'Inicio de la tarea'**
+  String get taskDetailsStartTask;
+
+  /// No description provided for @taskDetailsPauseDiff.
+  ///
+  /// In es, this message translates to:
+  /// **'Pausa ({time})'**
+  String taskDetailsPauseDiff(String time);
+
+  /// No description provided for @taskDetailsCompletedExceededTime.
+  ///
+  /// In es, this message translates to:
+  /// **'Completada con más tiempo del calculado'**
+  String get taskDetailsCompletedExceededTime;
 }
 
 class _AppLocalizationsDelegate

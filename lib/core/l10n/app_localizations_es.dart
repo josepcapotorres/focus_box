@@ -33,6 +33,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get commonTaskPending => 'Pendiente';
 
   @override
+  String get commonNo => 'No';
+
+  @override
+  String get commonYes => 'Sí';
+
+  @override
   String get homeTitle => 'FocusBox';
 
   @override
@@ -76,4 +82,48 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get saveEditTaskAssignDay => 'Asignación de día';
+
+  @override
+  String get taskDetailsTitle => 'Detalles de la tarea';
+
+  @override
+  String get taskDetailsTaskNotFound => 'No se ha encontrado la tarea';
+
+  @override
+  String get taskDetailsEstimatedTime => 'Tiempo estimado';
+
+  @override
+  String get taskDetailsRealTime => 'Tiempo real';
+
+  @override
+  String get taskDetailsDifference => 'Diferencia';
+
+  @override
+  String get taskDetailsTimeline => 'Línea de tiempo';
+
+  @override
+  String get taskDetailsAreYouSureTitle => 'Eliminación de tarea';
+
+  @override
+  String get taskDetailsAreYouSureMsg =>
+      '¿Estás seguro de querer eliminar esta tarea?';
+
+  @override
+  String get taskDetailsTaskNotStartedYet => 'Aún no se ha iniciado la tarea';
+
+  @override
+  String get taskDetailsTimelineError =>
+      'Error al obtener las líneas de tiempo';
+
+  @override
+  String get taskDetailsStartTask => 'Inicio de la tarea';
+
+  @override
+  String taskDetailsPauseDiff(String time) {
+    return 'Pausa ($time)';
+  }
+
+  @override
+  String get taskDetailsCompletedExceededTime =>
+      'Completada con más tiempo del calculado';
 }

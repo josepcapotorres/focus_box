@@ -55,7 +55,7 @@ class TaskDetailsPage extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           child: task == null
-              ? const Center(child: Text("No se ha encontrado la tarea"))
+              ? Center(child: Text(context.l10n.taskDetailsTaskNotFound))
               : Column(
                   crossAxisAlignment: .start,
                   children: [
@@ -84,7 +84,7 @@ class TaskDetailsPage extends ConsumerWidget {
                         mainAxisAlignment: .spaceBetween,
                         spacing: 24,
                         children: [
-                          Text(showFormattedDateLabel(context, task.day)),
+                          Text(showFormattedDateWithDayName(context, task.day)),
                           const Text("09:00 - 11:35"),
                         ],
                       ),
@@ -94,7 +94,7 @@ class TaskDetailsPage extends ConsumerWidget {
                       children: [
                         Expanded(
                           child: TaskDetailsMetricCard(
-                            label: "Tiempo estimado",
+                            label: context.l10n.taskDetailsEstimatedTime,
                             metricValue: "${strEstimatedTime}h",
                             backgroundColor: colorScheme.surface,
                             labelColor: colorScheme.onSurface,
@@ -103,7 +103,7 @@ class TaskDetailsPage extends ConsumerWidget {
                         ),
                         Expanded(
                           child: TaskDetailsMetricCard(
-                            label: "Tiempo real",
+                            label: context.l10n.taskDetailsRealTime,
                             metricValue: "${strRealTime}h",
                             backgroundColor: colorScheme.surface,
                             labelColor: colorScheme.onSurface,
@@ -112,7 +112,7 @@ class TaskDetailsPage extends ConsumerWidget {
                         ),
                         Expanded(
                           child: TaskDetailsMetricCard(
-                            label: "Diferencia",
+                            label: context.l10n.taskDetailsDifference,
                             metricValue:
                                 "${difference.isNegative ? "" : "+"} ${difference.inMinutes} min",
                             backgroundColor: colorScheme.surface,
@@ -127,7 +127,10 @@ class TaskDetailsPage extends ConsumerWidget {
                       ],
                     ),
                     const SizedBox(height: 32),
-                    Text("Línea de tiempo", style: textTheme.headlineSmall),
+                    Text(
+                      context.l10n.taskDetailsTimeline,
+                      style: textTheme.headlineSmall,
+                    ),
                     TasksDetailsTimeLineSteps(taskId),
                   ],
                 ),
@@ -155,10 +158,13 @@ class TaskDetailsPage extends ConsumerWidget {
     showAdaptiveDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text("Eliminación de tarea"),
-        content: const Text("¿Estás seguro de querer eliminar esta tarea?"),
+        title: Text(context.l10n.taskDetailsAreYouSureTitle),
+        content: Text(context.l10n.taskDetailsAreYouSureMsg),
         actions: [
-          TextButton(onPressed: context.pop, child: const Text("No")),
+          TextButton(
+            onPressed: context.pop,
+            child: Text(context.l10n.commonNo),
+          ),
           TextButton(
             onPressed: () async {
               context.pop();
@@ -179,7 +185,7 @@ class TaskDetailsPage extends ConsumerWidget {
               if (!context.mounted) return;
               context.pop();
             },
-            child: const Text("Sí"),
+            child: Text(context.l10n.commonYes),
           ),
         ],
       ),
