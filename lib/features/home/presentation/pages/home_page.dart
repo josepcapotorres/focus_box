@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../core/extensions/translations_extension.dart';
 import '../../../../core/format/local_name_format.dart';
@@ -50,33 +51,36 @@ class HomePage extends ConsumerWidget {
           children: [
             Align(
               alignment: .center,
-              child: SegmentedButton(
-                expandedInsets: const EdgeInsets.symmetric(horizontal: 48.0),
-                segments: [
-                  ButtonSegment<TaskFilterEnum>(
-                    value: .today,
-                    label: Text(context.l10n.homeToday),
-                  ),
-                  ButtonSegment<TaskFilterEnum>(
-                    value: .nextDay,
-                    label: Text(context.l10n.homeTomorrow),
-                  ),
-                ],
-                selected: {currentFilter},
-                onSelectionChanged: (newFilter) => ref
-                    .read(taskDetailsCurrentFilterProvider.notifier)
-                    .setFilter(newFilter.first),
-              ),
-            ),
-            Text(
-              showFormattedDateWithDayName(context, today),
-              style: textTheme.displayMedium?.copyWith(
-                color: colorScheme.onSurface,
+              child: SizedBox(
+                width: 250,
+                child: SegmentedButton(
+                  segments: [
+                    ButtonSegment<TaskFilterEnum>(
+                      value: .today,
+                      label: Text(context.l10n.homeToday),
+                    ),
+                    ButtonSegment<TaskFilterEnum>(
+                      value: .nextDay,
+                      label: Text(context.l10n.homeTomorrow),
+                    ),
+                  ],
+                  selected: {currentFilter},
+                  onSelectionChanged: (newFilter) => ref
+                      .read(taskDetailsCurrentFilterProvider.notifier)
+                      .setFilter(newFilter.first),
+                ),
               ),
             ),
             const SizedBox(height: 8),
             Text(
               showFormattedDateWithDayName(context, today),
+              style: textTheme.displaySmall?.copyWith(
+                color: colorScheme.onSurface,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              DateFormat("EEEE").format(today),
               style: textTheme.titleSmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
