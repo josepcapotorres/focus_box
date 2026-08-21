@@ -82,5 +82,15 @@
     "focusModeRemaining": "Remaining",
     "focusModeFinish": "Finish",
     "focusModeFinishDialogTitle": "Task finished?",
-    "focusModeFinishDialogMsg": "Have you finished the task ahead of schedule?"
+    "focusModeFinishDialogMsg": "Have you finished the task ahead of schedule?",
+    "historicalTitle": "Historical",
+    "historicalDateRangeSummary": "Date range summary",
+    "historicalToday": "Today",
+    "historicalThisWeek": "This week",
+    "historicalThisMonth": "This month",
+    "historicalRealTimeDevoted": "Real time devoted",
+    "historicalPlannedTime": "Planned time",
+    "historicalFocusRatio": "Focus ratio",
+    "historicalMetricsError": "Error on fetching metrics",
+    "historicalSummaryNoRecordsYet": "There are no records yet"
 }

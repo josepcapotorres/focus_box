@@ -20,7 +20,9 @@ class SummaryChart extends ConsumerWidget {
     final summary = _calculateWorkedDistributionByStatus(entries);
 
     if (summary.isEmpty) {
-      return const Expanded(child: Center(child: Text("Aún no hay registros")));
+      return Expanded(
+        child: Center(child: Text(context.l10n.historicalSummaryNoRecordsYet)),
+      );
     }
 
     return SizedBox(

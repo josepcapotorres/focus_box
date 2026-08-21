@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/extensions/translations_extension.dart';
 import '../providers/history_metrics_provider.dart';
 import 'history_metric_card.dart';
 
@@ -26,7 +27,7 @@ class HistoryMetrics extends ConsumerWidget {
           children: [
             Expanded(
               child: HistoryMetricCard(
-                label: "Tiempo real dedicado",
+                label: context.l10n.historicalRealTimeDevoted,
                 metricValue: strRealTimeDevoted,
                 backgroundColor: colorScheme.primaryContainer,
                 labelColor: colorScheme.primary,
@@ -35,7 +36,7 @@ class HistoryMetrics extends ConsumerWidget {
             ),
             Expanded(
               child: HistoryMetricCard(
-                label: "Tiempo planificado",
+                label: context.l10n.historicalPlannedTime,
                 metricValue: strExpectedTime,
                 backgroundColor: colorScheme.primaryContainer,
                 labelColor: colorScheme.primary,
@@ -44,7 +45,7 @@ class HistoryMetrics extends ConsumerWidget {
             ),
             Expanded(
               child: HistoryMetricCard(
-                label: "Ratio de enfoque",
+                label: context.l10n.historicalFocusRatio,
                 metricValue: "${metrics.focusRatioPercentage}%",
                 backgroundColor: colorScheme.secondaryContainer,
                 labelColor: colorScheme.onSecondaryContainer,
@@ -54,8 +55,7 @@ class HistoryMetrics extends ConsumerWidget {
           ],
         );
       },
-      error: (_, _) =>
-          const Center(child: Text("Error al obtener las métricas")),
+      error: (_, _) => Center(child: Text(context.l10n.historicalMetricsError)),
       loading: () => const Align(
         alignment: .center,
         child: CircularProgressIndicator.adaptive(),

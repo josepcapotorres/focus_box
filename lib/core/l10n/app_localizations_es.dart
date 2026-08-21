@@ -169,4 +169,34 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get focusModeFinishDialogMsg =>
       '¿Has acabado la tarea antes de tiempo?';
+
+  @override
+  String get historicalTitle => 'Historial';
+
+  @override
+  String get historicalDateRangeSummary => 'Resumen del rango de fechas';
+
+  @override
+  String get historicalToday => 'Hoy';
+
+  @override
+  String get historicalThisWeek => 'Esta semana';
+
+  @override
+  String get historicalThisMonth => 'Este mes';
+
+  @override
+  String get historicalRealTimeDevoted => 'Tiempo real dedicado';
+
+  @override
+  String get historicalPlannedTime => 'Tiempo planificado';
+
+  @override
+  String get historicalFocusRatio => 'Ratio de enfoque';
+
+  @override
+  String get historicalMetricsError => 'Error al obtener las métricas';
+
+  @override
+  String get historicalSummaryNoRecordsYet => 'Aún no hay registros';
 }

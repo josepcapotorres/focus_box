@@ -82,5 +82,15 @@
     "focusModeRemaining": "Restante",
     "focusModeFinish": "Finalizar",
     "focusModeFinishDialogTitle": "Tarea finalizada?",
-    "focusModeFinishDialogMsg": "¿Has acabado la tarea antes de tiempo?"
+    "focusModeFinishDialogMsg": "¿Has acabado la tarea antes de tiempo?",
+    "historicalTitle": "Historial",
+    "historicalDateRangeSummary": "Resumen del rango de fechas",
+    "historicalToday": "Hoy",
+    "historicalThisWeek": "Esta semana",
+    "historicalThisMonth": "Este mes",
+    "historicalRealTimeDevoted": "Tiempo real dedicado",
+    "historicalPlannedTime": "Tiempo planificado",
+    "historicalFocusRatio": "Ratio de enfoque",
+    "historicalMetricsError": "Error al obtener las métricas",
+    "historicalSummaryNoRecordsYet": "Aún no hay registros"
 }

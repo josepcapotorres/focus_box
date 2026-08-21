@@ -391,6 +391,66 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'¿Has acabado la tarea antes de tiempo?'**
   String get focusModeFinishDialogMsg;
+
+  /// No description provided for @historicalTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Historial'**
+  String get historicalTitle;
+
+  /// No description provided for @historicalDateRangeSummary.
+  ///
+  /// In es, this message translates to:
+  /// **'Resumen del rango de fechas'**
+  String get historicalDateRangeSummary;
+
+  /// No description provided for @historicalToday.
+  ///
+  /// In es, this message translates to:
+  /// **'Hoy'**
+  String get historicalToday;
+
+  /// No description provided for @historicalThisWeek.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta semana'**
+  String get historicalThisWeek;
+
+  /// No description provided for @historicalThisMonth.
+  ///
+  /// In es, this message translates to:
+  /// **'Este mes'**
+  String get historicalThisMonth;
+
+  /// No description provided for @historicalRealTimeDevoted.
+  ///
+  /// In es, this message translates to:
+  /// **'Tiempo real dedicado'**
+  String get historicalRealTimeDevoted;
+
+  /// No description provided for @historicalPlannedTime.
+  ///
+  /// In es, this message translates to:
+  /// **'Tiempo planificado'**
+  String get historicalPlannedTime;
+
+  /// No description provided for @historicalFocusRatio.
+  ///
+  /// In es, this message translates to:
+  /// **'Ratio de enfoque'**
+  String get historicalFocusRatio;
+
+  /// No description provided for @historicalMetricsError.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al obtener las métricas'**
+  String get historicalMetricsError;
+
+  /// No description provided for @historicalSummaryNoRecordsYet.
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no hay registros'**
+  String get historicalSummaryNoRecordsYet;
 }
 
 class _AppLocalizationsDelegate
