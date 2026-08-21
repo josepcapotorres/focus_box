@@ -53,7 +53,7 @@ class TaskDetailsPage extends ConsumerWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+          padding: const EdgeInsets.all(16),
           child: task == null
               ? Center(child: Text(context.l10n.taskDetailsTaskNotFound))
               : Column(
