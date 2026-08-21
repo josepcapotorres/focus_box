@@ -52,174 +52,178 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
     final textTheme = Theme.of(context).textTheme;
     final dateFormat = DateFormat("d 'de' MMMM");
 
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 24,
-        right: 24,
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: .start,
-          mainAxisSize: .min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24),
-              child: Align(
-                alignment: .center,
-                child: Text(
-                  widget.task != null
-                      ? context.l10n.saveEditTaskEditTaskTitle
-                      : context.l10n.saveEditTaskNewTaskTitle,
-                  style: textTheme.headlineMedium,
-                ),
-              ),
-            ),
-            Text(
-              context.l10n.saveEditTaskTaskName,
-              style: textTheme.titleSmall,
-            ),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: _taskNameController,
-              decoration: const InputDecoration(prefixIcon: Icon(Icons.task)),
-              textCapitalization: .sentences,
-              textInputAction: .next,
-              validator: (str) {
-                if (str?.isEmpty ?? false) return "Rellene este campo";
-                return null;
-              },
-              autofocus: true,
-            ),
-            const SizedBox(height: 24),
-            Text(
-              context.l10n.saveEditTaskTimeEstimated,
-              style: textTheme.titleSmall,
-            ),
-            const SizedBox(height: 8),
-            Row(
-              spacing: 16,
-              children: [
-                SizedBox(
-                  width: 60,
-                  child: TextFormField(
-                    controller: _timeTotalHoursController,
-                    decoration: InputDecoration(
-                      hint: Text(
-                        "${widget.task?.timeTotal.inHours.remainder(24) ?? 02}",
-                      ),
-                    ),
-                    keyboardType: .number,
-                    validator: (str) {
-                      if (int.tryParse(str ?? "") == null) {
-                        return "Tiene que ser un número entero";
-                      }
-                      return null;
-                    },
-                    textInputAction: .next,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: 24,
+          right: 24,
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: .start,
+            mainAxisSize: .min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24),
+                child: Align(
+                  alignment: .center,
+                  child: Text(
+                    widget.task != null
+                        ? context.l10n.saveEditTaskEditTaskTitle
+                        : context.l10n.saveEditTaskNewTaskTitle,
+                    style: textTheme.headlineMedium,
                   ),
                 ),
-                const Text("h"),
-                SizedBox(
-                  width: 60,
-                  child: TextFormField(
-                    controller: _timeTotalMinutesController,
-                    decoration: InputDecoration(
-                      hint: Text(
-                        "${widget.task?.timeTotal.inMinutes.remainder(60) ?? 30}",
-                      ),
-                    ),
-                    validator: (str) {
-                      if (int.tryParse(str ?? "") == null) {
-                        return "Tiene que ser un número entero";
-                      }
-                      return null;
-                    },
-                    textInputAction: .next,
-                    keyboardType: .number,
-                  ),
-                ),
-                const Text("min"),
-              ],
-            ),
-
-            const SizedBox(height: 24),
-            Text(
-              context.l10n.saveEditTaskAssignDay,
-              style: textTheme.titleSmall,
-            ),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: _dayToDoTaskController,
-              decoration: InputDecoration(
-                suffixIcon: const Icon(Icons.event),
-                hint: Text(
-                  dateFormat.format(widget.task?.day ?? DateTime.now()),
-                ),
               ),
-              readOnly: true,
-              onTap: () async {
-                final selectedDate = await showDatePicker(
-                  context: context,
-                  initialDate: widget.task?.day ?? DateTime.now(),
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime.now().add(const Duration(days: 14)),
-                );
-
-                if (selectedDate == null) return;
-
-                _dayToDoTask = selectedDate;
-                _setDayToDoTaskText(_dayToDoTask!);
-              },
-              validator: (str) {
-                if (str?.isEmpty ?? false) return "Rellene este campo";
-                return null;
-              },
-            ),
-            const SizedBox(height: 24),
-            SafeArea(
-              child: Row(
+              Text(
+                context.l10n.saveEditTaskTaskName,
+                style: textTheme.titleSmall,
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _taskNameController,
+                decoration: const InputDecoration(prefixIcon: Icon(Icons.task)),
+                textCapitalization: .sentences,
+                textInputAction: .next,
+                validator: (str) {
+                  if (str?.isEmpty ?? false) return "Rellene este campo";
+                  return null;
+                },
+                autofocus: true,
+              ),
+              const SizedBox(height: 24),
+              Text(
+                context.l10n.saveEditTaskTimeEstimated,
+                style: textTheme.titleSmall,
+              ),
+              const SizedBox(height: 8),
+              Row(
                 spacing: 16,
                 children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: context.pop,
-                      child: Text(context.l10n.commonCancel),
-                    ),
-                  ),
-                  Expanded(
-                    child: Consumer(
-                      builder: (_, ref, _) => FilledButton(
-                        onPressed: () async {
-                          if (!(_formKey.currentState?.validate() ?? false)) {
-                            return;
-                          }
-
-                          _formKey.currentState?.save();
-
-                          context.pop();
-
-                          final newTaskValues = _updateTaskValues();
-
-                          final homeRepository = await ref.read(
-                            homeRepositoryProvider.future,
-                          );
-
-                          try {
-                            await homeRepository.saveOrEditTask(newTaskValues);
-                          } catch (e, s) {
-                            ref.read(crashReporterProvider).recordError(e, s);
-                          }
-                        },
-                        child: Text(context.l10n.commonSave),
+                  SizedBox(
+                    width: 60,
+                    child: TextFormField(
+                      controller: _timeTotalHoursController,
+                      decoration: InputDecoration(
+                        hint: Text(
+                          "${widget.task?.timeTotal.inHours.remainder(24) ?? 02}",
+                        ),
                       ),
+                      keyboardType: .number,
+                      validator: (str) {
+                        if (int.tryParse(str ?? "") == null) {
+                          return "Tiene que ser un número entero";
+                        }
+                        return null;
+                      },
+                      textInputAction: .next,
                     ),
                   ),
+                  const Text("h"),
+                  SizedBox(
+                    width: 60,
+                    child: TextFormField(
+                      controller: _timeTotalMinutesController,
+                      decoration: InputDecoration(
+                        hint: Text(
+                          "${widget.task?.timeTotal.inMinutes.remainder(60) ?? 30}",
+                        ),
+                      ),
+                      validator: (str) {
+                        if (int.tryParse(str ?? "") == null) {
+                          return "Tiene que ser un número entero";
+                        }
+                        return null;
+                      },
+                      textInputAction: .next,
+                      keyboardType: .number,
+                    ),
+                  ),
+                  const Text("min"),
                 ],
               ),
-            ),
-          ],
+
+              const SizedBox(height: 24),
+              Text(
+                context.l10n.saveEditTaskAssignDay,
+                style: textTheme.titleSmall,
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _dayToDoTaskController,
+                decoration: InputDecoration(
+                  suffixIcon: const Icon(Icons.event),
+                  hint: Text(
+                    dateFormat.format(widget.task?.day ?? DateTime.now()),
+                  ),
+                ),
+                readOnly: true,
+                onTap: () async {
+                  final selectedDate = await showDatePicker(
+                    context: context,
+                    initialDate: widget.task?.day ?? DateTime.now(),
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(const Duration(days: 14)),
+                  );
+
+                  if (selectedDate == null) return;
+
+                  _dayToDoTask = selectedDate;
+                  _setDayToDoTaskText(_dayToDoTask!);
+                },
+                validator: (str) {
+                  if (str?.isEmpty ?? false) return "Rellene este campo";
+                  return null;
+                },
+              ),
+              const SizedBox(height: 24),
+              SafeArea(
+                child: Row(
+                  spacing: 16,
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: context.pop,
+                        child: Text(context.l10n.commonCancel),
+                      ),
+                    ),
+                    Expanded(
+                      child: Consumer(
+                        builder: (_, ref, _) => FilledButton(
+                          onPressed: () async {
+                            if (!(_formKey.currentState?.validate() ?? false)) {
+                              return;
+                            }
+
+                            _formKey.currentState?.save();
+
+                            context.pop();
+
+                            final newTaskValues = _updateTaskValues();
+
+                            final homeRepository = await ref.read(
+                              homeRepositoryProvider.future,
+                            );
+
+                            try {
+                              await homeRepository.saveOrEditTask(
+                                newTaskValues,
+                              );
+                            } catch (e, s) {
+                              ref.read(crashReporterProvider).recordError(e, s);
+                            }
+                          },
+                          child: Text(context.l10n.commonSave),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
