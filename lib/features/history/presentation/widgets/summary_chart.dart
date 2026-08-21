@@ -26,7 +26,7 @@ class SummaryChart extends ConsumerWidget {
     }
 
     return SizedBox(
-      height: 200,
+      height: 180,
       child: Row(
         spacing: 24,
         children: [

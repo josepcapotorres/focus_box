@@ -24,16 +24,13 @@ class HistoryFilters extends ConsumerWidget {
               .read(historyCurrentFilterProvider.notifier)
               .setCurrentFilter(HistoryRange.today),
           child: Chip(
-            label: SizedBox(
-              height: 24,
-              child: Text(
-                context.l10n.historicalToday,
-                style: textTheme.labelLarge?.copyWith(
-                  color: selectedFilter == HistoryRange.today
-                      ? Colors.white
-                      : null,
-                ),
-                textAlign: .center,
+            labelPadding: const .symmetric(vertical: 2, horizontal: 8),
+            label: Text(
+              context.l10n.historicalToday,
+              style: textTheme.labelLarge?.copyWith(
+                color: selectedFilter == HistoryRange.today
+                    ? Colors.white
+                    : null,
               ),
             ),
             backgroundColor: selectedFilter == HistoryRange.today
@@ -46,17 +43,15 @@ class HistoryFilters extends ConsumerWidget {
               .read(historyCurrentFilterProvider.notifier)
               .setCurrentFilter(HistoryRange.currentWeek),
           child: Chip(
-            label: SizedBox(
-              height: 24,
-              child: Text(
-                context.l10n.historicalThisWeek,
-                style: textTheme.labelLarge?.copyWith(
-                  color: selectedFilter == HistoryRange.currentWeek
-                      ? Colors.white
-                      : null,
-                ),
-                textAlign: .center,
+            labelPadding: const .symmetric(vertical: 2, horizontal: 8),
+            label: Text(
+              context.l10n.historicalThisWeek,
+              style: textTheme.labelLarge?.copyWith(
+                color: selectedFilter == HistoryRange.currentWeek
+                    ? Colors.white
+                    : null,
               ),
+              textAlign: .center,
             ),
             backgroundColor: selectedFilter == HistoryRange.currentWeek
                 ? colorScheme.primary
@@ -68,17 +63,15 @@ class HistoryFilters extends ConsumerWidget {
               .read(historyCurrentFilterProvider.notifier)
               .setCurrentFilter(HistoryRange.currentMonth),
           child: Chip(
-            label: SizedBox(
-              height: 24,
-              child: Text(
-                context.l10n.historicalThisMonth,
-                style: textTheme.labelLarge?.copyWith(
-                  color: selectedFilter == HistoryRange.currentMonth
-                      ? Colors.white
-                      : null,
-                ),
-                textAlign: .center,
+            labelPadding: const .symmetric(vertical: 2, horizontal: 8),
+            label: Text(
+              context.l10n.historicalThisMonth,
+              style: textTheme.labelLarge?.copyWith(
+                color: selectedFilter == HistoryRange.currentMonth
+                    ? Colors.white
+                    : null,
               ),
+              textAlign: .center,
             ),
             backgroundColor: selectedFilter == HistoryRange.currentMonth
                 ? colorScheme.primary
