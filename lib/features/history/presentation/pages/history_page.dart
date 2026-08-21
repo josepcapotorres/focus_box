@@ -17,7 +17,7 @@ class HistoryPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("Historial")),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: .start,
           spacing: 16,

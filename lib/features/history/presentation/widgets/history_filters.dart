@@ -15,7 +15,7 @@ class HistoryFilters extends ConsumerWidget {
     final selectedFilter = ref.watch(historyCurrentFilterProvider);
 
     return Row(
-      spacing: 16,
+      spacing: 8,
       mainAxisAlignment: .center,
       children: [
         GestureDetector(
