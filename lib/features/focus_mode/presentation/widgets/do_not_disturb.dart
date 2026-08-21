@@ -44,7 +44,7 @@ class DoNotDisturbCardState extends ConsumerState<DoNotDisturbCard>
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
           children: [
             AnimatedContainer(

@@ -32,7 +32,7 @@ class HistoryMetricCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   label,
-                  style: textTheme.labelSmall?.copyWith(color: labelColor),
+                  style: textTheme.labelLarge?.copyWith(color: labelColor),
                 ),
               ),
               Text(

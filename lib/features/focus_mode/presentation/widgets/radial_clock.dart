@@ -72,9 +72,7 @@ class RadialClockState extends ConsumerState<RadialClock> {
               },
             ),
           ),
-
-          const SizedBox(height: 24),
-
+          const SizedBox(height: 6),
           Text(
             context.l10n.focusModeGoal(timeTotal.toHoursMinutesSeconds()),
             style: textTheme.titleSmall,
@@ -107,6 +105,10 @@ class _CenterClock extends ConsumerWidget {
 
     final remainingText = remaining.toHoursMinutesSeconds();
 
+    final clockTheme = MediaQuery.sizeOf(context).width > 400
+        ? textTheme.displayLarge
+        : textTheme.displaySmall;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -117,7 +119,7 @@ class _CenterClock extends ConsumerWidget {
           child: Text(
             elapsed.toHoursMinutesSeconds(),
             key: ValueKey(elapsed),
-            style: textTheme.displayLarge,
+            style: clockTheme,
           ),
         ),
         const SizedBox(height: 8),

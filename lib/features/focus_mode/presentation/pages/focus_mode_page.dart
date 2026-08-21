@@ -38,17 +38,19 @@ class FocusModePage extends ConsumerWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+          padding: const EdgeInsets.only(left: 24, right: 24, bottom: 12),
           child: Column(
             children: [
-              const SizedBox(height: 8),
               _Header(task),
-              const SizedBox(height: 24),
-              if (task.status != .completed) const DoNotDisturbCard(),
-              const SizedBox(height: 32),
-              if (task.status != .completed)
+              if (task.status != .completed) ...[
+                const SizedBox(height: 16),
+                const DoNotDisturbCard(),
+              ],
+              if (task.status != .completed) ...[
+                const SizedBox(height: 16),
                 const Expanded(child: Center(child: RadialClock())),
-              const SizedBox(height: 32),
+              ],
+              const SizedBox(height: 12),
               if (task.status != .completed) const FocusFooter(),
               if (task.status == .completed) ...[
                 Icon(
