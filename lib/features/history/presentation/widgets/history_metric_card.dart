@@ -21,7 +21,7 @@ class HistoryMetricCard extends StatelessWidget {
     final textTheme = TextTheme.of(context);
 
     return SizedBox(
-      height: 100,
+      height: 110,
       child: Card(
         color: backgroundColor,
         child: Padding(

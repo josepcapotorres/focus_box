@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../core/extensions/translations_extension.dart';
 import '../../../../core/format/local_name_format.dart';
@@ -80,7 +79,7 @@ class HomePage extends ConsumerWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              DateFormat("EEEE").format(today),
+              showFormattedDayName(context, today),
               style: textTheme.titleSmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),

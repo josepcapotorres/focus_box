@@ -25,17 +25,36 @@ String showFormattedDateWithDayName(BuildContext context, DateTime today) {
   return label;
 }
 
-String showFormattedDateWithoutDayName(BuildContext context, DateTime today) {
+String showFormattedDateWithoutDayName(BuildContext context, DateTime date) {
   String label;
 
   switch (context.l10n.localeName) {
     case "en":
       final fullDateFormat = DateFormat(_englishDateFormatWithDayName, "en");
-      label = fullDateFormat.format(today);
+      label = fullDateFormat.format(date);
       break;
     case "es":
       final fullDateFormat = DateFormat(_spanishDateFormatWithName, "es");
-      label = fullDateFormat.format(today);
+      label = fullDateFormat.format(date);
+      break;
+    default:
+      label = "";
+  }
+
+  return label;
+}
+
+String showFormattedDayName(BuildContext context, DateTime date) {
+  String label;
+
+  switch (context.l10n.localeName) {
+    case "en":
+      final fullDateFormat = DateFormat("EEEE", "en");
+      label = fullDateFormat.format(date);
+      break;
+    case "es":
+      final fullDateFormat = DateFormat("EEEE", "es");
+      label = fullDateFormat.format(date);
       break;
     default:
       label = "";

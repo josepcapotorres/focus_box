@@ -53,16 +53,18 @@ class SummaryChart extends ConsumerWidget {
                     (e) => Row(
                       spacing: 8,
                       children: [
-                        SizedBox.square(
-                          dimension: 20,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: e.key.foregroundColor,
+                        Flexible(
+                          child: SizedBox.square(
+                            dimension: 20,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: e.key.foregroundColor,
+                              ),
                             ),
                           ),
                         ),
                         Text(e.key.label(context.l10n)),
-                        Text("${e.value.formatDouble()} %"),
+                        Text("${e.value.formatDouble()}%"),
                       ],
                     ),
                   )
