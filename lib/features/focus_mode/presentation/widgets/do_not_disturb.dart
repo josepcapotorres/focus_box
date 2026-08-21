@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:focus_box/features/focus_mode/presentation/providers/do_not_disturb_provider.dart';
 
+import '../../../../core/extensions/translations_extension.dart';
+import '../providers/do_not_disturb_provider.dart';
 import '../providers/focus_session_provider.dart';
 
 class DoNotDisturbCard extends ConsumerStatefulWidget {
@@ -69,28 +70,25 @@ class DoNotDisturbCardState extends ConsumerState<DoNotDisturbCard>
                 ),
               ),
             ),
-
             const SizedBox(width: 16),
-
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     doNotDisturbEnabled
-                        ? "No molestar activado"
-                        : "No molestar",
+                        ? context.l10n.focusModeDndActivated
+                        : context.l10n.focusModeDndDeactivated,
                     style: textTheme.titleMedium,
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    "Silencia llamadas y notificaciones",
+                    context.l10n.focusModeDndSilenceResources,
                     style: textTheme.bodySmall,
                   ),
                 ],
               ),
             ),
-
             Switch.adaptive(
               value: doNotDisturbEnabled,
               onChanged: taskStatus != .completed

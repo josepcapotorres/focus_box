@@ -124,4 +124,46 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get taskDetailsCompletedExceededTime =>
       'Completed in more time than calculated';
+
+  @override
+  String get focusModeTitle => 'Focus mode';
+
+  @override
+  String get focusModeTaskFinished => 'Task finished!';
+
+  @override
+  String get focusModeExceededTime => 'Exceeded time';
+
+  @override
+  String get focusModeDndDeactivated => 'Do not disturb';
+
+  @override
+  String get focusModeDndActivated => 'Do not disturb activated';
+
+  @override
+  String get focusModeDndSilenceResources => 'Silence calls and notifications';
+
+  @override
+  String get focusModeTaskFinishSuccess => 'Task completed successfully!';
+
+  @override
+  String focusModeGoal(String mins) {
+    return 'Goal · $mins';
+  }
+
+  @override
+  String get focusModeExtraTime => 'Extra time';
+
+  @override
+  String get focusModeRemaining => 'Remaining';
+
+  @override
+  String get focusModeFinish => 'Finish';
+
+  @override
+  String get focusModeFinishDialogTitle => 'Task finished?';
+
+  @override
+  String get focusModeFinishDialogMsg =>
+      'Have you finished the task ahead of schedule?';
 }

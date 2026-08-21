@@ -62,5 +62,25 @@
             }
         }
     },
-    "taskDetailsCompletedExceededTime": "Completed in more time than calculated"
+    "taskDetailsCompletedExceededTime": "Completed in more time than calculated",
+    "focusModeTitle": "Focus mode",
+    "focusModeTaskFinished": "Task finished!",
+    "focusModeExceededTime": "Exceeded time",
+    "focusModeDndDeactivated": "Do not disturb",
+    "focusModeDndActivated": "Do not disturb activated",
+    "focusModeDndSilenceResources": "Silence calls and notifications",
+    "focusModeTaskFinishSuccess": "Task completed successfully!",
+    "focusModeGoal": "Goal · {mins}",
+    "@focusModeGoal": {
+        "placeholders": {
+            "mins": {
+                "type": "String"
+            }
+        }
+    },
+    "focusModeExtraTime": "Extra time",
+    "focusModeRemaining": "Remaining",
+    "focusModeFinish": "Finish",
+    "focusModeFinishDialogTitle": "Task finished?",
+    "focusModeFinishDialogMsg": "Have you finished the task ahead of schedule?"
 }

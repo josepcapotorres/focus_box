@@ -313,6 +313,84 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Completada con más tiempo del calculado'**
   String get taskDetailsCompletedExceededTime;
+
+  /// No description provided for @focusModeTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Modo enfoque'**
+  String get focusModeTitle;
+
+  /// No description provided for @focusModeTaskFinished.
+  ///
+  /// In es, this message translates to:
+  /// **'¡Tarea finalizada!'**
+  String get focusModeTaskFinished;
+
+  /// No description provided for @focusModeExceededTime.
+  ///
+  /// In es, this message translates to:
+  /// **'Tiempo excedido'**
+  String get focusModeExceededTime;
+
+  /// No description provided for @focusModeDndDeactivated.
+  ///
+  /// In es, this message translates to:
+  /// **'No molestar'**
+  String get focusModeDndDeactivated;
+
+  /// No description provided for @focusModeDndActivated.
+  ///
+  /// In es, this message translates to:
+  /// **'No molestar activado'**
+  String get focusModeDndActivated;
+
+  /// No description provided for @focusModeDndSilenceResources.
+  ///
+  /// In es, this message translates to:
+  /// **'Silencia llamadas y notificaciones'**
+  String get focusModeDndSilenceResources;
+
+  /// No description provided for @focusModeTaskFinishSuccess.
+  ///
+  /// In es, this message translates to:
+  /// **'¡Tarea completada con éxito! 🎉'**
+  String get focusModeTaskFinishSuccess;
+
+  /// No description provided for @focusModeGoal.
+  ///
+  /// In es, this message translates to:
+  /// **'Objetivo · {mins}'**
+  String focusModeGoal(String mins);
+
+  /// No description provided for @focusModeExtraTime.
+  ///
+  /// In es, this message translates to:
+  /// **'Tiempo extra'**
+  String get focusModeExtraTime;
+
+  /// No description provided for @focusModeRemaining.
+  ///
+  /// In es, this message translates to:
+  /// **'Restante'**
+  String get focusModeRemaining;
+
+  /// No description provided for @focusModeFinish.
+  ///
+  /// In es, this message translates to:
+  /// **'Finalizar'**
+  String get focusModeFinish;
+
+  /// No description provided for @focusModeFinishDialogTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Tarea finalizada?'**
+  String get focusModeFinishDialogTitle;
+
+  /// No description provided for @focusModeFinishDialogMsg.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Has acabado la tarea antes de tiempo?'**
+  String get focusModeFinishDialogMsg;
 }
 
 class _AppLocalizationsDelegate

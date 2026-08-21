@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/extensions/duration_formatting_extension.dart';
+import '../../../../core/extensions/translations_extension.dart';
 import '../../../../core/providers/ticker_provider.dart';
 import '../../../home/presentation/providers/home_tasks_provider.dart';
 import '../providers/focus_session_provider.dart';
@@ -26,7 +27,7 @@ class RadialClockState extends ConsumerState<RadialClock> {
         if (!context.mounted) return;
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('¡Tarea completada con éxito! 🎉')),
+          SnackBar(content: Text(context.l10n.focusModeTaskFinishSuccess)),
         );
       }
     });
@@ -75,7 +76,7 @@ class RadialClockState extends ConsumerState<RadialClock> {
           const SizedBox(height: 24),
 
           Text(
-            "Objetivo · ${timeTotal.toHoursMinutesSeconds()}",
+            context.l10n.focusModeGoal(timeTotal.toHoursMinutesSeconds()),
             style: textTheme.titleSmall,
           ),
         ],
@@ -121,7 +122,9 @@ class _CenterClock extends ConsumerWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          exceeded ? "Tiempo extra" : "Restante",
+          exceeded
+              ? context.l10n.focusModeExtraTime
+              : context.l10n.focusModeRemaining,
           style: textTheme.bodyMedium,
         ),
         const SizedBox(height: 2),

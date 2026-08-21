@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/extensions/translations_extension.dart';
 import '../../../../core/managers/crash_reporter.dart';
 import '../providers/focus_session_provider.dart';
 import 'focus_primary_button.dart';
@@ -55,11 +56,10 @@ class FocusFooter extends ConsumerWidget {
               }
             },
           ),
-
           FocusSecondaryButton(
             icon: Icons.check_rounded,
             color: colorScheme.secondary,
-            label: "Finalizar",
+            label: context.l10n.focusModeFinish,
             onPressed: () => _finishTask(context, ref),
           ),
         ],
@@ -88,16 +88,19 @@ class _FinishTaskAlertDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
-      title: const Text("Tarea finalizada"),
-      content: const Text("¿Has acabado la tarea antes de tiempo?"),
+      title: Text(context.l10n.focusModeFinishDialogTitle),
+      content: Text(context.l10n.focusModeFinishDialogMsg),
       actions: [
-        TextButton(onPressed: context.pop, child: const Text("Cancelar")),
+        TextButton(
+          onPressed: context.pop,
+          child: Text(context.l10n.commonCancel),
+        ),
         TextButton(
           onPressed: () {
             ref.read(focusSessionProvider.notifier).setToDone();
             context.pop();
           },
-          child: const Text("Finalizar"),
+          child: Text(context.l10n.focusModeFinish),
         ),
       ],
     );

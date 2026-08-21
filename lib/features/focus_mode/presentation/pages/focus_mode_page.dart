@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/domain/entities/task.dart';
+import '../../../../core/extensions/translations_extension.dart';
 import '../../../../core/widgets/task_status_chip.dart';
 import '../../../home/presentation/providers/home_tasks_provider.dart';
 import '../widgets/do_not_disturb.dart';
@@ -30,7 +31,10 @@ class FocusModePage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Modo enfoque", style: textTheme.headlineMedium),
+        title: Text(
+          context.l10n.focusModeTitle,
+          style: textTheme.headlineMedium,
+        ),
       ),
       body: SafeArea(
         child: Padding(
@@ -52,7 +56,10 @@ class FocusModePage extends ConsumerWidget {
                   color: colorScheme.secondary,
                   size: 200,
                 ),
-                Text("¡Tarea finalizada!", style: textTheme.headlineMedium),
+                Text(
+                  context.l10n.focusModeTaskFinished,
+                  style: textTheme.headlineMedium,
+                ),
               ],
             ],
           ),
@@ -78,9 +85,7 @@ class _Header extends StatelessWidget {
           style: textTheme.titleLarge,
           textAlign: TextAlign.center,
         ),
-
         const SizedBox(height: 8),
-
         TaskStatusChip(status: task.status),
       ],
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../domain/enums/task_status.dart';
+import '../extensions/translations_extension.dart';
 
 class TaskStatusChip extends StatelessWidget {
   final TaskStatus status;
@@ -12,7 +13,7 @@ class TaskStatusChip extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final style = _style(colorScheme);
+    final style = _style(context, colorScheme);
 
     return Container(
       height: 28,
@@ -29,39 +30,39 @@ class TaskStatusChip extends StatelessWidget {
     );
   }
 
-  _TaskStatusStyle _style(ColorScheme colorScheme) {
+  _TaskStatusStyle _style(BuildContext context, ColorScheme colorScheme) {
     switch (status) {
       case TaskStatus.pending:
         return _TaskStatusStyle(
-          label: "Pendiente",
+          label: context.l10n.commonTaskPending,
           foregroundColor: colorScheme.onSurfaceVariant,
           backgroundColor: colorScheme.surfaceContainerHighest,
         );
 
       case TaskStatus.inProgress:
         return _TaskStatusStyle(
-          label: "En progreso",
+          label: context.l10n.commonTaskInProgress,
           foregroundColor: colorScheme.primary,
           backgroundColor: colorScheme.primaryContainer,
         );
 
       case TaskStatus.completed:
         return _TaskStatusStyle(
-          label: "Completada",
+          label: context.l10n.commonTaskCompleted,
           foregroundColor: colorScheme.onSecondaryContainer,
           backgroundColor: colorScheme.secondaryContainer,
         );
 
       case TaskStatus.paused:
         return _TaskStatusStyle(
-          label: "Pausada",
+          label: context.l10n.commonTaskPaused,
           foregroundColor: colorScheme.onSurfaceVariant,
           backgroundColor: colorScheme.surfaceContainerHighest,
         );
 
       case TaskStatus.exceeded:
         return _TaskStatusStyle(
-          label: "Tiempo excedido",
+          label: context.l10n.focusModeExceededTime,
           foregroundColor: colorScheme.onErrorContainer,
           backgroundColor: colorScheme.errorContainer,
         );
