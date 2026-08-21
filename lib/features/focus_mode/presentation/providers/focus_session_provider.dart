@@ -215,7 +215,7 @@ class FocusSession extends _$FocusSession {
   }
 
   Future<void> _pauseFoundInProgressTask(Duration elapsed) async {
-    final tasks = ref.read(tasksForTodayProvider);
+    final tasks = ref.read(homeFilteredTasksProvider).value ?? [];
     final crashProvider = ref.read(crashReporterProvider);
 
     final task = tasks.where((e) => e.status == .inProgress).firstOrNull;

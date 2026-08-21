@@ -3,11 +3,12 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../core/domain/entities/task.dart';
 import '../../../../core/domain/enums/task_status.dart';
+import '../../../../core/extensions/datetime_extension.dart';
 import '../../../../core/managers/crash_reporter.dart';
 import '../../../task_details/domain/entities/task_history_entry.dart';
 import '../../../task_details/presentation/providers/task_details_history_provider.dart';
 import '../../domain/repositories/home_repository.dart';
-import 'task_details_current_filter_provider.dart';
+import 'home_selected_date_filter.dart';
 
 part 'home_tasks_provider.g.dart';
 
@@ -44,41 +45,13 @@ Task? currentTask(Ref ref, String? taskId) {
 }
 
 @riverpod
-List<Task> tasksForToday(Ref ref) {
-  final tasks = ref.watch(homeTasksProvider).value ?? [];
-
-  final today = DateTime.now();
-  final todayFormatted = DateTime(today.year, today.month, today.day);
-
-  return tasks.where((e) {
-    final currentDateFormatted = DateTime(e.day.year, e.day.month, e.day.day);
-    return todayFormatted == currentDateFormatted;
-  }).toList();
-}
-
-@riverpod
-List<Task> tasksForTomorrow(Ref ref) {
-  final tasks = ref.watch(homeTasksProvider).value ?? [];
-
-  final tomorrow = DateTime.now().add(const Duration(days: 1));
-  final todayFormatted = DateTime(tomorrow.year, tomorrow.month, tomorrow.day);
-
-  return tasks.where((e) {
-    final currentDateFormatted = DateTime(e.day.year, e.day.month, e.day.day);
-    return todayFormatted == currentDateFormatted;
-  }).toList();
-}
-
-@riverpod
 Future<List<Task>> homeFilteredTasks(Ref ref) async {
-  final currentFilter = ref.watch(taskDetailsCurrentFilterProvider);
-  final tasksForToday = ref.watch(tasksForTodayProvider);
-  final tasksForTomorrow = ref.watch(tasksForTomorrowProvider);
+  final selectedDate = ref.watch(homeSelectedDateFilterProvider);
+  final tasks = await ref.watch(homeTasksProvider.future);
 
-  return switch (currentFilter) {
-    .today => tasksForToday,
-    .nextDay => tasksForTomorrow,
-  };
+  return tasks
+      .where((e) => e.day.toDateOnly == selectedDate.toDateOnly)
+      .toList();
 }
 
 @riverpod

@@ -10,16 +10,8 @@
     "commonNo": "No",
     "commonYes": "Sí",
     "homeTitle": "FocusBox",
+    "homeViewSelectedDateTask": "Ver las tareas de la fecha seleccionada",
     "homeToday": "Hoy",
-    "homeTomorrow": "Mañana",
-    "homeTodayLabel": "Hoy, {date}",
-    "@homeTodayLabel": {
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "homeListError": "Error al obtener las tareas para hoy",
     "homeHistorical": "Historial",
     "homeMinsLeft": "Quedan {mins} min",

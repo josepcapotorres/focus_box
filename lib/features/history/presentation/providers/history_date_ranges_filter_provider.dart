@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../core/extensions/datetime_extension.dart';
 import '../../../../core/managers/crash_reporter.dart';
 import 'history_current_filter_provider.dart';
 
@@ -37,7 +38,7 @@ part 'history_date_ranges_filter_provider.g.dart';
         ..setCustomKey("to", lastDayOfWeek.toIso8601String());
       break;
     case .currentMonth:
-      final firstDayOfCurrentMonth = _getFirstDayOfCurrentMonth(today);
+      final firstDayOfCurrentMonth = today.getFirstDayOfCurrentMonth();
       final lastDayOfCurrentMonth = _getLastDayOfMonth(today);
 
       result = (firstDayOfCurrentMonth, lastDayOfCurrentMonth);
@@ -60,10 +61,6 @@ DateTime _getFirstDayOfCurrentWeek(DateTime today) {
 
 DateTime _getLastDayOfWeek(DateTime date) {
   return date.add(Duration(days: DateTime.sunday - date.weekday));
-}
-
-DateTime _getFirstDayOfCurrentMonth(DateTime today) {
-  return DateTime(today.year, today.month, 1);
 }
 
 DateTime _getLastDayOfMonth(DateTime date) {

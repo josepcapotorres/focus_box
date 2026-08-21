@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/extensions/translations_extension.dart';
 import '../../../../core/format/local_name_format.dart';
 import '../../../../core/managers/crash_reporter.dart';
 import '../../../../core/widgets/new_task_edit_bottom_sheet.dart';
 import '../../../task_details/presentation/pages/task_details_page.dart';
-import '../../domain/enums/task_filter_enum.dart';
+import '../providers/home_selected_date_filter.dart';
 import '../providers/home_tasks_provider.dart';
-import '../providers/task_details_current_filter_provider.dart';
+import '../widgets/home_filter_date_text_form.dart';
 import '../widgets/home_task_item.dart';
 
 class HomePage extends ConsumerWidget {
@@ -24,10 +25,8 @@ class HomePage extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = ColorScheme.of(context);
 
-    final today = DateTime.now();
-
-    final homeTasksAsync = ref.watch(homeFilteredTasksProvider);
-    final currentFilter = ref.watch(taskDetailsCurrentFilterProvider);
+    final filteredTasksAsync = ref.watch(homeFilteredTasksProvider);
+    final selectedDateFilter = ref.watch(homeSelectedDateFilterProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -48,44 +47,21 @@ class HomePage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: .start,
           children: [
-            Align(
-              alignment: .center,
-              child: SizedBox(
-                width: 250,
-                child: SegmentedButton(
-                  segments: [
-                    ButtonSegment<TaskFilterEnum>(
-                      value: .today,
-                      label: Text(context.l10n.homeToday),
-                    ),
-                    ButtonSegment<TaskFilterEnum>(
-                      value: .nextDay,
-                      label: Text(context.l10n.homeTomorrow),
-                    ),
-                  ],
-                  selected: {currentFilter},
-                  onSelectionChanged: (newFilter) => ref
-                      .read(taskDetailsCurrentFilterProvider.notifier)
-                      .setFilter(newFilter.first),
-                ),
-              ),
+            Text(
+              context.l10n.homeViewSelectedDateTask,
+              style: textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
+            const HomeFilterDateTextForm(),
+            const SizedBox(height: 24),
             Text(
-              showFormattedDateWithDayName(context, today),
-              style: textTheme.displaySmall?.copyWith(
-                color: colorScheme.onSurface,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              showFormattedDayName(context, today),
+              showFormattedDayName(context, selectedDateFilter).capitalize(),
               style: textTheme.titleSmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 16),
-            homeTasksAsync.when(
+            filteredTasksAsync.when(
               data: (tasks) {
                 ref
                     .read(crashReporterProvider)

@@ -55,4 +55,4 @@ final class HistoryRateRangesFilterProvider
 }
 
 String _$historyRateRangesFilterHash() =>
-    r'e7a2fe25ee8de1e74dc8a048f47811377d835dbc';
+    r'7c34861c8e3cb0d4ac4f3f613d2d188554737420';

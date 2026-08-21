@@ -42,15 +42,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeTitle => 'FocusBox';
 
   @override
+  String get homeViewSelectedDateTask => 'View tasks for the selected date';
+
+  @override
   String get homeToday => 'Today';
-
-  @override
-  String get homeTomorrow => 'Tomorrow';
-
-  @override
-  String homeTodayLabel(String date) {
-    return 'Today, $date';
-  }
 
   @override
   String get homeListError => 'Error on fetching today tasks';

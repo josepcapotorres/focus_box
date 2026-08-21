@@ -164,23 +164,17 @@ abstract class AppLocalizations {
   /// **'FocusBox'**
   String get homeTitle;
 
+  /// No description provided for @homeViewSelectedDateTask.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver las tareas de la fecha seleccionada'**
+  String get homeViewSelectedDateTask;
+
   /// No description provided for @homeToday.
   ///
   /// In es, this message translates to:
   /// **'Hoy'**
   String get homeToday;
-
-  /// No description provided for @homeTomorrow.
-  ///
-  /// In es, this message translates to:
-  /// **'Mañana'**
-  String get homeTomorrow;
-
-  /// No description provided for @homeTodayLabel.
-  ///
-  /// In es, this message translates to:
-  /// **'Hoy, {date}'**
-  String homeTodayLabel(String date);
 
   /// No description provided for @homeListError.
   ///

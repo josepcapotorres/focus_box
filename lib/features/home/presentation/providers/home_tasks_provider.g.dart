@@ -130,88 +130,6 @@ final class CurrentTaskFamily extends $Family
   String toString() => r'currentTaskProvider';
 }
 
-@ProviderFor(tasksForToday)
-const tasksForTodayProvider = TasksForTodayProvider._();
-
-final class TasksForTodayProvider
-    extends $FunctionalProvider<List<Task>, List<Task>, List<Task>>
-    with $Provider<List<Task>> {
-  const TasksForTodayProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'tasksForTodayProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$tasksForTodayHash();
-
-  @$internal
-  @override
-  $ProviderElement<List<Task>> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  List<Task> create(Ref ref) {
-    return tasksForToday(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<Task> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<List<Task>>(value),
-    );
-  }
-}
-
-String _$tasksForTodayHash() => r'dbe6d3ed8c89342f6e69cd6863f095ef9bd872f4';
-
-@ProviderFor(tasksForTomorrow)
-const tasksForTomorrowProvider = TasksForTomorrowProvider._();
-
-final class TasksForTomorrowProvider
-    extends $FunctionalProvider<List<Task>, List<Task>, List<Task>>
-    with $Provider<List<Task>> {
-  const TasksForTomorrowProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'tasksForTomorrowProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$tasksForTomorrowHash();
-
-  @$internal
-  @override
-  $ProviderElement<List<Task>> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  List<Task> create(Ref ref) {
-    return tasksForTomorrow(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<Task> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<List<Task>>(value),
-    );
-  }
-}
-
-String _$tasksForTomorrowHash() => r'dfb622872611898aff2023d4d7ce3aa875f229f8';
-
 @ProviderFor(homeFilteredTasks)
 const homeFilteredTasksProvider = HomeFilteredTasksProvider._();
 
@@ -248,7 +166,7 @@ final class HomeFilteredTasksProvider
   }
 }
 
-String _$homeFilteredTasksHash() => r'06b335ea3e7beb847aae6629ced846284a773848';
+String _$homeFilteredTasksHash() => r'8a602c0ae75a7d436fac57568cce03b2655d0cab';
 
 @ProviderFor(recoverInterruptedSession)
 const recoverInterruptedSessionProvider = RecoverInterruptedSessionProvider._();
