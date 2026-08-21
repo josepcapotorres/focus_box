@@ -26,11 +26,6 @@ class FocusSession extends _$FocusSession {
 
       if (task == null) return;
 
-      if (elapsed >= task.timeTotal) {
-        setToDone();
-        return;
-      }
-
       final updatedTask = task.copyWith(timeAlreadyDone: elapsed);
 
       ref.read(homeTasksProvider.notifier).updateTask(updatedTask);
