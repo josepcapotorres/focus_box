@@ -31,11 +31,11 @@ String showFormattedDateWithoutDayName(BuildContext context, DateTime today) {
   switch (context.l10n.localeName) {
     case "en":
       final fullDateFormat = DateFormat(_englishDateFormatWithDayName, "en");
-      label = context.l10n.homeTodayLabel(fullDateFormat.format(today));
+      label = fullDateFormat.format(today);
       break;
     case "es":
       final fullDateFormat = DateFormat(_spanishDateFormatWithName, "es");
-      label = context.l10n.homeTodayLabel(fullDateFormat.format(today));
+      label = fullDateFormat.format(today);
       break;
     default:
       label = "";

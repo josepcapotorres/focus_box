@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:focus_box/features/history/presentation/providers/history_date_ranges_filter_provider.dart';
-import 'package:intl/intl.dart';
+
+import '../../../../core/format/local_name_format.dart';
 
 class HistorySelectedFilterDates extends ConsumerWidget {
   const HistorySelectedFilterDates({super.key});
@@ -12,9 +13,11 @@ class HistorySelectedFilterDates extends ConsumerWidget {
 
     final titleSmall = Theme.of(context).textTheme.titleSmall;
 
-    final fullDateFormat = DateFormat("d 'de' MMMM");
-    final formattedFirstDay = fullDateFormat.format(firstDay);
-    final formattedToday = fullDateFormat.format(today);
+    final formattedFirstDay = showFormattedDateWithoutDayName(
+      context,
+      firstDay,
+    );
+    final formattedToday = showFormattedDateWithoutDayName(context, today);
     String textToShow = formattedFirstDay;
 
     if (formattedToday.isNotEmpty) textToShow += " - $formattedToday";

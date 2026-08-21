@@ -84,7 +84,9 @@ class TaskDetailsPage extends ConsumerWidget {
                         mainAxisAlignment: .spaceBetween,
                         spacing: 24,
                         children: [
-                          Text(showFormattedDateWithDayName(context, task.day)),
+                          Text(
+                            showFormattedDateWithoutDayName(context, task.day),
+                          ),
                           const Text("09:00 - 11:35"),
                         ],
                       ),
