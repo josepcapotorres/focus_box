@@ -47,6 +47,7 @@ class HomePage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: .start,
           children: [
+            const SizedBox(height: 16),
             Text(
               context.l10n.homeViewSelectedDateTask,
               style: textTheme.titleMedium,
