@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/domain/entities/task.dart';
 import '../../../../core/extensions/translations_extension.dart';
+import '../../../../core/themes/app_colors.dart';
 import '../../../../core/widgets/task_status_chip.dart';
 import '../../../home/presentation/providers/home_tasks_provider.dart';
 import '../widgets/do_not_disturb.dart';
@@ -42,20 +43,31 @@ class FocusModePage extends ConsumerWidget {
           child: Column(
             children: [
               _Header(task),
-              if (task.status != .completed) ...[
+              if (task.status != .completed && task.status != .exceeded) ...[
                 const SizedBox(height: 16),
                 const DoNotDisturbCard(),
               ],
-              if (task.status != .completed) ...[
+              if (task.status != .completed && task.status != .exceeded) ...[
                 const SizedBox(height: 16),
                 const Expanded(child: Center(child: RadialClock())),
               ],
               const SizedBox(height: 12),
-              if (task.status != .completed) const FocusFooter(),
+              if (task.status != .completed && task.status != .exceeded)
+                const FocusFooter(),
               if (task.status == .completed) ...[
                 Icon(
                   Icons.check_circle_rounded,
                   color: colorScheme.secondary,
+                  size: 200,
+                ),
+                Text(
+                  context.l10n.focusModeTaskFinished,
+                  style: textTheme.headlineMedium,
+                ),
+              ] else if (task.status == .exceeded) ...[
+                const Icon(
+                  Icons.check_circle_rounded,
+                  color: AppColors.warning,
                   size: 200,
                 ),
                 Text(

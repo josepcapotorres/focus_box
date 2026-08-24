@@ -197,7 +197,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeMinsExceeded.
   ///
   /// In es, this message translates to:
-  /// **' · +{mins} min excedida'**
+  /// **'+{mins} min excedida'**
   String homeMinsExceeded(String mins);
 
   /// No description provided for @saveEditTaskNewTaskTitle.
@@ -307,6 +307,12 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Completada con más tiempo del calculado'**
   String get taskDetailsCompletedExceededTime;
+
+  /// No description provided for @taskDetailsExceededInProgress.
+  ///
+  /// In es, this message translates to:
+  /// **'Tarea excedida y aún en progreso'**
+  String get taskDetailsExceededInProgress;
 
   /// No description provided for @focusModeTitle.
   ///

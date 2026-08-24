@@ -134,6 +134,8 @@ class _TimeLineTile extends StatelessWidget {
       ),
       TaskStatus.exceeded => context.l10n.taskDetailsCompletedExceededTime,
       TaskStatus.pending => context.l10n.commonTaskPending,
+      TaskStatus.exceededInProgress =>
+        context.l10n.taskDetailsExceededInProgress,
     };
   }
 }

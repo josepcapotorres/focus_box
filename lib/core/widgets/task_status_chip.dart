@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_box/core/themes/app_colors.dart';
 
 import '../domain/enums/task_status.dart';
 import '../extensions/translations_extension.dart';
@@ -64,7 +65,13 @@ class TaskStatusChip extends StatelessWidget {
         return _TaskStatusStyle(
           label: context.l10n.focusModeExceededTime,
           foregroundColor: colorScheme.onErrorContainer,
-          backgroundColor: colorScheme.errorContainer,
+          backgroundColor: AppColors.warning,
+        );
+      case TaskStatus.exceededInProgress:
+        return _TaskStatusStyle(
+          label: context.l10n.focusModeExceededTime,
+          foregroundColor: colorScheme.onErrorContainer,
+          backgroundColor: AppColors.warning,
         );
     }
   }

@@ -60,7 +60,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String homeMinsExceeded(String mins) {
-    return ' · +$mins min exceeded';
+    return '+$mins min exceeded';
   }
 
   @override
@@ -119,6 +119,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get taskDetailsCompletedExceededTime =>
       'Completed in more time than calculated';
+
+  @override
+  String get taskDetailsExceededInProgress =>
+      'Task exceeded and still in progress';
 
   @override
   String get focusModeTitle => 'Focus mode';

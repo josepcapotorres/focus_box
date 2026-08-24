@@ -22,7 +22,7 @@
             }
         }
     },
-    "homeMinsExceeded": " · +{mins} min excedida",
+    "homeMinsExceeded": "+{mins} min excedida",
     "@homeMinsExceeded": {
         "placeholders": {
             "mins": {
@@ -55,6 +55,7 @@
         }
     },
     "taskDetailsCompletedExceededTime": "Completada con más tiempo del calculado",
+    "taskDetailsExceededInProgress": "Tarea excedida y aún en progreso",
     "focusModeTitle": "Modo enfoque",
     "focusModeTaskFinished": "¡Tarea finalizada!",
     "focusModeExceededTime": "Tiempo excedido",

@@ -30,6 +30,11 @@ class HomeTaskItem extends ConsumerWidget {
     if (currentTask == null) return const SizedBox.shrink();
 
     final showActionButton = _showActionButton(ref, currentTask);
+    final foregroundColor = _computeForegroundColor(currentTask);
+    final inProgress = <TaskStatus>[
+      .inProgress,
+      .exceededInProgress,
+    ].contains(currentTask.status);
 
     return GestureDetector(
       onTap: onTap,
@@ -48,13 +53,13 @@ class HomeTaskItem extends ConsumerWidget {
                         HorizontalBarChart(
                           taskId: taskId,
                           totalValue: 100,
-                          foregroundColor: currentTask.status.foregroundColor,
+                          foregroundColor: foregroundColor,
                           backgroundColor: colorScheme.primaryContainer,
                         ),
                       ],
                     ),
                   ),
-                  if (currentTask.status == .inProgress) ...[
+                  if (inProgress) ...[
                     const SizedBox(width: 16),
                     _FocusModeButton(currentTask.id),
                   ],
@@ -83,6 +88,12 @@ class HomeTaskItem extends ConsumerWidget {
 
     return today.difference(currentTaskDay) == .zero &&
         selectedFilter == .today;
+  }
+
+  Color _computeForegroundColor(Task currentTask) {
+    return currentTask.isExceeded
+        ? AppColors.warning
+        : currentTask.status.foregroundColor;
   }
 }
 
@@ -168,10 +179,15 @@ class _ActionButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return switch (task.status) {
       TaskStatus.inProgress => _PauseButton(task.id),
-      TaskStatus.completed => const _CheckButton(),
+      TaskStatus.completed => _CheckButton(exceeded: task.isExceeded),
       TaskStatus.paused => _PlayButton(task),
       TaskStatus.exceeded => const _WarningButton(),
+      /*_PlayButton(
+        task,
+        backgroundColor: AppColors.warning,
+      ),*/
       TaskStatus.pending => _PlayButton(task),
+      TaskStatus.exceededInProgress => _PauseButton(task.id),
     };
   }
 }
@@ -197,8 +213,9 @@ class _PauseButton extends ConsumerWidget {
 
 class _PlayButton extends ConsumerWidget {
   final Task task;
+  final Color? backgroundColor;
 
-  const _PlayButton(this.task);
+  const _PlayButton(this.task, {this.backgroundColor});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -207,16 +224,18 @@ class _PlayButton extends ConsumerWidget {
         ref.read(focusSessionProvider.notifier).startTask(task);
         context.push(FocusModePage.routeName, extra: task.id);
       },
-      child: const CircleAvatar(
-        backgroundColor: AppColors.paused,
-        child: Icon(Icons.play_arrow, color: AppColors.surfaceLight),
+      child: CircleAvatar(
+        backgroundColor: backgroundColor ?? AppColors.paused,
+        child: const Icon(Icons.play_arrow, color: AppColors.surfaceLight),
       ),
     );
   }
 }
 
 class _CheckButton extends StatelessWidget {
-  const _CheckButton();
+  final bool exceeded;
+
+  const _CheckButton({required this.exceeded});
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +244,7 @@ class _CheckButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {},
       child: CircleAvatar(
-        backgroundColor: colorScheme.secondary,
+        backgroundColor: exceeded ? AppColors.warning : colorScheme.secondary,
         child: const Icon(Icons.check, color: AppColors.surfaceLight),
       ),
     );
@@ -292,7 +311,7 @@ class _FooterTexts extends ConsumerWidget {
               context.l10n.homeMinsLeft(remainingMinutes.toString()),
               style: textTheme.bodySmall,
             )
-          else if (status == .exceeded)
+          else if (status == .exceeded && exceededShownMinutes != 0)
             Text(
               context.l10n.homeMinsExceeded(exceededShownMinutes.toString()),
               style: textTheme.bodySmall,

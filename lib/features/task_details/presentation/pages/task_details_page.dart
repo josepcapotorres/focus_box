@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:focus_box/core/extensions/translations_extension.dart';
+import 'package:focus_box/features/history/presentation/providers/history_metrics_provider.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/domain/entities/task.dart';
@@ -119,9 +120,7 @@ class TaskDetailsPage extends ConsumerWidget {
                                 "${difference.isNegative ? "" : "+"} ${difference.inMinutes} min",
                             backgroundColor: colorScheme.surface,
                             labelColor: colorScheme.onSurface,
-                            metricColor:
-                                difference.inMinutes >= 10 &&
-                                    difference.inMinutes <= 10
+                            metricColor: task.timeAlreadyDone < task.timeTotal
                                 ? colorScheme.onSurface
                                 : AppColors.warning,
                           ),
@@ -180,6 +179,8 @@ class TaskDetailsPage extends ConsumerWidget {
                 ref
                     .read(taskDetailsHistoryProvider.notifier)
                     .deleteTaskEntries(taskId);
+
+                ref.invalidate(historyEntriesBetweenSelectedDateRangeProvider);
               } catch (e, s) {
                 ref.read(crashReporterProvider).recordError(e, s);
               }

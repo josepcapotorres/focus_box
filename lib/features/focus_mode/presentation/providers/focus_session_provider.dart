@@ -3,6 +3,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../core/data/models/task_model.dart';
 import '../../../../core/domain/entities/task.dart';
+import '../../../../core/domain/enums/task_status.dart';
 import '../../../../core/managers/crash_reporter.dart';
 import '../../../../core/providers/ticker_provider.dart';
 import '../../../home/domain/repositories/home_repository.dart';
@@ -15,6 +16,8 @@ part 'focus_session_provider.g.dart';
 
 @Riverpod(keepAlive: true)
 class FocusSession extends _$FocusSession {
+  bool _prevIsExceeded = false;
+
   @override
   FocusSessionEntity? build() {
     ref.listen<Duration>(tickerProvider, (prev, elapsed) {
@@ -25,6 +28,35 @@ class FocusSession extends _$FocusSession {
       final task = ref.read(currentTaskProvider(session.taskId));
 
       if (task == null) return;
+
+      // It only has to turn to exceeded the first time
+      if (elapsed >= task.timeTotal && !_prevIsExceeded) {
+        final updatedTask = task.copyWith(
+          timeAlreadyDone: elapsed,
+          status: .exceededInProgress,
+        );
+
+        ref.read(homeTasksProvider.notifier).updateTask(updatedTask);
+
+        state = state?.copyWith(status: .exceededInProgress);
+
+        saveTask(updatedTask);
+
+        ref
+            .read(taskDetailsHistoryProvider.notifier)
+            .addEntry(
+              TaskHistoryEntry(
+                id: const Uuid().v4(),
+                taskId: session.taskId,
+                timestamp: DateTime.now(),
+                toStatus: .exceededInProgress,
+              ),
+            );
+
+        _prevIsExceeded = true;
+
+        return;
+      }
 
       final updatedTask = task.copyWith(timeAlreadyDone: elapsed);
 
@@ -160,7 +192,7 @@ class FocusSession extends _$FocusSession {
     if (state == null) return;
     final task = ref.read(currentTaskProvider(state!.taskId));
     final updatedTask = task?.copyWith(
-      timeTotal: task.timeTotal + const Duration(minutes: 15),
+      timeTotal: task.timeTotal + const Duration(minutes: 1),
     );
 
     ref.read(crashReporterProvider)
@@ -184,9 +216,12 @@ class FocusSession extends _$FocusSession {
       ..setCustomKey("task_name", task.name);
 
     final elapsed = ref.read(tickerProvider.notifier).pauseTimer();
+    final status = elapsed > task.timeTotal
+        ? TaskStatus.exceeded
+        : TaskStatus.completed;
 
     final updatedTask = task.copyWith(
-      status: .completed,
+      status: status,
       startedAt: null,
       timeAlreadyDone: elapsed,
     );

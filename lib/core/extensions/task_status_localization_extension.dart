@@ -9,6 +9,7 @@ extension TaskStatusLocalizationExtension on TaskStatus {
       TaskStatus.paused => l10n.commonTaskPaused,
       TaskStatus.exceeded => l10n.commonTaskExceeded,
       TaskStatus.pending => l10n.commonTaskPending,
+      TaskStatus.exceededInProgress => l10n.commonTaskExceeded,
     };
   }
 }

@@ -21,6 +21,8 @@ class Task extends Equatable {
     this.startedAt,
   );
 
+  bool get isExceeded => timeAlreadyDone >= timeTotal;
+
   Task copyWith({
     String? name,
     TaskStatus? status,

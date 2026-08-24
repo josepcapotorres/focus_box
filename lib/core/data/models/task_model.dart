@@ -45,6 +45,7 @@ class TaskModel extends Task {
       3 => .paused,
       4 => .exceeded,
       5 => .pending,
+      6 => .exceededInProgress,
       _ => .pending,
     };
   }
@@ -56,6 +57,7 @@ class TaskModel extends Task {
       .paused => 3,
       .exceeded => 4,
       .pending => 5,
+      .exceededInProgress => 6,
     };
   }
 

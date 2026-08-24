@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/extensions/duration_formatting_extension.dart';
 import '../../../../core/extensions/translations_extension.dart';
 import '../../../../core/providers/ticker_provider.dart';
+import '../../../../core/themes/app_colors.dart';
 import '../../../home/presentation/providers/home_tasks_provider.dart';
 import '../providers/focus_session_provider.dart';
 import 'radial_progress.dart';
@@ -49,8 +50,8 @@ class RadialClockState extends ConsumerState<RadialClock> {
 
     final elapsed = ref.watch(tickerProvider);
     final progress = elapsed.progressOutOfTen(timeTotal) / 100;
-    final exceeded = session.status == .exceeded;
-    final progressColor = exceeded ? colorScheme.error : colorScheme.primary;
+    final exceeded = elapsed >= timeTotal;
+    final progressColor = exceeded ? AppColors.warning : colorScheme.primary;
 
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 400, maxHeight: 400),
@@ -105,9 +106,13 @@ class _CenterClock extends ConsumerWidget {
 
     final remainingText = remaining.toHoursMinutesSeconds();
 
-    final clockTheme = MediaQuery.sizeOf(context).width > 400
+    TextStyle? clockTheme = MediaQuery.sizeOf(context).width > 400
         ? textTheme.displayLarge
         : textTheme.displaySmall;
+
+    if (timeTotal < elapsed) {
+      clockTheme = clockTheme?.copyWith(color: AppColors.warning);
+    }
 
     return Column(
       mainAxisSize: MainAxisSize.min,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/domain/enums/task_status.dart';
 import '../../../../core/extensions/translations_extension.dart';
 import '../../../../core/managers/crash_reporter.dart';
 import '../providers/focus_session_provider.dart';
@@ -21,7 +22,11 @@ class FocusFooter extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    final running = session.status == .inProgress;
+    // Show play button if status is in prograss or exceeded (still running)
+    final running = <TaskStatus>[
+      .inProgress,
+      .exceededInProgress,
+    ].contains(session.status);
 
     return SafeArea(
       top: false,
