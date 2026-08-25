@@ -2,7 +2,7 @@ import 'package:do_not_disturb/do_not_disturb.dart';
 import 'package:focus_box/features/focus_mode/data/datasources/do_not_disturb_data_source.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'do_not_disturb_data_source.g.dart';
+part 'do_not_disturb_data_source_impl.g.dart';
 
 class DoNotDisturbDataSourceImpl extends DoNotDisturbDataSource {
   final DoNotDisturbPlugin _dndPlugin;
@@ -58,7 +58,7 @@ class DoNotDisturbDataSourceImpl extends DoNotDisturbDataSource {
 }
 
 @riverpod
-DoNotDisturbDataSourceImpl doNotDisturbDataSource(Ref ref) {
+DoNotDisturbDataSource doNotDisturbDataSource(Ref ref) {
   final dndPlugin = DoNotDisturbPlugin();
   return DoNotDisturbDataSourceImpl(dndPlugin);
 }

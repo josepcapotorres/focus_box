@@ -1,11 +1,12 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../data/datasources/do_not_disturb_data_source.dart';
 import '../../data/datasources/do_not_disturb_data_source_impl.dart';
 
 part 'do_not_disturb_repository.g.dart';
 
 class DoNotDisturbRepository {
-  final DoNotDisturbDataSourceImpl _dataSource;
+  final DoNotDisturbDataSource _dataSource;
 
   const DoNotDisturbRepository(this._dataSource);
 

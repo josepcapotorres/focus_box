@@ -15,11 +15,11 @@ const doNotDisturbDataSourceProvider = DoNotDisturbDataSourceProvider._();
 final class DoNotDisturbDataSourceProvider
     extends
         $FunctionalProvider<
-          DoNotDisturbDataSourceImpl,
-          DoNotDisturbDataSourceImpl,
-          DoNotDisturbDataSourceImpl
+          DoNotDisturbDataSource,
+          DoNotDisturbDataSource,
+          DoNotDisturbDataSource
         >
-    with $Provider<DoNotDisturbDataSourceImpl> {
+    with $Provider<DoNotDisturbDataSource> {
   const DoNotDisturbDataSourceProvider._()
     : super(
         from: null,
@@ -36,23 +36,23 @@ final class DoNotDisturbDataSourceProvider
 
   @$internal
   @override
-  $ProviderElement<DoNotDisturbDataSourceImpl> $createElement(
+  $ProviderElement<DoNotDisturbDataSource> $createElement(
     $ProviderPointer pointer,
   ) => $ProviderElement(pointer);
 
   @override
-  DoNotDisturbDataSourceImpl create(Ref ref) {
+  DoNotDisturbDataSource create(Ref ref) {
     return doNotDisturbDataSource(ref);
   }
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(DoNotDisturbDataSourceImpl value) {
+  Override overrideWithValue(DoNotDisturbDataSource value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<DoNotDisturbDataSourceImpl>(value),
+      providerOverride: $SyncValueProvider<DoNotDisturbDataSource>(value),
     );
   }
 }
 
 String _$doNotDisturbDataSourceHash() =>
-    r'89ce9e675bf3e5cec88b4c719f70d42b9c73bdfa';
+    r'b08d6361b3353bee88cb1009445595ef2d794b27';
