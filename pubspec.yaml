@@ -54,6 +54,7 @@ dependencies:
   firebase_crashlytics: ^5.2.7
   flutter_localizations:
     sdk: flutter
+  mocktail: 1.0.5
 
 dev_dependencies:
   flutter_test:
