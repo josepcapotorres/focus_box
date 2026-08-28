@@ -66,7 +66,7 @@ class FocusSession extends _$FocusSession {
     return null;
   }
 
-  void startTask(Task task) async {
+  Future<void> startTask(Task task) async {
     final crashProvider = ref.read(crashReporterProvider);
 
     crashProvider.log("focus_session_provider.dart > startTask ${task.id}");

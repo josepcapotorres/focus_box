@@ -15,13 +15,13 @@ const taskDetailsRepositoryProvider = TaskDetailsRepositoryProvider._();
 final class TaskDetailsRepositoryProvider
     extends
         $FunctionalProvider<
-          AsyncValue<TaskDetailsRepositoryImpl>,
-          TaskDetailsRepositoryImpl,
-          FutureOr<TaskDetailsRepositoryImpl>
+          AsyncValue<TaskDetailsRepository>,
+          TaskDetailsRepository,
+          FutureOr<TaskDetailsRepository>
         >
     with
-        $FutureModifier<TaskDetailsRepositoryImpl>,
-        $FutureProvider<TaskDetailsRepositoryImpl> {
+        $FutureModifier<TaskDetailsRepository>,
+        $FutureProvider<TaskDetailsRepository> {
   const TaskDetailsRepositoryProvider._()
     : super(
         from: null,
@@ -38,15 +38,15 @@ final class TaskDetailsRepositoryProvider
 
   @$internal
   @override
-  $FutureProviderElement<TaskDetailsRepositoryImpl> $createElement(
+  $FutureProviderElement<TaskDetailsRepository> $createElement(
     $ProviderPointer pointer,
   ) => $FutureProviderElement(pointer);
 
   @override
-  FutureOr<TaskDetailsRepositoryImpl> create(Ref ref) {
+  FutureOr<TaskDetailsRepository> create(Ref ref) {
     return taskDetailsRepository(ref);
   }
 }
 
 String _$taskDetailsRepositoryHash() =>
-    r'6ecd90e38a0f288f43e272fb1265ff4b83c152bd';
+    r'9b1544e918e728e06659bbbee7127eaae154c3a9';
