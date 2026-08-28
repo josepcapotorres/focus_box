@@ -106,18 +106,13 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
                     width: 60,
                     child: TextFormField(
                       controller: _timeTotalHoursController,
-                      decoration: InputDecoration(
-                        hint: Text(
-                          "${widget.task?.timeTotal.inHours.remainder(24) ?? 02}",
-                        ),
+                      decoration: const InputDecoration(
+                        // Hide error message height
+                        errorStyle: TextStyle(height: 0),
                       ),
                       keyboardType: .number,
-                      validator: (str) {
-                        if (int.tryParse(str ?? "") == null) {
-                          return "Tiene que ser un número entero";
-                        }
-                        return null;
-                      },
+                      validator: (str) =>
+                          int.tryParse(str ?? "") == null ? "" : null,
                       textInputAction: .next,
                     ),
                   ),
@@ -126,17 +121,12 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
                     width: 60,
                     child: TextFormField(
                       controller: _timeTotalMinutesController,
-                      decoration: InputDecoration(
-                        hint: Text(
-                          "${widget.task?.timeTotal.inMinutes.remainder(60) ?? 30}",
-                        ),
+                      decoration: const InputDecoration(
+                        // Hide error message height
+                        errorStyle: TextStyle(height: 0),
                       ),
-                      validator: (str) {
-                        if (int.tryParse(str ?? "") == null) {
-                          return "Tiene que ser un número entero";
-                        }
-                        return null;
-                      },
+                      validator: (str) =>
+                          int.tryParse(str ?? "") == null ? "" : null,
                       textInputAction: .next,
                       keyboardType: .number,
                     ),
@@ -144,7 +134,6 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
                   const Text("min"),
                 ],
               ),
-
               const SizedBox(height: 24),
               Text(
                 context.l10n.saveEditTaskAssignDay,
