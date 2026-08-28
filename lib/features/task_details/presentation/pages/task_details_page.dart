@@ -81,15 +81,8 @@ class TaskDetailsPage extends ConsumerWidget {
                     const Divider(color: AppColors.borderLight),
                     Padding(
                       padding: const EdgeInsets.only(top: 18, bottom: 32),
-                      child: Row(
-                        mainAxisAlignment: .spaceBetween,
-                        spacing: 24,
-                        children: [
-                          Text(
-                            showFormattedDateWithoutDayName(context, task.day),
-                          ),
-                          const Text("09:00 - 11:35"),
-                        ],
+                      child: Text(
+                        showFormattedDateWithoutDayName(context, task.day),
                       ),
                     ),
                     Row(
