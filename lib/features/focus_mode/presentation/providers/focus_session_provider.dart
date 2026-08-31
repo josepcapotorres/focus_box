@@ -87,6 +87,8 @@ class FocusSession extends _$FocusSession {
       startedAt: DateTime.now(),
     );
 
+    ref.read(homeTasksProvider.notifier).updateTask(updatedTask);
+
     await saveTask(updatedTask);
 
     await ref
@@ -123,6 +125,8 @@ class FocusSession extends _$FocusSession {
         .read(crashReporterProvider)
         .log("focus_session_provider.dart > pausing task ${task.id}");
 
+    ref.read(homeTasksProvider.notifier).updateTask(updatedTask);
+
     await saveTask(updatedTask);
 
     await ref
@@ -152,7 +156,7 @@ class FocusSession extends _$FocusSession {
     }
   }
 
-  void resume() {
+  Future<void> resume() async {
     final session = state;
     if (session == null) return;
 
@@ -164,19 +168,17 @@ class FocusSession extends _$FocusSession {
       startedAt: DateTime.now(),
     );
 
-    ref.read(homeTasksProvider.notifier).updateTask(updatedTask);
-
-    state = state?.copyWith(status: .inProgress);
-
-    ref.read(tickerProvider.notifier).resumeTimer();
-
     ref
         .read(crashReporterProvider)
         .log(
           "focus_session_provider.dart > resumeTimer() > resuming task ${task.id}",
         );
 
-    ref
+    ref.read(homeTasksProvider.notifier).updateTask(updatedTask);
+
+    await saveTask(updatedTask);
+
+    await ref
         .read(taskDetailsHistoryProvider.notifier)
         .addEntry(
           TaskHistoryEntry(
@@ -186,13 +188,17 @@ class FocusSession extends _$FocusSession {
             toStatus: .inProgress,
           ),
         );
+
+    state = state?.copyWith(status: .inProgress);
+
+    ref.read(tickerProvider.notifier).resumeTimer();
   }
 
   void add15minToTotal() {
     if (state == null) return;
     final task = ref.read(currentTaskProvider(state!.taskId));
     final updatedTask = task?.copyWith(
-      timeTotal: task.timeTotal + const Duration(minutes: 1),
+      timeTotal: task.timeTotal + const Duration(minutes: 15),
     );
 
     ref.read(crashReporterProvider)
@@ -204,7 +210,7 @@ class FocusSession extends _$FocusSession {
     ref.read(homeTasksProvider.notifier).updateTask(updatedTask);
   }
 
-  void setToDone() async {
+  Future<void> setToDone() async {
     final session = state;
     if (session == null) return;
 
@@ -230,7 +236,7 @@ class FocusSession extends _$FocusSession {
 
     await saveTask(updatedTask);
 
-    ref
+    await ref
         .read(taskDetailsHistoryProvider.notifier)
         .addEntry(
           TaskHistoryEntry(
