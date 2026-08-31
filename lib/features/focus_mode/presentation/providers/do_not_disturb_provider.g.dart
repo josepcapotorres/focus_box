@@ -33,7 +33,7 @@ final class DoNotDisturbProvider
   DoNotDisturb create() => DoNotDisturb();
 }
 
-String _$doNotDisturbHash() => r'091e52b58dd09a74c9a58f30ef6735d77f5c9953';
+String _$doNotDisturbHash() => r'1425060bc5a8b6eeea64f215b5f6819599087179';
 
 abstract class _$DoNotDisturb extends $AsyncNotifier<bool> {
   FutureOr<bool> build();

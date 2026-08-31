@@ -34,7 +34,6 @@ class Ticker extends _$Ticker {
   }
 
   Duration pauseTimer() {
-    // TODO: Store it in the local db
     return _manager?.pauseTimer() ?? state;
   }
 }

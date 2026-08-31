@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'do_not_disturb_data_source.dart';
+part of 'do_not_disturb_data_source_impl.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -55,4 +55,4 @@ final class DoNotDisturbDataSourceProvider
 }
 
 String _$doNotDisturbDataSourceHash() =>
-    r'89ce9e675bf3e5cec88b4c719f70d42b9c73bdfa';
+    r'b08d6361b3353bee88cb1009445595ef2d794b27';
