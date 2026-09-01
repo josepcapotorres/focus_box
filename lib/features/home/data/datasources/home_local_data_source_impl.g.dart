@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home_local_data_source.dart';
+part of 'home_local_data_source_impl.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -49,4 +49,4 @@ final class HomeLocalDataSourceProvider
 }
 
 String _$homeLocalDataSourceHash() =>
-    r'51cc616fdf8e3e362c93416bb476c16be80aeca2';
+    r'7e911d43ec68853db5575efc7e69758f0d406d2c';

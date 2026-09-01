@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/domain/entities/task.dart';
 import '../../data/datasources/home_local_data_source.dart';
+import '../../data/datasources/home_local_data_source_impl.dart';
 
 part 'home_repository.g.dart';
 
@@ -12,7 +13,9 @@ class HomeRepository {
   const HomeRepository(this._localDataSource);
 
   Stream<List<Task>> watchTasks() {
-    return _localDataSource.watchTasks();
+    return _localDataSource.watchTasks().map(
+      (tasks) => tasks.map((t) => t.toEntity()).toList(),
+    );
   }
 
   Future<void> saveOrEditTask(Task task) async {
@@ -25,7 +28,8 @@ class HomeRepository {
   }
 
   Future<Task?> getInterruptedTask() async {
-    return _localDataSource.getInterruptedTask();
+    final interruptedTask = await _localDataSource.getInterruptedTask();
+    return interruptedTask?.toEntity();
   }
 }
 

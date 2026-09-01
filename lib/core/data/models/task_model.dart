@@ -72,4 +72,8 @@ class TaskModel extends Task {
       task.startedAt,
     );
   }
+
+  Task toEntity() {
+    return Task(id, name, status, timeAlreadyDone, timeTotal, day, startedAt);
+  }
 }
