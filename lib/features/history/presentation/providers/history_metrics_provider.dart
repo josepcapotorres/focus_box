@@ -99,13 +99,9 @@ Future<List<TaskHistoryEntry>> historyEntriesBetweenSelectedDateRange(
     ..log("entries length before .where: ${taskHistoryEntries.length}");
 
   final entries = taskHistoryEntries.where((task) {
-    final dateFrom = DateTime(from.year, from.month, from.day);
-    final dateTo = DateTime(to.year, to.month, to.day);
-    final taskDay = DateTime(
-      task.timestamp.year,
-      task.timestamp.month,
-      task.timestamp.day,
-    );
+    final dateFrom = from.toDateOnly;
+    final dateTo = to.toDateOnly;
+    final taskDay = task.timestamp.toDateOnly;
     return taskDay.compareTo(dateFrom) >= 0 && taskDay.compareTo(dateTo) <= 0;
   }).toList();
 
