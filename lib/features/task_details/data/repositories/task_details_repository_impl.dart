@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../domain/entities/task_history_entry.dart';
+import '../datasources/task_details_local_data_source.dart';
 import '../datasources/task_details_local_data_source_impl.dart';
 import '../models/task_history_entry_model.dart';
 import 'task_details_repository.dart';
@@ -8,7 +9,7 @@ import 'task_details_repository.dart';
 part 'task_details_repository_impl.g.dart';
 
 class TaskDetailsRepositoryImpl extends TaskDetailsRepository {
-  final TaskDetailsLocalDataSourceImpl _localDataSource;
+  final TaskDetailsLocalDataSource _localDataSource;
 
   TaskDetailsRepositoryImpl(this._localDataSource);
 

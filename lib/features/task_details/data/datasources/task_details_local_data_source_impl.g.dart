@@ -16,13 +16,13 @@ const taskDetailsLocalDataSourceProvider =
 final class TaskDetailsLocalDataSourceProvider
     extends
         $FunctionalProvider<
-          AsyncValue<TaskDetailsLocalDataSourceImpl>,
-          TaskDetailsLocalDataSourceImpl,
-          FutureOr<TaskDetailsLocalDataSourceImpl>
+          AsyncValue<TaskDetailsLocalDataSource>,
+          TaskDetailsLocalDataSource,
+          FutureOr<TaskDetailsLocalDataSource>
         >
     with
-        $FutureModifier<TaskDetailsLocalDataSourceImpl>,
-        $FutureProvider<TaskDetailsLocalDataSourceImpl> {
+        $FutureModifier<TaskDetailsLocalDataSource>,
+        $FutureProvider<TaskDetailsLocalDataSource> {
   const TaskDetailsLocalDataSourceProvider._()
     : super(
         from: null,
@@ -39,15 +39,15 @@ final class TaskDetailsLocalDataSourceProvider
 
   @$internal
   @override
-  $FutureProviderElement<TaskDetailsLocalDataSourceImpl> $createElement(
+  $FutureProviderElement<TaskDetailsLocalDataSource> $createElement(
     $ProviderPointer pointer,
   ) => $FutureProviderElement(pointer);
 
   @override
-  FutureOr<TaskDetailsLocalDataSourceImpl> create(Ref ref) {
+  FutureOr<TaskDetailsLocalDataSource> create(Ref ref) {
     return taskDetailsLocalDataSource(ref);
   }
 }
 
 String _$taskDetailsLocalDataSourceHash() =>
-    r'645f89d4f8cb0924a65258b99780ec9ea6fc0a8f';
+    r'70f334b276038c3d5244922a6fb8ee723edcfed3';
