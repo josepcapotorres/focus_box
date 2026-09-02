@@ -1,13 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:focus_box/core/domain/entities/task.dart';
 import 'package:focus_box/core/managers/crash_reporter.dart';
 import 'package:focus_box/features/history/domain/entities/history_metric.dart';
+import 'package:focus_box/features/history/presentation/providers/history_date_ranges_filter_provider.dart';
 import 'package:focus_box/features/history/presentation/providers/history_metrics_provider.dart';
+import 'package:focus_box/features/home/domain/repositories/home_repository.dart';
+import 'package:focus_box/features/home/presentation/providers/home_tasks_provider.dart';
 import 'package:focus_box/features/task_details/domain/entities/task_history_entry.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockCrashReporter extends Mock implements CrashReporter {}
+
+class MockHomeRepository extends Mock implements HomeRepository {}
 
 void main() {
   late MockCrashReporter mockCrashReporter;
@@ -28,11 +35,7 @@ void main() {
         final tasks = <Task>[];
         final entries = populateEntries();
 
-        when(() => mockCrashReporter.log(any())).thenAnswer((_) {});
-
-        when(
-          () => mockCrashReporter.setCustomKey(any(), any()),
-        ).thenAnswer((_) async {});
+        arrangeCrashReports(mockCrashReporter);
 
         final container = ProviderContainer.test(
           overrides: [
@@ -67,11 +70,7 @@ void main() {
         final entries = <TaskHistoryEntry>[];
         final tasks = populateTasks();
 
-        when(() => mockCrashReporter.log(any())).thenAnswer((_) {});
-
-        when(
-          () => mockCrashReporter.setCustomKey(any(), any()),
-        ).thenAnswer((_) async {});
+        arrangeCrashReports(mockCrashReporter);
 
         final container = ProviderContainer.test(
           overrides: [
@@ -182,6 +181,123 @@ void main() {
       },
     );
   });
+
+  group("historyTasksBetweenSelectedDateRangeProvider", () {
+    test("should return empty entries when task list is empty", () async {
+      // Arrange
+      final dateTime = DateTime.now();
+
+      final container = ProviderContainer.test(
+        overrides: [
+          crashReporterProvider.overrideWithValue(mockCrashReporter),
+          homeTasksProvider.overrideWithBuild((_, _) => Stream.value([])),
+          historyRateRangesFilterProvider.overrideWithValue((
+            dateTime,
+            dateTime,
+          )),
+        ],
+      );
+
+      arrangeCrashReports(mockCrashReporter);
+
+      // Act
+      final entries = await container.read(
+        historyTasksBetweenSelectedDateRangeProvider.future,
+      );
+
+      // Assert
+      verify(() => mockCrashReporter.log(any())).called(3);
+      verify(() => mockCrashReporter.setCustomKey(any(), any())).called(2);
+
+      expect(entries, isEmpty);
+    });
+
+    test("should return empty entries when task list is filled", () async {
+      // Arrange
+      final dateTime = DateTime.now();
+
+      final container = ProviderContainer.test(
+        overrides: [
+          crashReporterProvider.overrideWithValue(mockCrashReporter),
+          homeTasksProvider.overrideWithBuild(
+            (_, _) => Stream.value(populateTasks()),
+          ),
+          historyRateRangesFilterProvider.overrideWithValue((
+            dateTime,
+            dateTime,
+          )),
+        ],
+      );
+
+      arrangeCrashReports(mockCrashReporter);
+
+      // Act
+      final entries = await container.read(
+        historyTasksBetweenSelectedDateRangeProvider.future,
+      );
+
+      // Assert
+      verify(() => mockCrashReporter.log(any())).called(3);
+      verify(() => mockCrashReporter.setCustomKey(any(), any())).called(2);
+
+      expect(entries, isEmpty);
+    });
+
+    test("should return filled entries when task list is filled", () async {
+      // Arrange
+      final dateTime = DateTime.now();
+      final mockHomeRepository = MockHomeRepository();
+      final tasks = populateTasks();
+
+      final container = ProviderContainer.test(
+        overrides: [
+          crashReporterProvider.overrideWithValue(mockCrashReporter),
+          homeRepositoryProvider.overrideWithValue(
+            AsyncData(mockHomeRepository),
+          ),
+          recoverInterruptedSessionProvider.overrideWithValue(
+            const AsyncData({}),
+          ),
+          historyRateRangesFilterProvider.overrideWithValue((
+            dateTime,
+            dateTime,
+          )),
+        ],
+      );
+
+      arrangeCrashReports(mockCrashReporter);
+
+      final tasksController = StreamController<List<Task>>();
+
+      when(
+        () => mockHomeRepository.watchTasks(),
+      ).thenAnswer((_) => tasksController.stream);
+
+      // Act
+      final subscription = container.listen(homeTasksProvider, (_, _) {});
+
+      tasksController.add(tasks);
+
+      // Wait until the event queue process the stream.
+      // It's necessary. Otherwise, the test fails
+      await pumpEventQueue();
+
+      final entries = await container.read(
+        historyTasksBetweenSelectedDateRangeProvider.future,
+      );
+
+      // Assert
+      verify(() => mockCrashReporter.log(any())).called(3);
+      verify(() => mockCrashReporter.setCustomKey(any(), any())).called(2);
+      verify(() => mockHomeRepository.watchTasks()).called(1);
+
+      expect(entries, isNotEmpty);
+
+      // Cleanup
+      tasksController.close();
+      subscription.close();
+    });
+  });
 }
 
 List<TaskHistoryEntry> populateEntries() {
@@ -234,4 +350,12 @@ List<Task> populateTasks() {
       null,
     ),
   ];
+}
+
+void arrangeCrashReports(MockCrashReporter mockCrashReporter) {
+  when(() => mockCrashReporter.log(any())).thenAnswer((_) {});
+
+  when(
+    () => mockCrashReporter.setCustomKey(any(), any()),
+  ).thenAnswer((_) async {});
 }
