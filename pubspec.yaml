@@ -55,6 +55,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   mocktail: 1.0.5
+  clock: 1.1.2
 
 dev_dependencies:
   flutter_test:
