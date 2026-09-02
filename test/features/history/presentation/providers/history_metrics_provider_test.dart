@@ -10,6 +10,7 @@ import 'package:focus_box/features/history/presentation/providers/history_metric
 import 'package:focus_box/features/home/domain/repositories/home_repository.dart';
 import 'package:focus_box/features/home/presentation/providers/home_tasks_provider.dart';
 import 'package:focus_box/features/task_details/domain/entities/task_history_entry.dart';
+import 'package:focus_box/features/task_details/presentation/providers/task_details_history_provider.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockCrashReporter extends Mock implements CrashReporter {}
@@ -297,6 +298,84 @@ void main() {
       tasksController.close();
       subscription.close();
     });
+  });
+
+  group("historyEntriesBetweenSelectedDateRange", () {
+    test(
+      "should return empty entries given when taskHistoryEntries is empty",
+      () async {
+        // Arrange
+        final taskDetails = <TaskHistoryEntry>[];
+        final dates = (
+          DateTime.now().subtract(const Duration(days: 1)),
+          DateTime.now().subtract(const Duration(days: 1)),
+        );
+
+        final container = ProviderContainer.test(
+          overrides: [
+            crashReporterProvider.overrideWithValue(mockCrashReporter),
+            taskHistoryEntriesProvider.overrideWithValue(
+              AsyncData(taskDetails),
+            ),
+            historyRateRangesFilterProvider.overrideWithValue(dates),
+          ],
+        );
+
+        arrangeCrashReports(mockCrashReporter);
+
+        // Act
+        final entries = await container.read(
+          historyEntriesBetweenSelectedDateRangeProvider.future,
+        );
+
+        // Assert
+        verify(() => mockCrashReporter.log(any())).called(3);
+        verify(() => mockCrashReporter.setCustomKey(any(), any())).called(2);
+
+        expect(entries, isEmpty);
+      },
+    );
+
+    test(
+      "should return filled entries when taskHistoryEntries is filled and dates match",
+      () async {
+        // Arrange
+        final yesterday = DateTime.now().subtract(const Duration(days: 1));
+        final taskDetails = <TaskHistoryEntry>[
+          TaskHistoryEntry(
+            id: "uuid",
+            taskId: "taskId",
+            timestamp: yesterday,
+            toStatus: .exceededInProgress,
+          ),
+        ];
+
+        final dates = (yesterday, yesterday);
+
+        final container = ProviderContainer.test(
+          overrides: [
+            crashReporterProvider.overrideWithValue(mockCrashReporter),
+            taskHistoryEntriesProvider.overrideWithValue(
+              AsyncData(taskDetails),
+            ),
+            historyRateRangesFilterProvider.overrideWithValue(dates),
+          ],
+        );
+
+        arrangeCrashReports(mockCrashReporter);
+
+        // Act
+        final entries = await container.read(
+          historyEntriesBetweenSelectedDateRangeProvider.future,
+        );
+
+        // Assert
+        verify(() => mockCrashReporter.log(any())).called(3);
+        verify(() => mockCrashReporter.setCustomKey(any(), any())).called(2);
+
+        expect(entries, isNotEmpty);
+      },
+    );
   });
 }
 
