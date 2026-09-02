@@ -108,7 +108,7 @@ Future<List<TaskHistoryEntry>> historyEntriesBetweenSelectedDateRange(
     return taskDay.compareTo(dateFrom) >= 0 && taskDay.compareTo(dateTo) <= 0;
   }).toList();
 
-  crashProvider.log("entries length before .where: ${entries.length}");
+  crashProvider.log("entries length after .where: ${entries.length}");
 
   return entries;
 }
