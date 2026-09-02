@@ -25,8 +25,8 @@ part 'history_date_ranges_filter_provider.g.dart';
         ..setCustomKey("to", today.toIso8601String());
       break;
     case .currentWeek:
-      final firstDayOfCurrentWeek = _getFirstDayOfCurrentWeek(today);
-      final lastDayOfWeek = _getLastDayOfWeek(today);
+      final firstDayOfCurrentWeek = today.getFirstDayOfCurrentWeek();
+      final lastDayOfWeek = today.getLastDayOfCurrentWeek();
 
       result = (firstDayOfCurrentWeek, lastDayOfWeek);
 
@@ -39,7 +39,7 @@ part 'history_date_ranges_filter_provider.g.dart';
       break;
     case .currentMonth:
       final firstDayOfCurrentMonth = today.getFirstDayOfCurrentMonth();
-      final lastDayOfCurrentMonth = _getLastDayOfMonth(today);
+      final lastDayOfCurrentMonth = today.getLastDayOfCurrentMonth();
 
       result = (firstDayOfCurrentMonth, lastDayOfCurrentMonth);
 
@@ -53,16 +53,4 @@ part 'history_date_ranges_filter_provider.g.dart';
   }
 
   return result;
-}
-
-DateTime _getFirstDayOfCurrentWeek(DateTime today) {
-  return today.subtract(Duration(days: today.weekday - DateTime.monday));
-}
-
-DateTime _getLastDayOfWeek(DateTime date) {
-  return date.add(Duration(days: DateTime.sunday - date.weekday));
-}
-
-DateTime _getLastDayOfMonth(DateTime date) {
-  return DateTime(date.year, date.month + 1, 0);
 }
