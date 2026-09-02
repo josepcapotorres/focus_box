@@ -36,6 +36,15 @@ class TaskHistoryEntryModel extends TaskHistoryEntry {
     );
   }
 
+  TaskHistoryEntry toEntity() {
+    return TaskHistoryEntry(
+      id: id,
+      taskId: taskId,
+      timestamp: timestamp,
+      toStatus: toStatus,
+    );
+  }
+
   static TaskStatus _statusFromJson(int statusNum) {
     return switch (statusNum) {
       1 => .inProgress,
