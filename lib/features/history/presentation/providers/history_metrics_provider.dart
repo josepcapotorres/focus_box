@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/domain/entities/task.dart';
+import '../../../../core/extensions/datetime_extension.dart';
 import '../../../../core/managers/crash_reporter.dart';
 import '../../../home/presentation/providers/home_tasks_provider.dart';
 import '../../../task_details/domain/entities/task_history_entry.dart';
@@ -72,9 +73,9 @@ Future<List<Task>> historyTasksBetweenSelectedDateRange(Ref ref) async {
     ..log("entries length before .where: ${tasks.length}");
 
   final entries = tasks.where((task) {
-    final dateFrom = DateTime(from.year, from.month, from.day);
-    final dateTo = DateTime(to.year, to.month, to.day);
-    final taskDay = DateTime(task.day.year, task.day.month, task.day.day);
+    final dateFrom = from.toDateOnly;
+    final dateTo = to.toDateOnly;
+    final taskDay = task.day.toDateOnly;
 
     return taskDay.compareTo(dateFrom) >= 0 && taskDay.compareTo(dateTo) <= 0;
   }).toList();
