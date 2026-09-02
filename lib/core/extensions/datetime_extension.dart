@@ -20,6 +20,18 @@ extension DateTimeExtension on DateTime {
     }
   }
 
+  DateTime getFirstDayOfCurrentWeek() {
+    return subtract(Duration(days: weekday - DateTime.monday));
+  }
+
+  DateTime getLastDayOfCurrentWeek() {
+    return add(Duration(days: DateTime.sunday - weekday));
+  }
+
+  DateTime getLastDayOfCurrentMonth() {
+    return DateTime(year, month + 1, 0);
+  }
+
   DateTime getFirstDayOfCurrentMonth() {
     return DateTime(year, month, 1);
   }
