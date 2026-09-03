@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:focus_box/core/extensions/translations_extension.dart';
-import 'package:focus_box/features/history/presentation/providers/history_metrics_provider.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/domain/entities/task.dart';
@@ -11,6 +10,7 @@ import '../../../../core/format/local_name_format.dart';
 import '../../../../core/managers/crash_reporter.dart';
 import '../../../../core/themes/app_colors.dart';
 import '../../../../core/widgets/new_task_edit_bottom_sheet.dart';
+import '../../../history/presentation/providers/history_metrics_provider.dart';
 import '../../../home/domain/repositories/home_repository.dart';
 import '../../../home/presentation/providers/home_tasks_provider.dart';
 import '../providers/task_details_history_provider.dart';
@@ -44,7 +44,7 @@ class TaskDetailsPage extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () => _showNewTaskBottomSheet(context, task),
-            icon: const Icon(Icons.edit),
+            icon: const Icon(key: Key("taskDetailsEditBtn"), Icons.edit),
           ),
           IconButton(
             onPressed: () => _showAreYouSureDialog(context, ref, taskId),

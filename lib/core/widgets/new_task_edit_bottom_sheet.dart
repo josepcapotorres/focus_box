@@ -144,6 +144,7 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
               ),
               const SizedBox(height: 8),
               TextFormField(
+                key: const Key("dayToDoTaskField"),
                 controller: _dayToDoTaskController,
                 decoration: InputDecoration(
                   suffixIcon: const Icon(Icons.event),

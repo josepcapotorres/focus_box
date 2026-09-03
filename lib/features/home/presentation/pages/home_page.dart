@@ -73,6 +73,7 @@ class HomePage extends ConsumerWidget {
                       : ListView.separated(
                           padding: const .only(bottom: 80),
                           itemBuilder: (_, i) => HomeTaskItem(
+                            key: Key("homeTaskItem-${tasks[i].id}"),
                             taskId: tasks[i].id,
                             onTap: () => context.push(
                               TaskDetailsPage.routeName,
