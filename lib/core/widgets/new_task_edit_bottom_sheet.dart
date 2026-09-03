@@ -83,6 +83,7 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
               ),
               const SizedBox(height: 8),
               TextFormField(
+                key: const Key("taskNameField"),
                 controller: _taskNameController,
                 decoration: const InputDecoration(prefixIcon: Icon(Icons.task)),
                 textCapitalization: .sentences,
@@ -105,6 +106,7 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
                   SizedBox(
                     width: 60,
                     child: TextFormField(
+                      key: const Key("timeTotalHsField"),
                       controller: _timeTotalHoursController,
                       decoration: const InputDecoration(
                         // Hide error message height
@@ -120,6 +122,7 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
                   SizedBox(
                     width: 60,
                     child: TextFormField(
+                      key: const Key("timeTotalMinsField"),
                       controller: _timeTotalMinutesController,
                       decoration: const InputDecoration(
                         // Hide error message height
@@ -181,6 +184,7 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
                     Expanded(
                       child: Consumer(
                         builder: (_, ref, _) => FilledButton(
+                          key: const Key("newTaskSaveBtn"),
                           onPressed: () async {
                             if (!(_formKey.currentState?.validate() ?? false)) {
                               return;

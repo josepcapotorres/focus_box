@@ -38,7 +38,7 @@ class HomePage extends ConsumerWidget {
           if (Platform.isIOS)
             IconButton(
               onPressed: () => _showNewTaskBottomSheet(context),
-              icon: const Icon(Icons.add),
+              icon: const Icon(key: Key("addNewTaskBtn"), Icons.add),
             ),
         ],
       ),
@@ -96,7 +96,7 @@ class HomePage extends ConsumerWidget {
       floatingActionButton: Platform.isAndroid
           ? FloatingActionButton(
               onPressed: () => _showNewTaskBottomSheet(context),
-              child: const Icon(Icons.add),
+              child: const Icon(key: Key("addNewTaskBtn"), Icons.add),
             )
           : null,
     );
