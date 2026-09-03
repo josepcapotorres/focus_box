@@ -94,7 +94,7 @@ void main() {
         overrides: [
           ...overrides,
           recoverInterruptedSessionProvider.overrideWithValue(
-            const AsyncValue.data({}),
+            const AsyncValue.data(null),
           ),
         ],
       );
@@ -148,7 +148,7 @@ void main() {
           overrides: [
             ...overrides,
             recoverInterruptedSessionProvider.overrideWithValue(
-              const AsyncValue.data({}),
+              const AsyncValue.data(null),
             ),
           ],
         );
@@ -192,7 +192,7 @@ void main() {
           overrides: [
             ...overrides,
             recoverInterruptedSessionProvider.overrideWithValue(
-              const AsyncValue.data({}),
+              const AsyncValue.data(null),
             ),
           ],
         );
@@ -221,7 +221,7 @@ void main() {
           ...overrides,
           homeSelectedDateFilterProvider.overrideWithValue(DateTime.now()),
           recoverInterruptedSessionProvider.overrideWithValue(
-            const AsyncValue.data({}),
+            const AsyncValue.data(null),
           ),
         ],
       );
@@ -252,7 +252,7 @@ void main() {
               DateTime(2026, 8, 31),
             ),
             recoverInterruptedSessionProvider.overrideWithValue(
-              const AsyncValue.data({}),
+              const AsyncValue.data(null),
             ),
           ],
         );
@@ -287,7 +287,7 @@ void main() {
           overrides: [
             ...overrides,
             recoverInterruptedSessionProvider.overrideWithValue(
-              const AsyncValue.data({}),
+              const AsyncValue.data(null),
             ),
           ],
         );

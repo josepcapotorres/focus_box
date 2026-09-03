@@ -213,9 +213,8 @@ class _PauseButton extends ConsumerWidget {
 
 class _PlayButton extends ConsumerWidget {
   final Task task;
-  final Color? backgroundColor;
 
-  const _PlayButton(this.task, {this.backgroundColor});
+  const _PlayButton(this.task);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -224,9 +223,9 @@ class _PlayButton extends ConsumerWidget {
         ref.read(focusSessionProvider.notifier).startTask(task);
         context.push(FocusModePage.routeName, extra: task.id);
       },
-      child: CircleAvatar(
-        backgroundColor: backgroundColor ?? AppColors.paused,
-        child: const Icon(Icons.play_arrow, color: AppColors.surfaceLight),
+      child: const CircleAvatar(
+        backgroundColor: AppColors.paused,
+        child: Icon(Icons.play_arrow, color: AppColors.surfaceLight),
       ),
     );
   }

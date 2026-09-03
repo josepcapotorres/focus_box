@@ -257,7 +257,7 @@ void main() {
             AsyncData(mockHomeRepository),
           ),
           recoverInterruptedSessionProvider.overrideWithValue(
-            const AsyncData({}),
+            const AsyncData(null),
           ),
           historyRateRangesFilterProvider.overrideWithValue((
             dateTime,
