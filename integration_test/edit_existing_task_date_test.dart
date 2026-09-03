@@ -17,7 +17,7 @@ void main() async {
     const taskName = "Test task";
     final tomorrowDayNumber = DateTime.now().add(const Duration(days: 1)).day;
 
-    await insertATaskInLocalDb(taskName);
+    await insertATaskInLocalDb(taskId, taskName);
 
     await tester.pumpWidget(const MyApp());
     // Wait until the Stream loads the inserted task on screen.ç
@@ -60,9 +60,61 @@ void main() async {
     // since by default, the selected date is today.
     expect(find.text(taskName), findsNothing);
   });
+
+  testWidgets(
+    "should load on screen the new expected time after having modified it locally",
+    (tester) async {
+      // Arrange
+      // We need an existing task on the db in order
+      // to operate on this task
+      const taskId = "uuid";
+      const taskName = "Test task";
+
+      await insertATaskInLocalDb(taskId, taskName);
+
+      await tester.pumpWidget(const MyApp());
+      // Wait until the Stream loads the inserted task on screen.ç
+      // Otherwise, the key "homeTaskItem-..." won't be found
+      await tester.pumpAndSettle();
+
+      // Act
+      final homeItem = find.byKey(const Key("homeTaskItem-$taskId"));
+      // Click in the home item card -> navigate to task details page
+      await tester.tap(homeItem);
+      await tester.pumpAndSettle();
+
+      // Assert
+      // Ensure that the estimated time that has been inserted
+      // on the local db is on the screen before updating this value
+      expect(find.text("01:00h"), findsOne);
+      expect(find.text("01:15h"), findsNothing);
+
+      // Act
+      final taskDetailsEditBtn = find.byKey(const Key("taskDetailsEditBtn"));
+      // It shows the bottom sheet to update the values
+      await tester.tap(taskDetailsEditBtn);
+      await tester.pumpAndSettle();
+
+      // Modify the minutes field from 1h 0 min to 1h 15 min
+      final timeTotalMinsField = find.byKey(const Key("timeTotalMinsField"));
+      await tester.enterText(timeTotalMinsField, "15");
+
+      final newTaskSaveBtn = find.byKey(const Key("newTaskSaveBtn"));
+      // It updates the value on the local db and dismisses the bottom sheet
+      await tester.tap(newTaskSaveBtn);
+      await tester.pumpAndSettle();
+
+      // Assert
+      // Ensure that the estimated time that has been updated
+      // on the local db and loaded on the screen after having
+      // updated this value
+      expect(find.text("01:00h"), findsNothing);
+      expect(find.text("01:15h"), findsOne);
+    },
+  );
 }
 
-Future<void> insertATaskInLocalDb(String taskName) async {
+Future<void> insertATaskInLocalDb(String uuid, String taskName) async {
   final box = await Hive.openBox("tasks");
 
   // Ensure that there is no register in that box before adding one
@@ -70,7 +122,7 @@ Future<void> insertATaskInLocalDb(String taskName) async {
 
   // Insert a task
   final taskModel = TaskModel(
-    "uuid",
+    uuid,
     taskName,
     .pending,
     .zero,
