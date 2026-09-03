@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:focus_box/main.dart';
+import 'package:hive/hive.dart';
 import 'package:integration_test/integration_test.dart';
 
 import 'utils/third_party_plugins.dart';
@@ -9,6 +10,11 @@ void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   await setupThirdPartyDependencies();
+
+  setUp(() async {
+    final box = await Hive.openBox("tasks");
+    await box.clear();
+  });
 
   testWidgets("create new task for today and load it on home", (tester) async {
     // Arrange
@@ -102,7 +108,7 @@ void main() async {
 
     // Click "Ok" and dismiss calendar
     await tester.tap(find.text("OK"));
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     // Ensure that the new task is loaded on home
     // given that the selected day is now tomorrow, and
