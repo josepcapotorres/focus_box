@@ -17,6 +17,7 @@ class HomeFilterDateTextForm extends ConsumerWidget {
     );
 
     return TextFormField(
+      key: const Key("homeFilterDateField"),
       controller: TextEditingController(text: formattedDateFilter),
       readOnly: true,
       decoration: InputDecoration(
