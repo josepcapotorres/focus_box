@@ -33,7 +33,7 @@ final class HomeTasksProvider
   HomeTasks create() => HomeTasks();
 }
 
-String _$homeTasksHash() => r'fa9e06f6d87c37cdccbfe03fcd94ac62e8e65f74';
+String _$homeTasksHash() => r'35b8f1f79188935dcdfb4843a53fa414e0ba2c99';
 
 abstract class _$HomeTasks extends $StreamNotifier<List<Task>> {
   Stream<List<Task>> build();

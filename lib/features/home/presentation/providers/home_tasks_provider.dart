@@ -16,12 +16,19 @@ part 'home_tasks_provider.g.dart';
 class HomeTasks extends _$HomeTasks {
   @override
   Stream<List<Task>> build() async* {
-    // In case the user has closed the app leaving a task as pending,
-    // this provider checks if this case exists and update that task as .paused
-    await ref.watch(recoverInterruptedSessionProvider.future);
+    try {
+      // In case the user has closed the app leaving a task as pending,
+      // this provider checks if this case exists and update that task as .paused
+      await ref.watch(recoverInterruptedSessionProvider.future);
 
-    final homeRepository = await ref.watch(homeRepositoryProvider.future);
-    yield* homeRepository.watchTasks();
+      final homeRepository = await ref.watch(homeRepositoryProvider.future);
+      yield* homeRepository.watchTasks();
+    } catch (e) {
+      final crashProvider = ref.read(crashReporterProvider);
+      crashProvider.log(
+        "home_tasks_provider.dart > build(). Exception: ${e.toString()}",
+      );
+    }
   }
 
   void updateTask(Task updatedTask) {

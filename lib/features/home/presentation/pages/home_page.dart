@@ -86,7 +86,9 @@ class HomePage extends ConsumerWidget {
                         ),
                 );
               },
-              error: (_, _) => Center(child: Text(context.l10n.homeListError)),
+              error: (_, _) => Expanded(
+                child: Center(child: Text(context.l10n.homeListError)),
+              ),
               loading: () => const Expanded(
                 child: Center(child: CircularProgressIndicator.adaptive()),
               ),
