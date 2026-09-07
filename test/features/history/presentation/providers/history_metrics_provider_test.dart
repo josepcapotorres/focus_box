@@ -196,10 +196,13 @@ void main() {
             dateTime,
             dateTime,
           )),
+          taskHistoryEntriesProvider.overrideWithValue(const AsyncData([])),
         ],
       );
 
       arrangeCrashReports(mockCrashReporter);
+
+      final subscription = container.listen(historyMetricsProvider, (_, _) {});
 
       // Act
       final entries = await container.read(
@@ -211,11 +214,13 @@ void main() {
       verify(() => mockCrashReporter.setCustomKey(any(), any())).called(2);
 
       expect(entries, isEmpty);
+
+      subscription.close();
     });
 
     test("should return empty entries when task list is filled", () async {
       // Arrange
-      final dateTime = DateTime.now();
+      final dateTime = DateTime.now().subtract(const Duration(days: 1));
 
       final container = ProviderContainer.test(
         overrides: [
@@ -227,10 +232,13 @@ void main() {
             dateTime,
             dateTime,
           )),
+          taskHistoryEntriesProvider.overrideWithValue(const AsyncData([])),
         ],
       );
 
       arrangeCrashReports(mockCrashReporter);
+
+      final subscription = container.listen(historyMetricsProvider, (_, _) {});
 
       // Act
       final entries = await container.read(
@@ -242,6 +250,8 @@ void main() {
       verify(() => mockCrashReporter.setCustomKey(any(), any())).called(2);
 
       expect(entries, isEmpty);
+
+      subscription.close();
     });
 
     test("should return filled entries when task list is filled", () async {

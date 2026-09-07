@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:focus_box/core/domain/enums/task_status.dart';
 import 'package:focus_box/features/task_details/data/datasources/task_details_local_data_source.dart';
@@ -43,36 +45,51 @@ void main() {
       // Arrange
       final entries = [populateTaskHistoryEntry(), populateTaskHistoryEntry()];
       final entryModels = convertEntriesToModels(entries);
+      final entriesModelController =
+          StreamController<List<TaskHistoryEntryModel>>();
 
       when(
-        () => mockLocalDataSource.getHistoryEntries(),
-      ).thenReturn(entryModels);
+        () => mockLocalDataSource.watchEntries(),
+      ).thenAnswer((_) => entriesModelController.stream);
 
       // Act
-      final result = sut.getHistoryEntries();
+      final entriesStream = sut.watchEntries();
 
       // Assert
-      verify(() => mockLocalDataSource.getHistoryEntries()).called(1);
+      final expectation = expectLater(entriesStream, emits(entries));
 
-      expect(result, entries);
+      entriesModelController.add(entryModels);
+
+      await expectation;
+
+      verify(() => mockLocalDataSource.watchEntries()).called(1);
+
+      await entriesModelController.close();
     });
 
     test("should return an empty list", () async {
       // Arrange
       final entries = <TaskHistoryEntry>[];
-      final entryModels = convertEntriesToModels(entries);
+      final entriesModelController =
+          StreamController<List<TaskHistoryEntryModel>>();
 
       when(
-        () => mockLocalDataSource.getHistoryEntries(),
-      ).thenReturn(entryModels);
+        () => mockLocalDataSource.watchEntries(),
+      ).thenAnswer((_) => entriesModelController.stream);
 
       // Act
-      final result = sut.getHistoryEntries();
+      final entriesStream = sut.watchEntries();
 
       // Assert
-      verify(() => mockLocalDataSource.getHistoryEntries()).called(1);
+      final expectation = expectLater(entriesStream, emitsInOrder(entries));
 
-      expect(result, isEmpty);
+      entriesModelController.add(<TaskHistoryEntryModel>[]);
+
+      await expectation;
+
+      verify(() => mockLocalDataSource.watchEntries()).called(1);
+
+      await entriesModelController.close();
     });
   });
 
@@ -82,20 +99,11 @@ void main() {
       () async {
         // Arrange
         const taskId = "uuid";
-
         final entries = populateEntries();
 
-        final filteredEntries = [
-          populateTaskHistoryEntry(id: "uuid", toStatus: .pending),
-          populateTaskHistoryEntry(id: "uuid", toStatus: .inProgress),
-        ];
+        final filteredEntries = entries.where((e) => e.id == taskId).toList();
 
-        final entryModels = convertEntriesToModels(entries);
         final filteredEntryModels = convertEntriesToModels(filteredEntries);
-
-        when(
-          () => mockLocalDataSource.getHistoryEntries(),
-        ).thenReturn(entryModels);
 
         when(
           () => mockLocalDataSource.getHistoryEntriesByTaskId(taskId),
@@ -119,17 +127,13 @@ void main() {
         // Arrange
         const taskId = "taskIdUuid";
         final entries = populateEntries();
-        final entryModels = convertEntriesToModels(entries);
-        final filteredEntries = <TaskHistoryEntryModel>[];
+        // Empty list
+        final filteredEntries = entries.where((e) => e.id == taskId).toList();
         final filteredEntryModels = convertEntriesToModels(filteredEntries);
 
         when(
           () => mockLocalDataSource.getHistoryEntriesByTaskId(taskId),
         ).thenReturn(filteredEntryModels);
-
-        when(
-          () => mockLocalDataSource.getHistoryEntries(),
-        ).thenReturn(entryModels);
 
         // Act
         final result = sut.getHistoryEntriesByTaskId(taskId);

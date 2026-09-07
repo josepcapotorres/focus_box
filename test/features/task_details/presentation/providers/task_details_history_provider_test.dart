@@ -39,16 +39,23 @@ void main() {
       final mockEntries = populateEntries();
 
       when(
-        () => mockTaskDetailRepository.getHistoryEntries(),
-      ).thenReturn(mockEntries);
+        () => mockTaskDetailRepository.watchEntries(),
+      ).thenAnswer((_) => Stream.value(mockEntries));
+
+      final subscription = container.listen(
+        taskHistoryEntriesProvider,
+        (_, _) {},
+      );
 
       // Act
       final entries = await container.read(taskHistoryEntriesProvider.future);
 
       // Assert
-      verify(() => mockTaskDetailRepository.getHistoryEntries()).called(1);
+      verify(() => mockTaskDetailRepository.watchEntries()).called(1);
 
       expect(entries, isNotEmpty);
+
+      subscription.close();
     });
 
     test("should return an empty list", () async {
@@ -56,16 +63,23 @@ void main() {
       final mockEntries = <TaskHistoryEntry>[];
 
       when(
-        () => mockTaskDetailRepository.getHistoryEntries(),
-      ).thenReturn(mockEntries);
+        () => mockTaskDetailRepository.watchEntries(),
+      ).thenAnswer((_) => Stream.value(mockEntries));
+
+      final subscription = container.listen(
+        taskHistoryEntriesProvider,
+        (_, _) {},
+      );
 
       // Act
       final entries = await container.read(taskHistoryEntriesProvider.future);
 
       // Assert
-      verify(() => mockTaskDetailRepository.getHistoryEntries()).called(1);
+      verify(() => mockTaskDetailRepository.watchEntries()).called(1);
 
       expect(entries, isEmpty);
+
+      subscription.close();
     });
   });
 
@@ -81,8 +95,8 @@ void main() {
             .toList();
 
         when(
-          () => mockTaskDetailRepository.getHistoryEntries(),
-        ).thenReturn(entries);
+          () => mockTaskDetailRepository.watchEntries(),
+        ).thenAnswer((_) => Stream.value(entries));
 
         when(
           () => mockTaskDetailRepository.getHistoryEntriesByTaskId(taskId),
@@ -114,8 +128,8 @@ void main() {
             .toList();
 
         when(
-          () => mockTaskDetailRepository.getHistoryEntries(),
-        ).thenReturn(entries);
+          () => mockTaskDetailRepository.watchEntries(),
+        ).thenAnswer((_) => Stream.value(entries));
 
         when(
           () => mockTaskDetailRepository.getHistoryEntriesByTaskId(taskId),

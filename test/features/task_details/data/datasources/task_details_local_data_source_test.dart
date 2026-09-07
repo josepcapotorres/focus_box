@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:focus_box/features/task_details/data/datasources/task_details_local_data_source.dart';
 import 'package:focus_box/features/task_details/data/datasources/task_details_local_data_source_impl.dart';
@@ -43,16 +45,31 @@ void main() {
         // Arrange
         final mockedEntries = [populateTaskHistoryEntryModel()];
         final mockedEntriesMap = convertEntriesToMap(mockedEntries);
+        final boxEventController = StreamController<BoxEvent>();
 
-        when(() => mockBox.values).thenReturn(mockedEntriesMap);
+        when(() => mockBox.values).thenAnswer((_) => mockedEntriesMap);
+        when(
+          () => mockBox.watch(),
+        ).thenAnswer((_) => boxEventController.stream);
 
         // Act
-        final entries = sut.getHistoryEntries();
+        final entriesStream = sut.watchEntries();
 
         // Assert
-        verify(() => mockBox.values).called(1);
+        final expectation = expectLater(
+          entriesStream,
+          emitsInOrder([mockedEntries]),
+        );
 
-        expect(entries, mockedEntries);
+        boxEventController.add(
+          BoxEvent(mockedEntriesMap.first["id"], mockedEntriesMap.first, false),
+        );
+
+        await expectation;
+
+        verify(() => mockBox.values).called(2);
+
+        await boxEventController.close();
       },
     );
 
@@ -64,12 +81,17 @@ void main() {
       when(() => mockBox.values).thenReturn(mockedEntriesMap);
 
       // Act
-      final entries = sut.getHistoryEntries();
+      final entriesStream = sut.watchEntries();
 
       // Assert
+      final expectation = expectLater(
+        entriesStream,
+        emitsInOrder([mockedEntries]),
+      );
+
+      await expectation;
+
       verify(() => mockBox.values).called(1);
-      expect(entries, mockedEntries);
-      expect(entries, isEmpty);
     });
   });
 
