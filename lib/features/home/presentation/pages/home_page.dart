@@ -12,7 +12,7 @@ import '../../../../core/widgets/new_task_edit_bottom_sheet.dart';
 import '../../../task_details/presentation/pages/task_details_page.dart';
 import '../providers/home_selected_date_filter.dart';
 import '../providers/home_tasks_provider.dart';
-import '../widgets/home_filter_date_text_form.dart';
+import '../widgets/home_filter_date.dart';
 import '../widgets/home_task_item.dart';
 
 class HomePage extends ConsumerWidget {
@@ -53,7 +53,7 @@ class HomePage extends ConsumerWidget {
               style: textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
-            const HomeFilterDateTextForm(),
+            const HomeFilterDate(),
             const SizedBox(height: 24),
             Text(
               showFormattedDayName(context, selectedDateFilter).capitalize(),

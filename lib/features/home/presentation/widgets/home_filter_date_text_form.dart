@@ -23,6 +23,7 @@ class HomeFilterDateTextForm extends ConsumerWidget {
       decoration: InputDecoration(
         suffixIcon: const Icon(Icons.event),
         filled: true,
+        fillColor: Colors.transparent,
         enabledBorder: OutlineInputBorder(
           borderRadius: const .all(.circular(12)),
           borderSide: BorderSide(color: colorScheme.primary, width: 1.0),
