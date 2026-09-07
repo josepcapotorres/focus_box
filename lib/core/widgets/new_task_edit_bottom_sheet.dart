@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:focus_box/core/extensions/translations_extension.dart';
+import 'package:focus_box/features/home/presentation/providers/home_selected_date_filter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
@@ -9,16 +10,18 @@ import '../../features/home/domain/repositories/home_repository.dart';
 import '../domain/entities/task.dart';
 import '../managers/crash_reporter.dart';
 
-class NewTaskEditBottomSheet extends StatefulWidget {
+class NewTaskEditBottomSheet extends ConsumerStatefulWidget {
   final Task? task;
 
   const NewTaskEditBottomSheet({super.key, this.task});
 
   @override
-  State<NewTaskEditBottomSheet> createState() => _NewTaskEditBottomSheetState();
+  ConsumerState<NewTaskEditBottomSheet> createState() =>
+      _NewTaskEditBottomSheetState();
 }
 
-class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
+class _NewTaskEditBottomSheetState
+    extends ConsumerState<NewTaskEditBottomSheet> {
   late GlobalKey<FormState> _formKey;
   late TextEditingController _taskNameController;
   late TextEditingController _timeTotalHoursController;
@@ -44,13 +47,15 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
     );
 
     _dayToDoTaskController = TextEditingController();
-    _setDayToDoTaskText(widget.task?.day ?? DateTime.now());
   }
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final dateFormat = DateFormat("d 'de' MMMM");
+
+    final selectedDay = ref.watch(homeSelectedDateFilterProvider);
+    _setDayToDoTaskText(widget.task?.day ?? selectedDay);
 
     return SingleChildScrollView(
       child: Padding(
@@ -156,7 +161,7 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
                 onTap: () async {
                   final selectedDate = await showDatePicker(
                     context: context,
-                    initialDate: widget.task?.day ?? DateTime.now(),
+                    initialDate: widget.task?.day ?? selectedDay,
                     firstDate: DateTime.now(),
                     lastDate: DateTime.now().add(const Duration(days: 14)),
                   );
@@ -195,7 +200,7 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
 
                             context.pop();
 
-                            final newTaskValues = _updateTaskValues();
+                            final newTaskValues = _updateTaskValues(ref);
 
                             final homeRepository = await ref.read(
                               homeRepositoryProvider.future,
@@ -223,7 +228,9 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
     );
   }
 
-  Task _updateTaskValues() {
+  Task _updateTaskValues(WidgetRef ref) {
+    final selectedDate = ref.read(homeSelectedDateFilterProvider);
+
     return Task(
       widget.task?.id ?? const Uuid().v4(),
       _taskNameController.text,
@@ -233,7 +240,7 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
         hours: int.tryParse(_timeTotalHoursController.text) ?? 0,
         minutes: int.tryParse(_timeTotalMinutesController.text) ?? 0,
       ),
-      _dayToDoTask ?? DateTime.now(),
+      _dayToDoTask ?? selectedDate,
       null,
     );
   }
@@ -250,5 +257,6 @@ class _NewTaskEditBottomSheetState extends State<NewTaskEditBottomSheet> {
 
   void _setDayToDoTaskText(DateTime dateTime) {
     _dayToDoTaskController.text = DateFormat("dd/MM/yyyy").format(dateTime);
+    _dayToDoTask = dateTime;
   }
 }
