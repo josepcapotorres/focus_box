@@ -63,7 +63,7 @@ Duration _calculateRealTimeDevoted(List<TaskHistoryEntry> entries) {
 
 @riverpod
 Future<List<Task>> historyTasksBetweenSelectedDateRange(Ref ref) async {
-  final tasks = ref.watch(homeTasksProvider).value ?? [];
+  final tasks = await ref.watch(homeTasksProvider.future);
   final (from, to) = ref.watch(historyRateRangesFilterProvider);
 
   final crashProvider = ref.read(crashReporterProvider)
@@ -89,7 +89,7 @@ Future<List<Task>> historyTasksBetweenSelectedDateRange(Ref ref) async {
 Future<List<TaskHistoryEntry>> historyEntriesBetweenSelectedDateRange(
   Ref ref,
 ) async {
-  final taskHistoryEntries = await ref.read(taskHistoryEntriesProvider.future);
+  final taskHistoryEntries = await ref.watch(taskHistoryEntriesProvider.future);
   final (from, to) = ref.watch(historyRateRangesFilterProvider);
 
   final crashProvider = ref.read(crashReporterProvider)

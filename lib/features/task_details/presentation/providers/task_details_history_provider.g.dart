@@ -17,11 +17,11 @@ final class TaskHistoryEntriesProvider
         $FunctionalProvider<
           AsyncValue<List<TaskHistoryEntry>>,
           List<TaskHistoryEntry>,
-          FutureOr<List<TaskHistoryEntry>>
+          Stream<List<TaskHistoryEntry>>
         >
     with
         $FutureModifier<List<TaskHistoryEntry>>,
-        $FutureProvider<List<TaskHistoryEntry>> {
+        $StreamProvider<List<TaskHistoryEntry>> {
   const TaskHistoryEntriesProvider._()
     : super(
         from: null,
@@ -38,18 +38,18 @@ final class TaskHistoryEntriesProvider
 
   @$internal
   @override
-  $FutureProviderElement<List<TaskHistoryEntry>> $createElement(
+  $StreamProviderElement<List<TaskHistoryEntry>> $createElement(
     $ProviderPointer pointer,
-  ) => $FutureProviderElement(pointer);
+  ) => $StreamProviderElement(pointer);
 
   @override
-  FutureOr<List<TaskHistoryEntry>> create(Ref ref) {
+  Stream<List<TaskHistoryEntry>> create(Ref ref) {
     return taskHistoryEntries(ref);
   }
 }
 
 String _$taskHistoryEntriesHash() =>
-    r'8c4c02f65b9b15711725996787a409d96645f720';
+    r'dcb03a57ebc0640a56978820ba1466676a1b4935';
 
 @ProviderFor(taskHistoryEntriesByTaskId)
 const taskHistoryEntriesByTaskIdProvider = TaskHistoryEntriesByTaskIdFamily._();

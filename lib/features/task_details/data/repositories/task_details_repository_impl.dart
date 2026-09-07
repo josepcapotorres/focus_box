@@ -19,11 +19,10 @@ class TaskDetailsRepositoryImpl extends TaskDetailsRepository {
   }
 
   @override
-  List<TaskHistoryEntry> getHistoryEntries() {
-    return _localDataSource
-        .getHistoryEntries()
-        .map((e) => e.toEntity())
-        .toList();
+  Stream<List<TaskHistoryEntry>> watchEntries() {
+    return _localDataSource.watchEntries().map(
+      (entries) => entries.map((entry) => entry.toEntity()).toList(),
+    );
   }
 
   @override

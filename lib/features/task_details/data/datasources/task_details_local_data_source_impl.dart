@@ -18,7 +18,15 @@ class TaskDetailsLocalDataSourceImpl extends TaskDetailsLocalDataSource {
   }
 
   @override
-  List<TaskHistoryEntryModel> getHistoryEntries() {
+  Stream<List<TaskHistoryEntryModel>> watchEntries() async* {
+    yield _getHistoryEntries();
+
+    await for (final _ in _box.watch()) {
+      yield _getHistoryEntries();
+    }
+  }
+
+  List<TaskHistoryEntryModel> _getHistoryEntries() {
     return _box.values
         .map((e) => TaskHistoryEntryModel.fromJson(deepCast(e)))
         .toList();
@@ -26,7 +34,7 @@ class TaskDetailsLocalDataSourceImpl extends TaskDetailsLocalDataSource {
 
   @override
   List<TaskHistoryEntryModel> getHistoryEntriesByTaskId(String taskId) {
-    return getHistoryEntries().where((e) => e.taskId == taskId).toList();
+    return _getHistoryEntries().where((e) => e.taskId == taskId).toList();
   }
 
   @override

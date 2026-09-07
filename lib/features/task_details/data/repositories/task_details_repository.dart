@@ -3,7 +3,7 @@ import '../../domain/entities/task_history_entry.dart';
 abstract class TaskDetailsRepository {
   Future<void> addEntry(TaskHistoryEntry entry);
 
-  List<TaskHistoryEntry> getHistoryEntries();
+  Stream<List<TaskHistoryEntry>> watchEntries();
 
   List<TaskHistoryEntry> getHistoryEntriesByTaskId(String taskId);
 

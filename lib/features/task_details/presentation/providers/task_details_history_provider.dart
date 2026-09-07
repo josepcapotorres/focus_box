@@ -7,16 +7,16 @@ import '../../domain/entities/task_history_entry.dart';
 part 'task_details_history_provider.g.dart';
 
 @riverpod
-Future<List<TaskHistoryEntry>> taskHistoryEntries(Ref ref) async {
+Stream<List<TaskHistoryEntry>> taskHistoryEntries(Ref ref) async* {
   final taskDetailsRepository = await ref.watch(
     taskDetailsRepositoryProvider.future,
   );
 
   try {
-    return taskDetailsRepository.getHistoryEntries();
+    yield* taskDetailsRepository.watchEntries();
   } catch (e, s) {
     ref.read(crashReporterProvider).recordError(e, s);
-    return [];
+    yield* Stream.value([]);
   }
 }
 
