@@ -48,7 +48,7 @@ class TaskDetailsPage extends ConsumerWidget {
           ),
           IconButton(
             onPressed: () => _showAreYouSureDialog(context, ref, taskId),
-            icon: const Icon(Icons.clear),
+            icon: const Icon(Icons.delete_outline),
           ),
         ],
       ),
