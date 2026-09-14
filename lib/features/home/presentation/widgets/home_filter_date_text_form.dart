@@ -45,8 +45,8 @@ class HomeFilterDateTextForm extends ConsumerWidget {
     final selectedDate = await showDatePicker(
       context: context,
       initialDate: selectedDateFilter,
-      firstDate: selectedDateFilter.getFirstDayOfCurrentMonth(),
-      lastDate: DateTime.now().add(const Duration(days: 7)),
+      firstDate: selectedDateFilter.subtract(const Duration(days: 7)),
+      lastDate: selectedDateFilter.add(const Duration(days: 7)),
     );
 
     if (selectedDate == null) return;
