@@ -8,6 +8,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../features/home/domain/repositories/home_repository.dart';
 import '../domain/entities/task.dart';
+import '../extensions/datetime_extension.dart';
 import '../managers/crash_reporter.dart';
 
 class NewTaskEditBottomSheet extends ConsumerStatefulWidget {
@@ -55,7 +56,7 @@ class _NewTaskEditBottomSheetState
     final dateFormat = DateFormat("d 'de' MMMM");
 
     final selectedDay = ref.watch(homeSelectedDateFilterProvider);
-    _setDayToDoTaskText(widget.task?.day ?? selectedDay);
+    _setDayToDoTaskText(context, widget.task?.day ?? selectedDay);
 
     return SingleChildScrollView(
       child: Padding(
@@ -161,7 +162,7 @@ class _NewTaskEditBottomSheetState
                 onTap: () async {
                   final selectedDate = await showDatePicker(
                     context: context,
-                    initialDate: widget.task?.day ?? selectedDay,
+                    initialDate: _dayToDoTask,
                     firstDate: DateTime.now(),
                     lastDate: DateTime.now().add(const Duration(days: 14)),
                   );
@@ -169,7 +170,10 @@ class _NewTaskEditBottomSheetState
                   if (selectedDate == null) return;
 
                   _dayToDoTask = selectedDate;
-                  _setDayToDoTaskText(_dayToDoTask!);
+
+                  if (!context.mounted) return;
+
+                  _setDayToDoTaskText(context, _dayToDoTask!);
                 },
                 validator: (str) {
                   if (str?.isEmpty ?? false) return "Rellene este campo";
@@ -233,7 +237,7 @@ class _NewTaskEditBottomSheetState
 
     return Task(
       widget.task?.id ?? const Uuid().v4(),
-      _taskNameController.text,
+      _taskNameController.text.trim(),
       .pending,
       widget.task?.timeAlreadyDone ?? Duration.zero,
       Duration(
@@ -255,8 +259,8 @@ class _NewTaskEditBottomSheetState
     super.dispose();
   }
 
-  void _setDayToDoTaskText(DateTime dateTime) {
-    _dayToDoTaskController.text = DateFormat("dd/MM/yyyy").format(dateTime);
+  void _setDayToDoTaskText(BuildContext context, DateTime dateTime) {
+    _dayToDoTaskController.text = dateTime.formatDateWithSlashes(context);
     _dayToDoTask = dateTime;
   }
 }
