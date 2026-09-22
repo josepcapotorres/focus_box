@@ -56,6 +56,7 @@ class _NewTaskEditBottomSheetState
     final dateFormat = DateFormat("d 'de' MMMM");
 
     final selectedDay = ref.watch(homeSelectedDateFilterProvider);
+
     _setDayToDoTaskText(
       context,
       _dayToDoTask ?? widget.task?.day ?? selectedDay,
